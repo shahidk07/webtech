@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Local jQuery</title>
-     <script src="./jquerylib.js"></script> 
+  <title>jQuery Load Time Experiment</title>
 </head>
 <body>
-  <h1>Testing Local jQuery</h1>
-  <p>time taken is <span id="time">being estimated</span></p>
-  <script>
-    const start = performance.now();
-
-    $(document).ready(function () {
-      const end = performance.now();
-      var timeTaken = end - start;
-      console.log("Local jQuery load time: " + (end - start).toFixed(2) + " ms");
-      $(time).html(timeTaken +" ms");
-    });
-  </script>
+  <h1>Welcome to My jQuery Experiment</h1>
+  <p>Choose a test:</p>
+  <ul>
+    <li><a href="cdn.html">Test jQuery via CDN</a></li>
+    <li><a href="localjq.html">Test jQuery via Local File</a></li>
+  </ul>
 </body>
 </html>
