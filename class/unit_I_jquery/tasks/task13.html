@@ -1,0 +1,33 @@
+<!-- Update a character counter as user types in a text area -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+label{
+    display:block;
+}
+input{
+    width:500px;
+}
+    </style>
+ </head>
+ <body>
+    <div id="main">
+        <label>Type here:
+        <input type="text" id="field">
+        </label>
+
+        <label>Character Count: <p id="countresult"></p></label>
+    </div>
+    <script>
+        $("#field").on('input',function(){
+            var count= $("#field").val().length;
+            $("#countresult").text(count);
+        })
+    </script>
+ </body>
+ </html>

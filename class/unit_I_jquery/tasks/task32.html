@@ -1,0 +1,26 @@
+<!-- ### Task 32: Clear all input fields in a form -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+   label{
+    display: block;
+   }
+    </style>
+ </head>
+ <body>
+    <label for="">Name:<input type="text"></label>
+    <label for="">email<input type="text"></label>
+    <label for="">Age<input type="number"></label>
+    <button>Clear input fields</button>
+    <script>
+        $("button").click(function(){
+            $("input").val('')
+        })
+    </script>
+ </body>
+ </html>

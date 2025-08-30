@@ -1,0 +1,21 @@
+<!-- Create a fade-in effect for a hidden div -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+ <body>
+   <div id="dibba" style="display:none;background-color:lightcoral; height:300px;width:500px;">
+
+   </div>
+   <button id="show">Khulja simsim</button> 
+   <script>
+    $("#show").click(function(){
+        $("#dibba").fadeIn(5000)
+    })
+   </script>
+ </body>
+ </html>

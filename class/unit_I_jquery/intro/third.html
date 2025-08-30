@@ -1,0 +1,24 @@
+<!-- Change the HTML content of a div with class "container"
+  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container" style="background-color: lightgray;height:300px;width:300px">
+        <p>This is the original content</p>
+        <button>Change content</button>
+    </div>
+    <script>
+        $(function(){
+            $("button").click(function(){
+            $(".container").html("This is the new content")
+            })
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!-- ### Task 10: Change background color when mouse enters and leaves a div -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    html,body{
+        height:100%
+    }
+    .main{
+        background-color: antiquewhite;
+        height:100%;
+    }
+    #target{
+        height:300px
+        ;width:400px;border:3px solid darkblue;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script></head>
+ <body>
+    <div class="main">
+        <div id="target">
+            This is the target container
+        </div>
+    </div>
+    <script>
+        $("#target").hover(
+            function(){
+                $("#target").css("background-color","darkred")
+            },
+            function(){
+                $("#target").css("background-color","yellow")
+
+            }
+        )
+    </script>
+ </body>
+ </html>

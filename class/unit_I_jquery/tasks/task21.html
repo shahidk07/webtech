@@ -1,0 +1,51 @@
+<!-- ### Task 21: Clone an element and insert the clone elsewhere in the DOM -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+  .bdy{
+    background-color: lightgrey;
+    height:500px;width:1500px;
+    display: flex;
+    gap:50px;
+  }
+  .sbdy{
+    height:400px;
+    width:400px;
+    background-color: bisque;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .rcircle {
+    height:300px;width:300px;
+    border-radius: 150px;
+    background-color: black;
+  }
+  p{
+    display: block;
+  }
+    </style>
+ </head>
+ <body>
+    <div class="bdy">
+        <div class="sbdy">
+            <div class="rcircle">
+            </div>
+            <p>This is the original circle</p>
+        </div>
+        <div class="sbdy" id="clone">
+        <button>Clone here</button>
+        </div>
+    </div>
+    <script>
+        $("button").click(function(){
+            $(".rcircle").clone().prependTo("#clone")
+        })
+    </script>
+ </body>
+ </html>

@@ -1,0 +1,50 @@
+<!-- ### Task 29: Check if a checkbox is checked -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+
+</style> 
+</head>
+
+ <body>
+    <p>Please select at least one course:</p>
+    <label for="calculus">Calculus:
+        <input id="calculus" type="checkbox">
+    </label>
+    <label for="databases">Databases
+        <input id="databases" type="checkbox">
+    </label>
+    <label for="aiml">AI ML
+        <input id="aiml" type="checkbox">
+    </label>
+    <button type="submit">Submit</button>
+    <script>
+    $("button").click(function(){
+        let condition=false;
+        if($("#calculus").is(':checked')){
+            condition=true;
+        }
+        if($("#databases").is(':checked')){
+            condition=true;
+        }
+        if($("#aiml").is(':checked')){
+            condition=true;
+        }
+        if(condition==false)
+        {
+            alert("No course selected")
+        }
+        else{
+            alert("Courses selected successfully")
+        }
+    })
+
+    </script>
+
+ </body>
+ </html>

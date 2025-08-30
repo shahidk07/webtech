@@ -1,0 +1,33 @@
+<!-- Prepend a new div to a container -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #main{
+            background-color: wheat;
+            height:500px;
+            width:1200px
+        }
+        .el{display:inline-block;
+        height:200px;width:250px;
+    background-color: lightseagreen;}
+    </style>
+ </head>
+ <body>
+    <div id="main">
+   <div class="el">Child 1</div>
+   <div class="el">Child 2</div>
+   <div class="el">Child 3</div>
+    </div>
+    <button>Prepend a div</button>
+    <script>
+       $("button").on("click",function(){
+        $("#main").prepend('<div class="el">New child</div>')
+       })
+    </script>
+ </body>
+ </html>

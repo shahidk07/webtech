@@ -1,0 +1,31 @@
+<!-- ### Task 25: Create a custom animation that moves an element diagonally -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .element{
+            background-color: black;
+            height:300px;width: 300px;
+            position: relative;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ </head>
+ <body>
+
+    <div class="element">
+        <button>Animate</button>
+<script>
+$("button").click(function(){
+    $(".element").animate(
+        {
+        top:"400px",left:"1200px"},3000
+    )
+})
+</script>
+    </div>
+ </body>
+ </html>

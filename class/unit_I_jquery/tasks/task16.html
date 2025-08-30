@@ -1,0 +1,29 @@
+<!-- Find all the siblings of a selected list and hide them  -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ </head>
+ <body>
+    <ul>
+        <li id="celestrial">Galactus</li>
+        <li>Earth</li>
+        <li>Mars</li>
+        <li>Venus</li>
+        <li>Mercury</li>
+        <li>Jupiter</li>
+        <li>Saturn</li>
+        <li>Uranus</li>
+        <li>Neptune</li>
+    </ul>
+    <button>Eat Planets</button>
+    <script>
+        $("button").on("click",function(){
+            $("li").eq(0).siblings().hide()
+        })
+    </script>
+ </body>
+ </html>

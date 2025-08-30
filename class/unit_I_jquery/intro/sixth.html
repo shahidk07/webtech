@@ -1,0 +1,28 @@
+<!-- Add a class to an element on button click -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .newclass{
+            background-color:yellow;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+ <body>
+
+<div class="dibba" style="border:3px solid green;height:300px;width:300px">
+
+    <button>Add a class</button>
+</div>
+<script>
+    $("button").click(function(){
+        $(".dibba").toggleClass("newclass");
+    });
+</script>
+ </body>
+ </html>

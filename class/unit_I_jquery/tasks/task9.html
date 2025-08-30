@@ -1,0 +1,93 @@
+<!-- ### Task 9: Prevent a form from submitting and validate input -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    body{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #fbody{
+        height:400px;
+        width:300px;
+        background-color: lightblue;
+    }
+    .elem {
+        display:block
+    }
+    button{
+        display: block;
+    }
+    .error{
+        color:red;
+    }
+</style>
+</head>
+<body>
+    <form>
+    <div id="fbody">
+        <div id="title">REGISTRATION</div>
+        <div class="elem" id="name">
+            <label>Name: </label>
+        <input>
+        <div class="error" id="nameerror">Please enter your name</div>
+        </div>
+      <div class="elem" id="age">
+        <label>Age</label>
+        <div class="error" id="ageerror">
+            Please enter your age!
+        </div>
+        <input type="number" class="elem">
+      </div>
+        <div class="elem" id="mail">
+            <label>
+                Email: 
+            </label>
+          <div class="error" id="mailerror">
+            Please enter you email!
+          </div><input>
+        </div>
+
+        <button id="submit">Submit</button>
+    </div>
+    </form>
+    <script>
+        $(".error").hide();
+        $("#submit").click(function(evt)
+    {
+    let validity=true;
+    if(
+        document.getElementById("name").querySelector("input").value.trim()=="")
+     { $("#nameerror").show();
+        validity =false
+     };
+     if(
+        document.getElementById("age").querySelector("input").value.trim()=="")
+     {
+        $("#ageerror").show();
+        validity =false
+     };
+if(
+    document.getElementById("mail").querySelector("input").value.trim()=="")
+     {
+        $("#mailerror").show();
+        validity =false
+     };
+    if(validity==false)
+    {
+        evt.preventDefault();
+    };
+    if(validity){
+        alert("Form submitted successfully")
+    }
+    }
+
+    )
+    </script>
+</body>
+</html>

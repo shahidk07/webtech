@@ -1,0 +1,40 @@
+<!-- ### Task 26: Chain multiple animations one after another -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  .elem{
+    background-color: gray;
+    height:100px;width:100px;
+    position: relative;
+  }
+    </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+</head>
+ <body>
+    <div class="elem">
+        <button>Animate</button>
+    </div>
+    <script>
+        $("button").click(function(){
+            $(".elem").animate(
+                {top:"600px"},2000
+            )
+            .animate(
+                {
+                    left:"700px"
+                },2000)
+                .animate({
+                    opacity:"40%"
+                },1000)
+                .animate({
+                    top:"100px"
+                },2000)
+            
+        })
+    </script>
+ </body>
+ </html>

@@ -1,0 +1,57 @@
+<!-- Enable a button only when all required fields are filled -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .sign{
+            background-color: grey;
+            height:600px;
+            width:500px;
+            display: flex;
+            flex-direction: column;
+            
+        }
+        label{
+            position: relative;
+            width:120px
+        }
+        input{
+            width:200px
+        }
+        button{
+            width:100px
+        }
+    </style>
+ </head>
+ <body>
+    <div class="sign">
+  <label for="">Name</label>
+  <input type="" id="name">
+  <label for="">Age<input type="number" id="age"></label>
+  <label for="">Phone number<input type="" id="phone"></label>
+  <div class="btn"><button>SUBMIT</button></div>
+    </div>
+    <script>
+          $("button").prop('disabled',true)
+      $("input").on("keyup",function(){
+        count=0;
+        let name=$("#name").val();
+        let age=parseInt($("#age").val());
+        let phone=$("#phone").val();
+      if(name.length >=3 && age>=10 && phone.length==10)
+    {
+        $("button").prop('disabled',false)
+    }
+      })
+      $("button").click(function()
+        {
+            alert("Form submitted");
+        }
+      )
+    </script>
+ </body>
+ </html>

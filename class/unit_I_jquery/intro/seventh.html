@@ -1,0 +1,24 @@
+<!-- 7. Make an AJAX request to get data from a JSON API
+  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div id="target" >
+  </div>  
+  <button id="load">Get data </button>
+<script>
+    $("#load").click(function(){
+  $.getJSON("seventh.json",data=>{
+    $("#target").html(JSON.stringify(data,null,2));
+  });
+    });
+</script>
+</body>
+</html>

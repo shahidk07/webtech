@@ -1,0 +1,25 @@
+<!-- ### Task 30: Disable a submit button after it's clicked once -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+
+    </style>
+ </head>
+ <body>
+   <label>Enter your name:
+      <input type="text">
+   </label>
+    <button type="submit">SUBMIT</button>
+    <script>
+      $("button").click(function(){
+         alert("form submitted");
+         $(this).prop('disabled', true);
+      })
+    </script>
+ </body>
+ </html>

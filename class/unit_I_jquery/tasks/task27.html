@@ -1,0 +1,32 @@
+<!-- ### Task 27: Delay an animation by 2 seconds before executing -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .elem{
+            height:300px;width:300px;
+            background-color: brown;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position:relative
+        }
+    </style>
+ </head>
+ <body>
+    <div class="elem">
+        <button>ANIMATE</button>
+    </div>
+    <script>
+$("button").click(function(){
+    $(".elem").delay(1000).animate({
+        top:"300px",left:"800px"
+    },3000)
+})
+    </Script>
+ </body>
+ </html>

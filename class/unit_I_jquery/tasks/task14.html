@@ -1,0 +1,34 @@
+<!-- Find all children of a div and add class to them  -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #main{
+            height:500px;
+            width:1000px;
+            background-color:grey;
+        }
+        .newclass{
+            background-color: tomato;
+            border:2px solid darkgreen;
+            height:300px;width:300px;
+            display:inline-block;
+        }
+    </style>
+ </head>
+ <body>
+    <div id="main">
+<div class="dibba">CHILD 1</div>
+    <div class="dibba1">CHILD 2</div>
+    <div class="dibba2">CHILD 3</div>
+    PARENT
+    </div>
+    <script>
+        $("#main").children().addClass("newclass")
+    </script>
+ </body>
+ </html>

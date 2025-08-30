@@ -1,0 +1,44 @@
+<!-- Remove all elements with class "temp" from the DOM -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+#main{
+            background-color: wheat;
+            height:500px;
+            width:1200px
+        }
+        .elder{display:inline-block;
+        height:200px;width:250px;
+    background-color: lightseagreen;}
+    .younger{display:inline-block;
+        height:200px;width:250px;
+    background-color: rgb(226, 14, 205);}
+    button{
+        display:block;
+    }
+
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+ </head>
+ <body>
+    <div id="main">
+        <div class="elder">Div with class elder</div>
+        <div class="elder">Div with class elder</div>
+        <div class="elder">Div with class elder</div>
+        <div class="younger">Div with class younger</div>
+        <div class="younger">Div with class younger</div>
+        <div class="younger">Div with class younger</div>
+        <button>Remove all elder class div</button>
+         </div>
+         <script>
+           $("button").click(function()
+           {$("#main .elder").remove()})
+         </script>
+ </body>
+ </html>
