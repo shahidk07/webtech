@@ -1,0 +1,42 @@
+<!-- 
+## Advanced Concepts
+
+### Task 34: Make an AJAX GET request to fetch data from an API
+**Hint**: Use `$.get()` or `$.ajax()` method. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>IMPORTING CARS DATA</h1>
+    <div id="data"></div>
+    <h1>CREATING TABLE</h1>
+    <table id="cartable">
+    <tr>
+        <th>MODEL</th>
+        <th>PRICE</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </table>
+    <script>
+        $.get("task34.json",function(info){
+           $("#data").html("<pre>" + JSON.stringify(info,null,5) + "</pre>"); //importing data in raw form
+           info.forEach(function(car){
+            $("#cartable").append(
+                "<tr><td>" + car.model + "</td><td>" + car.price + "</td></tr>" //importing data in td of table
+            )
+           });
+        })
+    </script>
+
+</body>
+</html>
