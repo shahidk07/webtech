@@ -1,0 +1,41 @@
+<!-- ### Task 36: Handle AJAX errors and display a message
+**Hint**: Use the `.fail()` method or error callback in `$.ajax()`. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <form action="" id="mf">
+        Name: <input id="name"><br><br>
+        <button type="submit">SUBMIT</button>
+    </form>
+    <div class="output"></div>
+    <script>
+        $(document).ready(function(){
+        $("button").click(function(e){
+            e.preventDefault();//stop page relod
+
+            var info=$("#name").val(); //store the data of input
+            
+            $.ajax({
+                url:"https://jsonplaceholder.typicode.com/posts", //fake api
+                method:"POST",
+                data:info, //data that we send
+                success:function(boy){
+                    $(".output").html("<pre>" + JSON.stringify(boy,null,2) + "</pre>")
+                },
+                error:function(){
+                $(".output").html("<span style='color:red;'>UNABLE TO POST DATA </span>");
+            }
+        })
+            })
+            
+        })
+
+    </script>
+</body>
+</html>
