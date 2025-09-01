@@ -1,0 +1,53 @@
+<!-- ### Task 37: Use event delegation for dynamically added elements
+**Hint**: Use `.on()` with a selector parameter: `$(parent).on('event', 'selector', handler)`. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #parent{
+            background-color: lightpink;
+            width:100vh;
+            height:80vh;
+            display:flex ;
+            flex-direction:row;
+        }
+        .child{
+         background-color: lightskyblue;
+         height:100px;width:100px;
+         border:2px solid black;
+         margin:5px;
+        }
+        
+    </style>
+</head>
+<body>
+    <button type="button">GENERATE BOXES</button>
+    <div id="parent">
+        <div class="child" id="div1">
+PAHLA DIBBA
+        </div>
+   <div class="child" id="div2">
+        DUSRA DIBBA    
+        </div>
+        <div class="child" id="div3">
+           TEESRA DIBBA 
+        </div>
+        <div class="child" id="div4">
+            CHAUTHA DIBBA
+        </div>
+    </div>
+    <script>
+        $("button").click(function(){
+           $("#parent").append($("<div class='child'>"))
+        });
+ $("#parent").on("click",".child",function(){
+    let index =$(this).index() +1;
+    console.log("BOX "+ index + " Clicked");
+ })
+    </script>
+</body>
+</html>
