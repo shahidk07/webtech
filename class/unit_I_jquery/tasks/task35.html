@@ -1,0 +1,34 @@
+<!-- ### Task 35: Make an AJAX POST request to submit form data
+**Hint**: Use `$.post()` or `$.ajax()` method. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Submit form data with post</h1>
+    <form action="">
+        Name:<input type="text" name="name"><br><br>
+        <button type="submit">SUBMIT</button>
+    </form>
+    <div id="result">
+
+    </div>
+    <script>
+    $("form").submit(function(e){
+        e.preventDefault();
+        thedata = {
+            "name":$("input[name=name]").val()
+        };
+        $("input[name=name]").val("");
+        $.post("https://jsonplaceholder.typicode.com/posts",thedata,function(kuch){
+            $("#result").html(JSON.stringify(kuch));
+        });
+    });
+;
+        </script>
+</body>
+</html>
