@@ -1,0 +1,27 @@
+<!-- ### Task 38: Create a simple plugin that adds a method to jQuery
+**Hint**: Extend the jQuery prototype with `$.fn.methodName = function() {}`. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    (function($){
+        $.fn.changeBackground=function(color)
+        {
+            this.css("background-color",color);
+            return this;
+        };
+    }(jQuery));
+</script>
+</head>
+<body>
+    <div id="container">hello</div>
+    <script>
+        $("#container").changeBackground("magenta")
+    </script>
+</body>
+</html>
