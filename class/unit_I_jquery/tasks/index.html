@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myhub">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        #hubtitle {
+          text-align: center;
+        }
+    </style>
+</head>
+<body >
+    <h1 id="hubtitle">JQUERY PRACTISE QUESTIONS</h1>
+    <ul ng-controller="taskctrl"><br>
+        <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.task}}</a></li>
+
+    </ul>
+
+    <script>
+    var myhub = angular.module('myhub',[]);//stored myhub module in variable so we can access it's directives
+
+    myhub.controller('taskctrl',function($scope){
+        $scope.links=[ 
+  {task:'Select all paragraphs and change their text color to blue', source:"task1.html"},
+  {task:'Select an element with ID "main" and hide it', source:"task2.html"},
+  {task:'Select all elements with class "highlight" and add a border', source:"task3.html"},
+  {task:'Change the HTML content of a div with class "container"', source:"task4.html"},
+  {task:'Change the text content of all elements with class "description"', source:"task5.html"},
+  {task:'Select the first list item in an unordered list and make it bold', source:"task6.html"},
+  {task:'Select all even table rows and change their background color', source:"task7.html"},
+  {task:'Add a click event to a button that shows an alert', source:"task8.html"},
+  {task:'Prevent a form from submitting and validate input', source:"task9.html"},
+  {task:'Change background color when mouse enters and leaves a div', source:"task10.html"},
+  {task:'Show a hidden div when a button is clicked', source:"task11.html"},
+  {task:'Toggle a class on an element when it\'s clicked', source:"task12.html"},
+  {task:'Update a character counter as user types in a textarea', source:"task13.html"},
+  {task:'Find all children of a div and add a class to them', source:"task14.html"},
+  {task:'Find the parent of a button and change its background', source:"task15.html"},
+  {task:'Find all siblings of a selected list item and hide them', source:"task16.html"},
+  {task:'Append a new list item to an existing unordered list', source:"task17.html"},
+  {task:'Prepend a new div to a container', source:"task18.html"},
+  {task:'Remove all elements with class "temp" from the DOM', source:"task19.html"},
+  {task:'Create a new element and insert it after a specific div', source:"task20.html"},
+  {task:'Clone an element and insert the clone elsewhere in the DOM', source:"task21.html"},
+  {task:'Create a fade-in effect for a hidden div', source:"task22.html"},
+  {task:'Create a slide toggle effect for a menu', source:"task23.html"},
+  {task:'Animate an element\'s width and height simultaneously', source:"task24.html"},
+  {task:'Create a custom animation that moves an element diagonally', source:"task25.html"},
+  {task:'Chain multiple animations one after another', source:"task26.html"},
+  {task:'Delay an animation by 2 seconds before executing', source:"task27.html"},
+  {task:'Get the value from a text input and display it elsewhere', source:"task28.html"},
+  {task:'Check if a checkbox is checked', source:"task29.html"},
+  {task:'Disable a submit button after it\'s clicked once', source:"task30.html"},
+  {task:'Select all checked checkboxes and count them', source:"task31.html"},
+  {task:'Clear all input fields in a form', source:"task32.html"},
+  {task:'Enable a button only when all required fields are filled', source:"task33.html"},
+  {task:'Make an AJAX GET request to fetch data from an API', source:"task34.html"},
+  {task:'Make an AJAX POST request to submit form data', source:"task35.html"},
+  {task:'Handle AJAX errors and display a message', source:"task36.html"},
+  {task:'Use event delegation for dynamically added elements', source:"task37.html"},
+  {task:'Create a simple plugin that adds a method to jQuery', source:"task38.html"},
+  {task:'Store data on a DOM element using jQuery\'s data method', source:"task39.html"},
+  {task:'Debounce a resize event handler for better performance', source:"task40.html"}
+]
+
+    });
+    </script>
+</body>
+</html>

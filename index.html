@@ -1,19 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="myhub">
 <head>
-  <title>jQuery Load Time Experiment</title>
-</head>
-<body>
-  <h1>Welcome to My jQuery Experiment</h1>
-  <p>Choose a test:</p>
-  <ul>
-    <li><a href="class/unit_I_jquery/CDN_VS_LOCAL_JQ/cdn.html">Test jQuery via CDN</a></li>
-    <li><a href="class/unit_I_jquery/CDN_VS_LOCAL_JQ/localjquery.html">Test jQuery via Local File</a></li>
-  </ul>
-  <br>
-  <br>
-  <br>
-  <a href="https://github.com/shahidk07/webtech">Full repository link</a>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body{background-color: rgb(0, 0, 0);
+        color:blueviolet}
+        #hubtitle {
+          text-align: center;
+        };
+        ul{text-decoration: none;};
 
+    </style>
+</head>
+<body >
+    <h1 id="hubtitle">ADVANCE WEB TECH FILE HUB</h1>
+    <ul ng-controller="unit1ctrl">UNIT 1 JQUERY<br>
+        <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
+
+    </ul>
+    <ul ng-controller="unit2ctrl">UNIT 2 ANGULAR JS<br>
+        <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
+
+    </ul>
+    <ul ng-controller="labctrl">LAB FILES<br>
+        <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
+
+    </ul>
+    <script>
+    var myhub = angular.module('myhub',[]);//stored myhub module in variable so we can access it's directives
+
+    myhub.controller('unit1ctrl',function($scope){
+        $scope.links=[ 
+        {title:"USING AJAX IN JQUERY",source:"class/unit_I_jquery/AJAX_JQUERY/index.html"},
+        {title:"ALL TASKS",source:"class/unit_I_jquery/tasks/index.html"},
+        {title:"LOCAL JQUERY VS CDN JQUERY",source:"class/unit_I_jquery/CDN_VS_LOCAL_JQ/index.html"},
+        
+   ]
+    });
+    myhub.controller('unit2ctrl',function($scope){
+        $scope.links=[ 
+        {title:"USING AJAX IN JQUERY",source:"class/unit_I_jquery/AJAX_JQUERY/index.html"}
+   ]
+    });
+    myhub.controller('labctrl',function($scope){
+        $scope.links=[ 
+        {title:"EXPERIMENT 1",source:""},
+        {title:"EXPERIMENT 2",source:""},
+        {title:"EXPERIMENT 3",source:""},
+        {title:"EXPERIMENT 4",source:""},
+   ]
+    });
+    </script>
 </body>
 </html>
