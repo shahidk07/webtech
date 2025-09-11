@@ -4,17 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <style>
-        body{background-color: rgb(0, 0, 0);
-        color:blueviolet}
-        #hubtitle {
-          text-align: center;
-        };
-        ul{text-decoration: none;};
-
-    </style>
 </head>
 <body >
     <h1 id="hubtitle">ADVANCE WEB TECH FILE HUB</h1>
@@ -43,15 +35,12 @@
     });
     myhub.controller('unit2ctrl',function($scope){
         $scope.links=[ 
-        {title:"USING AJAX IN JQUERY",source:"class/unit_I_jquery/AJAX_JQUERY/index.html"}
+        {title:"FIRST ANGULAR APP",source:"class/Unit_II_angularjs/first_angular_app/index.html"}
    ]
     });
     myhub.controller('labctrl',function($scope){
         $scope.links=[ 
-        {title:"EXPERIMENT 1",source:""},
-        {title:"EXPERIMENT 2",source:""},
-        {title:"EXPERIMENT 3",source:""},
-        {title:"EXPERIMENT 4",source:""},
+        {title:"EXPERIMENT 1",source:"lab/EXPERIMENT_1/index.html"}
    ]
     });
     </script>

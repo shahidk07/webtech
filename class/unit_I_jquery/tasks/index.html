@@ -14,10 +14,10 @@
 </head>
 <body >
     <h1 id="hubtitle">JQUERY PRACTISE QUESTIONS</h1>
-    <ul ng-controller="taskctrl"><br>
+    <Ol ng-controller="taskctrl"><br>
         <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.task}}</a></li>
 
-    </ul>
+    </Ol>
 
     <script>
     var myhub = angular.module('myhub',[]);//stored myhub module in variable so we can access it's directives
@@ -65,7 +65,6 @@
   {task:'Store data on a DOM element using jQuery\'s data method', source:"task39.html"},
   {task:'Debounce a resize event handler for better performance', source:"task40.html"}
 ]
-
     });
     </script>
 </body>

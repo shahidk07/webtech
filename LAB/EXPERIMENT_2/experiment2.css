@@ -1,0 +1,5 @@
+body { font-family: Arial, sans-serif; padding: 20px; }
+.container { max-width: 800px; margin: auto; }
+#pos-box, #anim-box { border: 1px solid #333; padding: 10px; display:inline-block; margin:10px 0; }
+.highlight { background: #ffef9a; border-left: 4px solid #ffb347; padding: 6px; }
+.anim-done { color: #fff; background: #4caf50; }

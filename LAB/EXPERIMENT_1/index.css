@@ -1,0 +1,24 @@
+body{display: flex;justify-content: center;align-items: center;height:100vh;
+    background-color: black;height:1000px;color:rgb(183, 0, 255)}
+    button{height:150px;width:200px;color:red;font-weight: 900;}
+
+    /* scroll image to get to top */
+    img{
+        position:fixed;
+    bottom:20px;
+    right:10px;
+    height:100px
+  }
+
+  /* Change color on mouseover */
+#one{
+    position: absolute;top:30px;
+}
+
+
+/* show/hide message on button click */
+#out{
+    display: none;
+    top:80px;position:absolute;
+    color: brown;
+}

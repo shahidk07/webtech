@@ -1,0 +1,23 @@
+<!-- Task 4: Show/Hide Message on Button Click -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        p{display: none;}
+    </style>
+ </head>
+ <body>
+    <p>Button clicked</p>
+    <button>CLICK</button>
+    <script>
+        $("#sh").on('click',function()
+    {
+        $("out").toggle()
+    })
+    </script>
+ </body>
+ </html>
