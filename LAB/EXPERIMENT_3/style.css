@@ -1,0 +1,40 @@
+/* Center content horizontally and stack vertically */
+body {
+    display: flex;
+    flex-direction: column;  /* stack tables one below the other */
+    align-items: center;     /* center horizontally */
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* General table styling */
+table {
+    border-collapse: collapse;
+    width: 300px;
+    text-align: center;
+    margin: 20px 0;          /* spacing between tables */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Borders */
+table, th, td {
+    border: 2px solid black;
+    padding: 8px;
+}
+
+/* Header row */
+th {
+    background: #eee;
+    font-weight: bold;
+}
+
+/* Odd-even row styling */
+tr.even { background: #f8f8f8; }
+tr.odd  { background: #191717; color: white; }
+
+/* Sections and paragraph layout */
+section, p {
+    display: block;
+    margin: 10px 0;
+}

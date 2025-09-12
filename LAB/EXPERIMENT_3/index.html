@@ -1,0 +1,55 @@
+<!-- 1. Display a table using AngularJS and `ng-repeat`.
+2. Use `orderBy` filter to sort table contents.
+3. Style rows differently for even and odd rows. -->
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+</head>
+<body ng-controller="mctrl">
+    <p> 1. Display a table using AngularJS and `ng-repeat`.<br>
+        2. Use `orderBy` filter to sort table contents.<br>
+        3. Style rows differently for even and odd rows.</p>
+        <br>
+    <table ID="f" >
+        <tr>
+             <th ng-repeat="(key,value) in students[0]">{{key}}</th> 
+             <!-- Prints the keys of data only once because it is bound to first row  -->
+        </tr>
+        <tr ng-repeat="student in students">
+            <td ng-repeat="(key,value) in student">{{value}}</td>
+        </tr>
+    </table>
+    <br>
+    <section>
+        Display contents with order by filter
+        <label for="">Order BY:</label>
+       <select name="" ng-model="sortkey" id="">
+        <option value="name">Name</option>
+        <option value="age">Age</option>
+        <option value="dept">Dept</option>
+       </select>
+       <label for="">Reverse:
+        <input type="checkbox" ng-model="reverse">
+       </label>
+    </section>
+    <TABLE id="s">
+        <tr><th>NAME</th>
+        <TH>AGE</TH>
+    <TH>DEPARTMENT</TH></tr>
+    <tr ng-repeat="student in students|orderBy:sortkey:reverse">
+        <!-- When the user choose sort by Name orderBy:sortkey changes to orderBy:Name and similarly so on
+         and when  the value in checkbox is true then sorting is reversed-->
+        <td>{{student.name}}</td>
+        <td>{{student.age}}</td>
+        <td>{{student.dept}}</td>
+    </tr>
+    </TABLE>
+    <script src="app.js"></script>
+</body>
+</html>
