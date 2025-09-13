@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="billApp">
+<head>
+  <title>Bill Payment Record</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="billController">
+
+  <h2>Bill Payment Record</h2>
+
+  <!-- Form for Adding/Updating Bills -->
+  <form ng-submit="saveBill()">
+    <label>Bill Name:</label>
+    <input type="text" ng-model="newBill.name" placeholder="e.g. Electricity" required>
+    <br><br>
+
+    <label>Amount:</label>
+    <input type="number" ng-model="newBill.amount" placeholder="e.g. 1200" required>
+    <br><br>
+
+    <label>Date:</label>
+    <input type="date" ng-model="newBill.date" required>
+    <br><br>
+
+    <button type="submit">{{ editIndex === -1 ? "Add Bill" : "Update Bill" }}</button>
+    <button type="button" ng-click="clearForm()">Clear</button>
+  </form>
+
+  <hr>
+
+  <!-- Display Bills -->
+  <h3>All Bills</h3>
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>#</th>
+      <th>Bill Name</th>
+      <th>Amount</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+    <tr ng-repeat="bill in bills track by $index">
+      <td>{{$index + 1}}</td>
+      <td>{{bill.name}}</td>
+      <td>{{bill.amount}}</td>
+      <td>{{bill.date | date : 'dd-MM-yyyy'}}</td>
+      <td>
+        <button ng-click="editBill($index)">Edit</button>
+        <button ng-click="deleteBill($index)">Delete</button>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    var app = angular.module("billApp", []);
+    app.controller("billController", function($scope) {
+      $scope.bills = []; // in-memory storage
+      $scope.newBill = {};
+      $scope.editIndex = -1;
+
+      // Save (Add or Update)
+      $scope.saveBill = function() {
+        if ($scope.editIndex === -1) {
+          // Add new bill
+          $scope.bills.push({
+            name: $scope.newBill.name,
+            amount: $scope.newBill.amount,
+            date: $scope.newBill.date
+          });
+        } else {
+          // Update existing bill
+          $scope.bills[$scope.editIndex] = angular.copy($scope.newBill);
+          $scope.editIndex = -1;
+        }
+        $scope.newBill = {}; // clear form
+      };
+
+      // Edit a bill
+      $scope.editBill = function(index) {
+        $scope.newBill = angular.copy($scope.bills[index]);
+        $scope.editIndex = index;
+      };
+
+      // Delete a bill
+      $scope.deleteBill = function(index) {
+        $scope.bills.splice(index, 1);
+      };
+
+      // Clear form
+      $scope.clearForm = function() {
+        $scope.newBill = {};
+        $scope.editIndex = -1;
+      };
+    });
+  </script>
+
+</body>
+</html>

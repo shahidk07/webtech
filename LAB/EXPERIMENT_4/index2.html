@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="registrationApp">
+<head>
+  <title>User Registration Form</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="regController">
+
+  <h2>User Registration</h2>
+
+  <form name="regForm" ng-submit="registerUser()" novalidate>
+
+    <!-- Username -->
+    <label>Username:</label>
+    <input type="text" name="username" ng-model="user.username" required minlength="4" />
+    <span style="color:red" ng-show="regForm.username.$touched && regForm.username.$invalid">
+      Username must be at least 4 characters long.
+    </span>
+    <br><br>
+
+    <!-- Email -->
+    <label>Email:</label>
+    <input type="email" name="email" ng-model="user.email" required />
+    <span style="color:red" ng-show="regForm.email.$touched && regForm.email.$invalid">
+      Please enter a valid email address.
+    </span>
+    <br><br>
+
+    <!-- Password -->
+    <label>Password:</label>
+    <input type="password" name="password" ng-model="user.password" required minlength="6" />
+    <span style="color:red" ng-show="regForm.password.$touched && regForm.password.$invalid">
+      Password must be at least 6 characters long.
+    </span>
+    <br><br>
+
+    <!-- Confirm Password -->
+    <label>Confirm Password:</label>
+    <input type="password" name="confirmPassword" ng-model="user.confirmPassword" required />
+    <span style="color:red" ng-show="regForm.confirmPassword.$touched && user.confirmPassword !== user.password">
+      Passwords do not match.
+    </span>
+    <br><br>
+
+    <!-- Submit Button -->
+    <button type="submit" ng-disabled="regForm.$invalid || user.confirmPassword !== user.password">
+      Register
+    </button>
+  </form>
+
+  <h3 ng-if="submitted">✅ Registration Successful!</h3>
+
+  <script>
+    var app = angular.module("registrationApp", []);
+    app.controller("regController", function($scope) {
+      $scope.user = {};
+      $scope.submitted = false;
+
+      $scope.registerUser = function() {
+        if ($scope.regForm.$valid && $scope.user.password === $scope.user.confirmPassword) {
+          $scope.submitted = true;
+        }
+      };
+    });
+  </script>
+
+</body>
+</html>

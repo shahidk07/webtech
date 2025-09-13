@@ -1,5 +1,5 @@
 <!-- Create a user registration form and perform input validation using AngularJS. -->
-<!DOCTYPE html>
+<!DOCTYPE html ng-app="mapp">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
 <body>
-    
+  <h1>REGISTRATION PAGE</h1>
+    <div class="center-heading">
+    </div>
+   <form id="reg" name="reg">
+    <label for="username" >USERNAME:<input name="username" id="username" type="text" ng-model="username" ng-maxlength="10" ng-minlength="2">
+    <span ng-show="reg.username.$error.minlength">USERNAME SHOULD BE GREATER THAN 2</span>
+    </label>
+    <label for="password">PASSWORD:<input id="password" type="text"></label>
+    <button type="submit">SUBMIT</button>
+   </form>
+   <script>
+    var mapp = angular.module('mapp',[]);
+mapp.controller('ctrl',function($scope){
+    })
+   </script>
 </body>
 </html>

@@ -1,6 +1,11 @@
 
         body{background-color: rgb(0, 0, 0);
-        color:blueviolet}
+          color: #FFFF33;   text-shadow: 
+          0 0 5px #ffff33,
+          0 0 10px #ffff33,
+          0 0 20px #ffff33,
+          0 0 40px #ffff33,
+          0 0 80px #ffff33;}
         #hubtitle {
           text-align: center;
         };

@@ -1,0 +1,21 @@
+body {
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #f0f0f0;
+    flex-direction: column;
+}
+h1{display: block;text-align: center;}
+#hcontainer{text-align: center;top:20px}
+#reg {
+	width: 400px;
+	height: 700px;
+    background-color: rgba(0,0,0,0.5); 
+	border-radius: 10px;
+	box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+	padding: 32px 24px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
