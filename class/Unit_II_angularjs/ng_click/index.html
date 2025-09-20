@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+   <link rel="stylesheet" href="style.css">
+    <!--EXP 1: GREETING MESSAGE -->
+</head>
+<body >
+    <section id="main" ng-controller="ctrl">
+        <h3>EXP:1 Display a simple greet message on button click</h3>
+    <button ng-click="clicked()">GREET</button>
+    <div id="result" ng-show="sayhello">
+  {{sayhello}}
+    </div>
+
+    <!--EXP 2: COUNTER WITH CLICK -->
+    <div id="counter">
+        <h3>EXP 2:CREATE A COUNTER THAT WORKS ON BUTTON CLICKS</h3>
+        <button id="inc" ng-click="increment()" type="number">Increment Counter</button>
+        <button id="dec" ng-click="decrement()">Decrement Counter</button>
+        <button id="reset" ng-click="reset()">RESET TO 0</button>
+        <div id="cr">{{value}}</div>
+    </div>
+
+    <!-- EXP 3 : DIRECT EXPRESSION EVALUATION 
+      WE can initialize variables directly without using script or $scope-->
+     <div id="direct">
+        <h3>EXP 3:DIRECT EXPRESSION EVALUATION</h3>
+        <button name="showalert" ng-click="showalert=!showalert">TOGGLE  MESSAGE</button>
+        <!-- showalert=!showalert this means showalert=!undefined because before first click showalert was undefined
+        so this initializes showalert=true becuase !undefined =true.
+        ng-click="showalert=!showalert" this automatically creates the variable showalert and assigns as true-->
+        <div ng-show="showalert">THIS MESSAGE WILL APPEAR ON CLICKING THE 'TOGGLE ALERT MESSAGE BUTTON'</div>
+        <!-- here ng-show="showalert" means ng-show="true" -->
+     </div>
+
+     <!-- EXP 4 : PASSING PARAMETERS IN FUNCTION -->
+      <h3>EXP 4:PASSING PARAMTERS IN FUNCTIONS</h3>
+      <button name="john" ng-click="e4('John Markston',40)">SHOW JOHN</button>
+      <button name="arthur" ng-click="e4('Arthur Morgan',40)">SHOW ARTHUR</button>
+      <button name="sadie" ng-click="e4('Sadie Adler',35)">SHOW SADIE</button>
+
+      <div id="e4result" ng-if="user">
+        NAME:  {{user.name}} , AGE: {{user.age}}
+      </div>
+
+
+      <!-- Experiment 5: Event Object and DOM Manipulation -->
+       <div>
+        <h3>EXP 5: FETCHING DETAILS OF EVENT OBJECT</h3>
+        <button ng-click="edetails($event)">CLICK THIS BUTTON</button>
+        <div id="edetail" ng-if="clientX !=='undefined' && clientY!=='undefined'">X Ordinate: {{clickX}}, Y Ordinate:{{clickY}}</div>
+       </div>
+
+
+       <!-- Experiment 6: Toggle UI State -->
+        <div>
+            <h3>EXP 6: TOGGLING UI STATE(DATE AND TIME)</h3>
+            <button ng-click="isexpanded=!isexpanded">TOGGLE</button>
+            <div name="e6result" ng-show="isexpanded">CURRENT TIME:{{time |date:'mediumTime'}} <br>
+            CURRENT DATE : {{time|date:'mediumDate'}}</div>
+        </div>
+
+        
+        <!-- Experiment 7: Multiple Actions -->
+        <div >
+            <h2>7. Multiple Actions in One Click</h2>
+             <button ng-click="multi()">PERFORM MULTIPLE ACTIONS</button>
+             <div id="multiresult">
+                <p>ACTION COUNT:{{e7count}}</p>
+                <p>LAST TIME:{{time|date:'mediumTime'}}</p>
+             </div>
+        </div>
+
+</section>
+    <script src="app.js">
+    </script>
+</body>
+</html>
