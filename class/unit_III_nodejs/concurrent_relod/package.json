@@ -1,0 +1,22 @@
+{
+  "name": "bs_nodemon_demo",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+      "dev:server": "nodemon --watch basic.js --exec \"node basic.js\"",
+      "dev:bs": "browser-sync start -p localhost:3000 --port 4000 --files 'public/**/*.*, **/*' --no-inject-changes --ws --reload-delay 1000",
+      "dev": "concurrently \"npm run dev:server\" \"npm run dev:bs\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10"
+  },
+  "description": ""
+}

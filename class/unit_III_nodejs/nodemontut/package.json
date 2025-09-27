@@ -1,0 +1,15 @@
+{
+  "name": "nodemontut",
+  "version": "1.0.0",
+  "main": "nodemon.js",
+  "scripts": {
+    "dev:server": "nodemon server.js",
+    "dev:bs": "browser-sync start --proxy 'http://localhost:3000' --files 'public/**/*.*' --port 4000",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:bs\""
+  }
+  ,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
