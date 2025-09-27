@@ -10,6 +10,7 @@
 </head>
 <body >
     <h1 id="hubtitle">ADVANCE WEB TECH FILE HUB</h1>
+<div id="container">
     <ul ng-controller="unit1ctrl">UNIT 1 JQUERY<br>
         <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
 
@@ -18,11 +19,15 @@
         <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
 
     </ul>
+    <ul ng-controller="unit3ctrl">UNIT 3 Node JS
+    <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
+</ul>
     <ul ng-controller="labctrl">LAB FILES<br>
         <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
 
     </ul>
-    <a href="https://github.com/shahidk07/webtech"> VIEW FULL REPOSITORY ON  GITHUB</a>
+    <a id="github" href="https://github.com/shahidk07/webtech"> VIEW FULL REPOSITORY ON  GITHUB</a>
+</div>
     <script>
     var myhub = angular.module('myhub',[]);//stored myhub module in variable so we can access it's directives
 
@@ -31,12 +36,14 @@
         {title:"USING AJAX IN JQUERY",source:"class/unit_I_jquery/AJAX_JQUERY/index.html"},
         {title:"ALL TASKS",source:"class/unit_I_jquery/tasks/index.html"},
         {title:"LOCAL JQUERY VS CDN JQUERY",source:"class/unit_I_jquery/CDN_VS_LOCAL_JQ/index.html"},
+        {title:"To-Do List-JQuery",source:"Mini-Projects/TODO_LIST_JQUERY/index.html"},
         
    ]
     });
     myhub.controller('unit2ctrl',function($scope){
         $scope.links=[ 
-        {title:"FIRST ANGULAR APP",source:"class/Unit_II_angularjs/first_angular_app/index.html"}
+        {title:"FIRST ANGULAR APP",source:"class/Unit_II_angularjs/first_angular_app/index.html"},
+        {title:"ng-click DIRECTIVE",source:"class/Unit_II_angularjs/ng_click/index.html"}
    ]
     });
     myhub.controller('labctrl',function($scope){
@@ -49,6 +56,11 @@
 
    ]
     });
+    myhub.controller('unit3ctrl',function($scope){
+        $scope.links = [
+            {title:"Browser-sync and Nodemon Concurrent Reloading",source:"class/unit_III_nodejs/concurrent_relod"},
+        ]
+    })
     </script>
 </body>
 </html>
