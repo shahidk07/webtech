@@ -1,6 +1,6 @@
 <!-- Create a user registration form and perform input validation using AngularJS. -->
-<!DOCTYPE html ng-app="mapp">
-<html lang="en">
+<!DOCTYPE html >
+<html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,21 +8,35 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
-<body>
+<body ng-controller="ctr">
   <h1>REGISTRATION PAGE</h1>
-    <div class="center-heading">
-    </div>
-   <form id="reg" name="reg">
-    <label for="username" >USERNAME:<input name="username" id="username" type="text" ng-model="username" ng-maxlength="10" ng-minlength="2">
-    <span ng-show="reg.username.$error.minlength">USERNAME SHOULD BE GREATER THAN 2</span>
-    </label>
-    <label for="password">PASSWORD:<input id="password" type="text"></label>
-    <button type="submit">SUBMIT</button>
-   </form>
+<form name="reg">
+  <label >Enter your name:<input type="text" ng-model="name"></label>
+  <div name="empty" ng-hide="empty">Name must be entered</div>
+  <div name="less" ng-hide="less">Name should have a length greater than 3</div>
+  <div name="success" ng-hide="success"></div>
+  <button type="submit" name="btn">Submit</button>
+</form>
    <script>
-    var mapp = angular.module('mapp',[]);
-mapp.controller('ctrl',function($scope){
-    })
+var app =angular.module('app',[]);
+var ctrl =app.controller('ctr',function($scope){
+  $scope.empty=true;
+  $scope.less=true;
+  $scope.success=true;
+  $scope.name=$scope.val().trim();
+  if(name==""){
+       $scope.empty=false;
+  };
+  if($scope.name.length>3){
+    $scope.less=false;
+  }
+  if($scope.empty==true && $scope.less==true )
+  {
+  $scope.success=false;
+  $scope.name=" ";
+  }
+})
+
    </script>
 </body>
 </html>

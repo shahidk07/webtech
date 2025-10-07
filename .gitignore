@@ -1,2 +1,4 @@
 # Ignore Node.js dependency folders
 node_modules/
+class/unit_III_nodejs/node_modules/
+**/node_modules/

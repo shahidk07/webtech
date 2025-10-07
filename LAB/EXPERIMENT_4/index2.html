@@ -26,21 +26,6 @@
     </span>
     <br><br>
 
-    <!-- Password -->
-    <label>Password:</label>
-    <input type="password" name="password" ng-model="user.password" required minlength="6" />
-    <span style="color:red" ng-show="regForm.password.$touched && regForm.password.$invalid">
-      Password must be at least 6 characters long.
-    </span>
-    <br><br>
-
-    <!-- Confirm Password -->
-    <label>Confirm Password:</label>
-    <input type="password" name="confirmPassword" ng-model="user.confirmPassword" required />
-    <span style="color:red" ng-show="regForm.confirmPassword.$touched && user.confirmPassword !== user.password">
-      Passwords do not match.
-    </span>
-    <br><br>
 
     <!-- Submit Button -->
     <button type="submit" ng-disabled="regForm.$invalid || user.confirmPassword !== user.password">

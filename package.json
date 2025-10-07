@@ -1,0 +1,14 @@
+{
+  "name": "your-root-project",
+  "scripts": {
+    "mon": "nodemon **class/unit_III_nodejs/nodemon-tut/nodemon.js**",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0"
+  }
+}
