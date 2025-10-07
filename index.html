@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
 <body >
-    <h1 id="hubtitle">ADVANCE WEB TECH FILE HUB</h1>
+    <h1 id="hubtitle">Advance Web-Tech Files and Projects</h1>
 <div id="container">
     <ul ng-controller="unit1ctrl">UNIT 1 JQUERY<br>
         <li ng-repeat="i in links"><a ng-href="{{i.source}}">{{i.title}}</a></li>
@@ -46,6 +46,12 @@
         {title:"ng-click DIRECTIVE",source:"class/Unit_II_angularjs/ng_click/index.html"}
    ]
     });
+    myhub.controller('unit3ctrl',function($scope){
+        $scope.links = [
+            {title:"Browser-sync and Nodemon Concurrent Reloading",source:"class/unit_III_nodejs/concurrent_relod"},
+        ]
+    });
+
     myhub.controller('labctrl',function($scope){
         $scope.links=[ 
         {title:"EXPERIMENT 1",source:"lab/EXPERIMENT_1/index.html"},
@@ -56,11 +62,7 @@
 
    ]
     });
-    myhub.controller('unit3ctrl',function($scope){
-        $scope.links = [
-            {title:"Browser-sync and Nodemon Concurrent Reloading",source:"class/unit_III_nodejs/concurrent_relod"},
-        ]
-    })
+
     </script>
 </body>
 </html>
