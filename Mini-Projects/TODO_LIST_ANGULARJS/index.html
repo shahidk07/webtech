@@ -1,16 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="style.css">
+<title>Document</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
-<body>
-    <div id="todolist">
-<h3>
-    
-</h3>
-    </div>
+
+<body ng-controller="ctrl">
+ <div id="list">
+ <input type="text" id="title" placeholder="Title">
+ <div class="list-item" ng-repeat="list in items track by $index">
+ <input type="checkbox" name="checkbox" id="" ng-click="checked()" ng-model="list.checkbox">
+ <input type="text" class="task" placeholder="Enter Item" ng-model="list.task">
+<button class="remove" ng-click="remove($index)">&times</button>
+</div>
+
+<div id="append">
+<label for="append" ng-click="add()">+ List Item</label>
+</div>
+<div id="display">
+ <h3></h3>
+<ul id="clist">
+
+</ul>
+</div>
+<button id="clearall">
+Clear All
+</button>
+</div>
+ <script>
+ const app =angular.module('app',[]);
+ const ctrl =app.controller('ctrl',function($scope,$window){
+    var completioncount=0;
+$scope.items =[{"task":"hjjh","completed":false},
+{"task":"hhh","completed":false}
+];
+$scope.add =function(){
+    $scope.items.push(
+       { "task":"",completed:false}
+      )
+}
+$scope.remove=function(index){
+    $scope.items.splice(index,1)
+}
+
+
+$scope.completedtasks=[];
+$scope.remove=function(checked){
+    completioncount+=1;
+    $scope.completedtasks.push(list.task)
+}
+
+
+ });</script>
 </body>
-</html>
+</html> 

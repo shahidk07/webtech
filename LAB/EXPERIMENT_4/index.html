@@ -11,30 +11,15 @@
 <body ng-controller="ctr">
   <h1>REGISTRATION PAGE</h1>
 <form name="reg">
-  <label >Enter your name:<input type="text" ng-model="name"></label>
-  <div name="empty" ng-hide="empty">Name must be entered</div>
-  <div name="less" ng-hide="less">Name should have a length greater than 3</div>
-  <div name="success" ng-hide="success"></div>
-  <button type="submit" name="btn">Submit</button>
+  <label >Enter your name:<input type="text" ng-model="name" ng-required="true"></label>
+  <div name="empty" ng-show="true" >Name must be entered correctly</div>
+
+  <button type="submit" name="btn" ng-disabled="reg$invalid">Submit</button>
 </form>
    <script>
 var app =angular.module('app',[]);
 var ctrl =app.controller('ctr',function($scope){
-  $scope.empty=true;
-  $scope.less=true;
-  $scope.success=true;
-  $scope.name=$scope.val().trim();
-  if(name==""){
-       $scope.empty=false;
-  };
-  if($scope.name.length>3){
-    $scope.less=false;
-  }
-  if($scope.empty==true && $scope.less==true )
-  {
-  $scope.success=false;
-  $scope.name=" ";
-  }
+
 })
 
    </script>
