@@ -1,0 +1,194 @@
+<!-- Create a user registration form and perform input validation using AngularJS. -->
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration with AngularJS Validation</title>
+    <!-- Load AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover:not([disabled]) {
+            background-color: #555;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .error-message {
+            font-size: 0.8em;
+            color: red;
+            margin-top: 5px;
+            display: block;
+        }
+        .success-message {
+            padding: 10px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body ng-controller="ctr">
+
+<div class="form-container">
+    <h1>REGISTER ACCOUNT</h1>
+
+    <!-- 
+        The form 'reg' is bound to the controller. 
+        ng-submit calls submitform() when the submit button is clicked.
+    -->
+    <form name="reg" ng-submit="submitform()" novalidate>
+        
+        <!-- Name Input Field -->
+        <div class="form-group">
+            <label for="name">Enter your name:</label>
+            <input 
+                type="text" 
+                id="name"
+                name="name" 
+                ng-model="formData.name" 
+                required 
+                ng-minlength="3" 
+                placeholder="Minimun length 3"
+            >
+            
+            <!-- Validation for Name -->
+            <div class="error-message" ng-show="(reg.name.$touched || submitted) && reg.name.$error.required">
+                Name is required.
+            </div>
+            <div class="error-message" ng-show="(reg.name.$touched || submitted) && reg.name.$error.minlength">
+                Name must be at least 3 characters long.
+            </div>
+        </div>
+
+        <!-- Age Input Field -->
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input 
+                type="number" 
+                id="age"
+                ng-model="formData.age" 
+                name="age"
+                required 
+                min="18"
+                placeholder="Minimum 18"
+            >
+            
+            <!-- Validation for Age -->
+            <div class="error-message" ng-show="(reg.age.$touched || submitted) && reg.age.$error.required">
+                Age is required.
+            </div>
+            <div class="error-message" ng-show="(reg.age.$touched || submitted) && reg.age.$error.number">
+                Age must be a valid number.
+            </div>
+            <div class="error-message" ng-show="(reg.age.$touched || submitted) && reg.age.$error.min">
+                You must be at least 18 years old.
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button 
+            type="submit" 
+            name="btn" 
+            ng-disabled="reg.$invalid"
+        >
+            Register
+        </button>
+
+        <!-- Display success message -->
+        <div ng-show="submitted && reg.$valid" class="success-message">
+            Registration successful! Welcome, {{formData.name}}.
+        </div>
+
+    </form>
+</div>
+
+<!-- AngularJS Script -->
+<script>
+    var app = angular.module('app', []);
+    
+    // Define the controller
+    app.controller('ctr', function($scope) {
+        // Initialize form data model
+        $scope.formData = {};
+        
+        // State variable to track if the user tried to submit (useful for initial form load)
+        $scope.submitted = false;
+
+        // Function called on form submission
+        $scope.submitform = function() {
+            // Set submitted to true to show errors immediately if form is invalid
+            $scope.submitted = true; 
+
+            // Check if the form state in Angular is valid
+            if ($scope.reg.$valid) {
+                // Here you would typically send $scope.formData to a server
+                console.log("Form data submitted:", $scope.formData);
+                
+                // You can optionally clear the form or reset the submitted state after a delay
+                // $scope.formData = {};
+                // $scope.reg.$setPristine();
+                // $scope.reg.$setUntouched();
+
+            } else {
+                console.log("Form is invalid. Please check the errors.");
+            }
+        };
+
+        // Log the current form state for debugging
+        $scope.$watch('reg.$valid', function(newVal) {
+            console.log("Form Valid:", newVal);
+        });
+    });
+
+    console.log("AngularJS app is initialized.");
+
+</script>
+</body>
+</html>

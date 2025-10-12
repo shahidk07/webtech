@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
     res.send('hello')
 });
 app.get('/set-cookie', (req, res) => {
-    res.cookie('username', 'John', { maxAge: 900000 });
+    res.cookie('username', 'Shahid', { maxAge: 900000 });
     res.send('Cookie has been set');
 });
 

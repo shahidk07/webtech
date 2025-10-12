@@ -34,4 +34,4 @@ $("#sh").on('click',function()
         $("#out").hide();
         $("#sh").text("SHOW MESSAGE")
     }
-})
+});
