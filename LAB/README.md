@@ -133,8 +133,7 @@ Date: October 12, 2025
    ```
 
 5. **Paste output**  
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 1 Code](./images/exp1.png)</code></pre>
+   <code>![Experiment 1 Code](./images/exp1.png)</code>
 
 6. **What I learned**  
    I learned how to implement jQuery for event handling, DOM manipulation, and animations, along with CSS for layout and styling, to create an interactive webpage.
@@ -236,9 +235,8 @@ Date: October 12, 2025
    ```
 
 5. **Paste output**  
-   <p><strong>Output:</strong></p><pre><
-   code class=", language-,code-block">![Experiment 2 Code](./images/exp2.png)</code></pre>
-
+   <p><strong>Output:</strong></p>
+  <code >![Experiment 2 Code](./images/exp2.png)<code>
 6. **What I learned**  
    I learned how to use jQuery to add CSS classes, retrieve element positions, and animate multiple properties, along with basic CSS styling for visual effects.
 
@@ -370,15 +368,13 @@ Date: October 12, 2025
        ];
    })
    ```
+   <p><strong>Output:</strong></p>
+![Experiment 3 Code](./images/exp3.png)
 
-5. **Paste output**  
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 3 Code](./images/exp3.png)</code></pre>
-
-6. **What I learned**  
+1. **What I learned**  
    I learned how to use AngularJS for dynamic table rendering with `ng-repeat`, implement sorting with the `orderBy` filter, and apply CSS to differentiate even and odd rows.
 
-7. **Challenges Faced**  
+2. **Challenges Faced**  
    Ensuring the table headers were generated correctly from the first row and debugging the reverse sorting logic with the checkbox were initial difficulties.
 
 ## Experiment 4
@@ -565,15 +561,17 @@ Date: October 12, 2025
    }
    ```
 
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 4 Code](./images/exp4_bill.png)</code></pre>
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 4 Code](./images/exp4_reg.png)</code></pre>
+        <p><strong>Output:</strong></p>
+![Experiment 4 Code](./images/exp4_bill.png)
+
+     <p><strong>Output:</strong></p>
+![Experiment 4 Code](/images/exp4_reg.png)
+
 
  **What I learned**  
    I learned how to use AngularJS for form handling, data management, and input validation, including dynamic table updates and error messaging.
 
-7. **Challenges Faced**  
+1. **Challenges Faced**  
    Fixing the typo in the age validation condition (`re.age` to `reg.age`) and ensuring form clearing worked correctly after submission were initial issues.
 
 ## Experiment 5 & 6
@@ -674,14 +672,17 @@ Date: October 12, 2025
    });
    ```
 
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 5 & 6 Code](./images/exp5_hello.png)</code></pre>
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 5_&_6_Code](./images/exp5_cal.png)</code></pre>
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 5 & 6 Code](./images/exp5_iterate.png)</code></pre>
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 5 & 6 Code](./images/exp5_replace.png)</code></pre>
+   <p><strong>Output:</strong></p>
+![Experiment 5 & 6 Code](./images/exp5_hello.png)
+
+< p><strong>Output:</strong></p>
+  ![Experiment 5 & 6 Code](./images/exp5_cal.png)
+
+    <p><strong>Output:</strong></p>
+![Experiment 5 & 6 Code](./images/exp5_iterate.png)
+
+<p><strong>Output:</strong></p>
+![Experiment 5 & 6 Code](./images/exp5_replace.png)
    1. **What I learned**  
    I learned how to create a Node.js server with Express, handle multiple endpoints, perform string manipulation with regex, implement a calculator with switch cases, and demonstrate array iteration methods.
 
@@ -789,17 +790,20 @@ Date: October 12, 2025
    });
    ```
 
+        <p><strong>Output:</strong></p>
+![Experiment 7 Code](./images/exp7_setccokie.png)
 
-   <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-   ![Experiment 7 Code](./images/exp7_setcookie.png)</code></pre>
-    <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-    ![Experiment 7 Code](./images/exp7_getcookie.png)</code></pre>
-     <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-     ![Experiment 7 Code](./images/exp7_deletecookie.png)</code></pre>
-      <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-      ![Experiment 7 Code](./images/exp7_session1.png)</code></pre>
-       <p><strong>Output:</strong></p><pre><code class=", language-,code-block">
-       ![Experiment 7 Code](./images/exp7_session2.png)</code></pre>
+    <p><strong>Output:</strong></p>
+![Experiment 7 Code](./images/exp7_getcookie.png)
+
+    <p><strong>Output:</strong></p>
+![Experiment 7 Code](./images/exp7_deletecookie.png)
+
+    <p><strong>Output:</strong></p>
+![Experiment 7 Code](./images/exp7_session1.png)
+
+    <p><strong>Output:</strong></p>
+![Experiment 7 Code](./images/exp7_session2.png)
 
 5. **What I learned**  
    I learned how to manage cookies and sessions in Node.js using Express middleware, including setting, retrieving, and clearing cookies, and tracking session visits.
