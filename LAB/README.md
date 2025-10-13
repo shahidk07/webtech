@@ -1,17 +1,22 @@
 
-# Table of Contents
+<h1 align="center">Advance Web Tech Lab Report</h1>
 
-- [Table of Contents](#table-of-contents)
-  - [Experiment 1](#experiment-1)
-  - [Experiment 2](#experiment-2)
-  - [Experiment 3](#experiment-3)
-  - [Experiment 4](#experiment-4)
-  - [Experiment 5 \& 6](#experiment-5--6)
-  - [Experiment 7](#experiment-7)
-
-
+<h3>Name:Shahid Khan 
 Sap Id:590018782
-Date: October 12, 2025 
+ Date: October 12, 2025 </h3>
+
+<h2>
+Experiment Index</h2>
+
+1.  **Experiment 1:** Basic JQuery implementation
+2.  **Experiment 2:** JQUERY CSS AND events methods
+3.  **Experiment 3:** Angular js (table and sorting)
+4.  **Experiment 4:** Angular JS Forms and Events
+5.  **Experiment 5 & 6:** Node JS Basics
+6.  **Experiment 7:** Cookie and Sessions in nodejs
+
+## Experiment 1
+
 
 ## Experiment 1
 
@@ -565,7 +570,7 @@ Date: October 12, 2025
 ![Experiment 4 Code](./images/exp4_bill.png)
 
      <p><strong>Output:</strong></p>
-![Experiment 4 Code](/images/exp4_reg.png)
+![Experiment 4 Code](./images/exp4_validation.png)
 
 
  **What I learned**  
