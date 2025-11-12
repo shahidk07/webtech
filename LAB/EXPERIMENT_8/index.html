@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script> 
 </head>
 <body class="flex justify-center items-start bg-black" ng-controller="ctr">
-    <form name="reg" action="http://localhost:3000/register" class=" flex flex-col items-start bg-blue-300 opacity-100 h-[600px] w-[450px] my-[50px] rounded-[7px]">
+    <form name="reg" ng-submit="submitForm()" class=" flex flex-col items-start bg-blue-300 opacity-100 h-[600px] w-[450px] my-[50px] rounded-[7px]">
 
   <h1 class="mx-auto text-2xl my-3 font-bold">Registration</h1>
 
@@ -31,9 +31,48 @@
 </body>
 <script>
 const app=angular.module('app',[]);
-app.controller('ctr',($scope)=>{
+//using http to send data as json
+app.controller('ctr',($scope,$http)=>{
     $scope.username = '';
     $scope.password = '';
+
+    $scope.submitForm =function(){
+
+        // AngularJS validation check (reg.$valid comes from the form name="reg")
+   if ($scope.reg.$valid){
+   
+    // using this object to send data w.r.t mongoose schema
+    const userData={
+        username:$scope.username,
+        password:$scope.password
+    };
+
+    $http.post('http://localhost:3000/register',userData)
+    .then(function(response){
+    console.log('Registration successful:', response.data);
+    alert('Registration Successful!');
+    $scope.username = '';
+    $scope.password = '';
+    $scope.reg.$setPristine(); // to remove all the previous validations state
+
+}
+)
+.catch(function(error){
+    console.error('Registration Failed',error.data);
+    alert('Registration Failed' +(error.data.error ))
+
+});
+
+
+   }
+
+   else{
+    alert('Please submit form as per rules ')
+   }
+
+    };
+
+
 })
 </script>
 </html>
