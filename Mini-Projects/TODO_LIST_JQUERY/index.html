@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,26 +11,28 @@
 
 <body>
     <div id="list">
-  <input type="text" id="title" placeholder="Title">
- <div class="checkbox">
-    <input type="checkbox" name="" id="">
-    <input type="text" class="task" placeholder="Enter Item">
-    <button class="remove">&times</button>
- </div>
- <div id="append">
-    <label for="append">+ List Item</label>
- </div>
- <div id="display">
-    <h3></h3>
-    <ul id="clist">
+        <input type="text" id="title" placeholder="Title">
+        <select name="select" id="select">Sort By
+            <option value="time-oldest">Time-Oldest</option>
+            <option value="time-newest">Time-newest</option>
+        </select>
 
-    </ul>
-</div>
-<button id="clearall">
-    Clear All
-</button>
-</div>
+        <div id="append">
+            <button for="append" id="append">+ List Item</button>
+        </div>
+        <div id="display">
+            <h3></h3>
+            <ul id="clist">
+
+            </ul>
+        </div>
+        <button id="clearall">
+            Clear All
+        </button>
+    </div>
     <script src="app.js">
+    
     </script>
 </body>
+
 </html>
