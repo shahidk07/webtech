@@ -83,5 +83,4 @@ app.post('/register',async(req,res)=>{
         return res.status(200).json({error:"data received by the server"},result)
     }
   
-
 })
