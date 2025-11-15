@@ -5,20 +5,30 @@ const port =3000;
 const bcrypt = require('bcrypt');
 const fs=require('fs');
 const path=require('path');
+const { message, retry } = require('statuses');
 
 // Middleware to parse incoming JSON payloads
 app.use(express.json());
 
+
+
 // Middleware to parse incoming URL-encoded payloads (used by standard HTML forms)
 app.use(express.urlencoded({ extended: true }));
 
+
+// 1. ADD THIS MIDDLEWARE TO SERVE STATIC FILES
+// It maps the URL path /static to the directory containing your static files.
+// The browser will request files like http://localhost:3000/static/style.css
+// and Express will look for them in ./TODO_LIST_JQUERY/style.css
+app.use('/static', express.static(path.join(__dirname, 'TODO_LIST_JQUERY')));
 const atlasuri='mongodb+srv://shahidk07:atlasdb826826@cluster0.igo0iw3.mongodb.net/database1?retryWrites=true&w=majority&tls=true'
 
 
 app.listen(port,()=>{
     console.log(`Server started. Available endpoints are:
         1: http://localhost:${port}/
-        2. http://localhost:${port}/register`)
+        2. http://localhost:${port}/register
+        3. http://localhost:${port}/login`)
 })
 
 
@@ -26,11 +36,16 @@ mongoose.connect(atlasuri).then(()=>{
     console.log('atlas db connected')
 }).catch(err=> console.error(`ERROR REATED TO MONGO DB FOUND`));
 
-//creating a chema
+//creating a schema
 const userschema=new mongoose.Schema({
     username:{type:'String',required:true},
     password:{type:'String',required:true},
 })
+
+const todosdchema=new mongoose.Schema({
+    
+})
+
 
 //pre is a hook that allows us to modify the document before saving it to d.b.
 // 'save' refers to Mongoose save event
@@ -64,10 +79,12 @@ app.get('/',async(req,res)=>{
     res.send('welcome to homepage')
 });
 
-const htmlfile=path.join(__dirname,'./index.html');
+const loginfile=path.join(__dirname,'./login.html')
+const registerfile=path.join(__dirname,'./register.html');
+const todolistfile = path.join(__dirname, 'TODO_LIST_JQUERY', 'index.html');
 
 app.get('/register',async(req,res)=>{
-    res.sendFile(htmlfile)
+    res.sendFile(registerfile)
 });
 app.post('/register',async(req,res)=>{
     const formdata=req.body;
@@ -79,8 +96,46 @@ app.post('/register',async(req,res)=>{
             username:formdata.username,
             password:formdata.password
         });
-        console.log(result)
-        return res.status(200).json({error:"data received by the server"},result)
+        console.log('user registered successfully' +result)
+        // *** CHANGE: Redirect to the /todolist route upon success ***
+            return res.redirect('/todolist');
     }
   
 })
+
+//serving login page
+app.get('/login',async(req,res)=>{
+    res.sendFile(loginfile);
+})
+//login handling
+app.post('/login',async(req,res)=>{
+const formdata=req.body;
+ if(!formdata.username||!formdata.password){
+   return res.status(400).json({error:"Missing username or password"})
+ }
+try{
+    const user=await model.findOne({username:formdata.username});
+    if(!user){
+        return res.status(401).json({error:"invalid credentials"})
+    }
+//bcrypt takes two agruments to compare since we have stored hashed password so we a using bcrypt
+    const isMatch=await bcrypt.compare(formdata.password,user.password);
+    if(isMatch){
+        console.log(`Login successful for ${formdata.username}`)
+        return res.status(200).json({message:"Login successful"})
+    }
+    else{
+        return res.status(401).json({error:"Invalid credentials!"});
+    }
+}
+catch(error){
+    console.log(`Internal Server Error!, ${error}`);
+    return res.status(500).json({error:"Internal Server Error"});
+
+}
+});
+
+app.get('/todolist', async (req, res) => {
+    // This will now serve the HTML file from the nested directory
+    res.sendFile(todolistfile);
+});

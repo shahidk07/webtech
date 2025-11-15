@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+</head>
+<body class="flex justify-center items-start bg-black " ng-controller="ctrl">
+ <form name="log" ng-submit="submitForm()" class="flex flex-col h-[600px] w-[500px] bg-blue-400 opacity-80  rounded-[7px] items-center">
+    <h1 class="mx-auto text-2xl">Login</h1>
+    <label for="username">Username:
+        <input type="text" ng-pattern="/^[a-zA-z\s]*$/" ng-model="username" name="username" id="" class="mx-auto my-[20px]" required>
+    </label>
+    <label for="password">Password:
+        <input type="password" name="password"  ng-model="password" required id="" class="mx-auto my-[20px] " minlength="7" maxlength="15">
+    </label>
+
+    <button class="mx-auto my-[350px] h-[30px] w-[90px] rounded-[8px] bg-white">Submit</button>
+
+ </form>
+    <script>
+    const app=angular.module('app',[]);
+    app.controller('ctrl',($scope,$http)=>{
+
+        $scope.username='';
+        $scope.password='';
+   $scope.submitForm=function(){
+    if($scope.log.$valid){
+      const userData={username:$scope.username,password:$scope.password};
+
+      //.then() is the response function from server and response object holds it
+      $http.post('http://localhost:3000/login',userData).then(function(response){
+        console.log(`Login Successful ${response.data}`)
+        window.location.href = '/todolist';
+        $scope.username = '';
+        $scope.password = '';
+        $scope.log.$setPristine(); // to remove all the previous validations state
+
+   
+        // alert(`credential verified by the server. Welcome to todolist`)
+      }
+      ).catch(function(error){
+        console.log(`Login Failed ${error.data}`)
+        alert( `Login Failed ${error.data.error}`)
+      })
+    }
+    
+   }
+    })
+    </script>
+</body>
+</html>

@@ -51,6 +51,8 @@ app.controller('ctr',($scope,$http)=>{
     .then(function(response){
     console.log('Registration successful:', response.data);
     alert('Registration Successful!');
+    // *** FIX: Manually redirect the browser after successful registration ***
+        window.location.href = '/todolist';
     $scope.username = '';
     $scope.password = '';
     $scope.reg.$setPristine(); // to remove all the previous validations state
