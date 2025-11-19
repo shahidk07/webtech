@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Document</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body>
+    <div id="list" ng-controller="ListController">
+        <input type="text" id="title" placeholder="Title" ng-model="listTitle">
+    
+        <select name="select" id="select" ng-model="sortBy" ng-change="sortList()"> Sort By
+            <option value="-createdAt">Time-Newest</option>
+            <option value="createdAt">Time-Oldest</option>
+        </select>
+    
+        <div id="append-wrapper">
+            <button ng-click="addItem()" id="add-task-button">+ List Item</button>
+        </div>
+        <h2>To Do ({{ activeTasks.length }})</h2>
+        <div>
+            <div ng-repeat="item in activeTasks | orderBy:sortBy track by item._id" class="task-item-container">
+        
+                <input type="checkbox" ng-model="item.ischecked" ng-change="updateTask(item)">
+        
+                <input class="task-input" type="text" placeholder="Enter item" ng-model="item.tasks" ng-blur="updateTask(item)">
+        
+                <button ng-click="removeTask(item._id)" class="remove">&times;</button>
+            </div>
+        </div>
+        
+        <hr>
+    
+        <div id="display">
+            <h3>Completed ({{ completedTasks.length }})</h3>
+            <ul id="clist">
+                <li ng-repeat="item in completedTasks track by item._id">
+                    {{ item.tasks }}
+                </li>
+            </ul>
+        </div>
+        <button id="clearall" ng-click="clearAll()">
+            Clear All
+        </button>
+    </div>
+    <script src="/static/app.js">
+    
+    </script>
+</body>
+
+</html>

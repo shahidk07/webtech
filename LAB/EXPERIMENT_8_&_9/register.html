@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+</head>
+<body class="flex justify-center items-start bg-black" ng-controller="ctr">
+    <form name="reg" ng-submit="submitForm()" class=" flex flex-col items-start bg-blue-300 opacity-100 h-[600px] w-[450px] my-[50px] rounded-[7px]">
+
+  <h1 class="mx-auto text-2xl my-3 font-bold">Registration</h1>
+
+    <!-- USERNAME FIELD (Replaced NAME) -->
+    <label for="username" class=" my-5 mx-auto">Username:
+    </label>
+        <input ng-pattern="/^[a-zA-Z\s]*$/" required name="username" ng-model="username" minlength="3"
+         type="text" placeholder="Eg:User" class="mx-auto rounded-[8px] focus:outline-none h-[35px] w-[300px] ">
+
+    <span class="text-red-500 mx-auto" 
+    ng-show="reg.username.$invalid && reg.username.$touched && reg.username.$dirty">Please enter a valid username</span>
+        
+    <!-- PASSWORD FIELD (Replaced AGE) -->
+  <label for="password" class="mx-auto">Password:</label>
+  <input required ng-model="password" placeholder="Min 18 Characters" type="password" minlength="7" name="password" id="" class="mx-auto rounded-[8px] focus:outline-none h-[35px] w-[300px] ">
+  <span class="text-red-500 mx-auto" ng-show="reg.password.$invalid && reg.password.$touched && reg.password.$dirty ">Sorry ! your password is too short</span>
+ <button type="submit"  class="mx-auto h-[30px] w-[90px] bg-white rounded-[8px] relative top-[300px]">SUBMIT</button>
+    </form>
+    
+</body>
+<script>
+const app=angular.module('app',[]);
+//using http to send data as json
+app.controller('ctr',($scope,$http)=>{
+    $scope.username = '';
+    $scope.password = '';
+
+    $scope.submitForm =function(){
+
+        // AngularJS validation check (reg.$valid comes from the form name="reg")
+   if ($scope.reg.$valid){
+   
+    // using this object to send data w.r.t mongoose schema
+    const userData={
+        username:$scope.username,
+        password:$scope.password
+    };
+
+    $http.post('http://localhost:3000/register',userData)
+    .then(function(response){
+    console.log('Registration successful:', response.data);
+    alert('Registration Successful!');
+    // *** FIX: Manually redirect the browser after successful registration ***
+        window.location.href = '/todolist';
+    $scope.username = '';
+    $scope.password = '';
+    $scope.reg.$setPristine(); // to remove all the previous validations state
+
+}
+)
+.catch(function(error){
+    console.error('Registration Failed',error.data);
+    alert('Registration Failed' +(error.data.error ))
+
+});
+
+
+   }
+
+   else{
+    alert('Please submit form as per rules ')
+   }
+
+    };
+
+
+})
+</script>
+</html>
