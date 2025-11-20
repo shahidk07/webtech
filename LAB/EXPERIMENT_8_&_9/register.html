@@ -23,7 +23,7 @@
         
     <!-- PASSWORD FIELD (Replaced AGE) -->
   <label for="password" class="mx-auto">Password:</label>
-  <input required ng-model="password" placeholder="Min 18 Characters" type="password" minlength="7" name="password" id="" class="mx-auto rounded-[8px] focus:outline-none h-[35px] w-[300px] ">
+  <input required ng-model="password" placeholder="Min Length -7 " type="password" minlength="7" name="password" id="" class="mx-auto rounded-[8px] focus:outline-none h-[35px] w-[300px] ">
   <span class="text-red-500 mx-auto" ng-show="reg.password.$invalid && reg.password.$touched && reg.password.$dirty ">Sorry ! your password is too short</span>
  <button type="submit"  class="mx-auto h-[30px] w-[90px] bg-white rounded-[8px] relative top-[300px]">SUBMIT</button>
     </form>

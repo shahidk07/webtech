@@ -1,8 +1,9 @@
+require('dotenv').config()
 const express =require('express');
 const app=express();
 const mongoose=require('mongoose');
 const session = require('express-session');
-const port =3000;
+const PORT =process.env.PORT||3000;
 const bcrypt = require('bcrypt');
 const fs=require('fs');
 const path=require('path');
@@ -14,15 +15,17 @@ app.use(express.json());
 // 1. ADD THIS MIDDLEWARE TO SERVE STATIC FILES
 // It maps the URL path /static to the directory containing your static files.
 // The browser will request files like http://localhost:3000/static/style.css
-// and Express will look for them in ./TODO_LIST_JQUERY/style.css
-app.use('/static', express.static(path.join(__dirname, 'TODO_LIST_JQUERY')));
+// and Express will look for them in ./TODO_LIST/style.css
+app.use('/static', express.static(path.join(__dirname, 'TODO_LIST')));
 
 // Middleware to parse incoming URL-encoded payloads (used by standard HTML forms)
 app.use(express.urlencoded({ extended: true }));
 
 //session middleware
 app.use(session({   
-    secret: 'a very secret key that should be long and random', // 👈 CHANGE THIS SECRET
+    // secret: 'a very secret key that should be long and random', CHANGED THIS SECRET TO-
+    secret: process.env.SESSION_SECRET || 'a very secret key that should be long and random',
+    //this emsures session secret in on our hosting platform
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hours
@@ -30,15 +33,14 @@ app.use(session({
 
 
 
-
-const atlasuri='mongodb+srv://shahidk07:atlasdb826826@cluster0.igo0iw3.mongodb.net/database1?retryWrites=true&w=majority&tls=true'
 const loginfile=path.join(__dirname,'./login.html')
 const registerfile=path.join(__dirname,'./register.html');
-const todolistfile = path.join(__dirname, 'TODO_LIST_JQUERY', 'index.html');
+const todolistfile = path.join(__dirname, 'TODO_LIST', 'index.html');
+const homepagefile=path.join(__dirname,'./homepage.html');
 
 
 
-mongoose.connect(atlasuri).then(()=>{
+mongoose.connect(process.env.atlasuri).then(()=>{
     console.log('atlas db connected')
 }).catch(err=> console.error(`ERROR REATED TO MONGO DB FOUND`));
 
@@ -103,8 +105,14 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
-app.get('/',async(req,res)=>{
-    res.send('welcome to homepage')});
+app.get('/', async (req, res) => {
+    // Check if the user is already logged in and redirect to the To-Do list
+    if (req.session.userId) {
+        return res.redirect('/todolist');
+    }
+    // Otherwise, show the homepage
+    res.sendFile(homepagefile); 
+});
 
 app.get('/register',async(req,res)=>{
     res.sendFile(registerfile)});
@@ -222,53 +230,82 @@ app.post('/api/todos', ensureAuthenticated, async (req, res) => {
 });
 
 
-
-//  UPDATE OR DELETE A TASK
-app.put(`${'/api/todos'}/task/:taskId`, ensureAuthenticated, async (req, res) => {
+app.put('/api/todos/task/:taskId', ensureAuthenticated, async (req, res) => {
     const { taskId } = req.params;
-    const { action, tasks, ischecked } = req.body;
+    const { tasks, ischecked } = req.body;
     const userId = req.session.userId;
 
     try {
-        let updateOperation;
-
-        if (action === 'delete') {
-            // Use $pull to remove the task by its embedded _id
-            updateOperation = { $pull: { todos: { _id: taskId } } };
-        } else {
-            // Use $set with the array positional operator ($[i]) to update properties
-            updateOperation = {
-                $set: {
-                    "todos.$[i].tasks": tasks,
-                    "todos.$[i].ischecked": ischecked
-                }
-            };
-        }
-
         const updatedUser = await UserModel.findOneAndUpdate(
-            { _id: userId },
-            updateOperation,
-            { 
-                new: true,
-                arrayFilters: [ { "i._id": taskId } ] // Filter to identify which item 'i' is
-            }
+            { _id: userId, "todos._id": taskId },
+            {
+                $set: {
+                    "todos.$.tasks": tasks,
+                    "todos.$.ischecked": ischecked
+                }
+            },
+            { new: true }
         );
 
         if (!updatedUser) {
+            return res.status(404).json({ error: "Task not found." });
+        }
+
+        res.status(200).json({ message: "Task updated successfully." });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to update task." });
+    }
+});
+
+
+app.delete('/api/todos/task/:taskId', ensureAuthenticated, async (req, res) => {
+    const { taskId } = req.params;
+    const userId = req.session.userId;
+
+    try {
+        const result = await UserModel.findByIdAndUpdate(
+            userId,
+            { $pull: { todos: { _id: taskId } } },
+            { new: true }
+        );
+
+        if (!result) {
             return res.status(404).json({ error: "User or task not found." });
         }
-        
-        return res.status(200).json({ message: "Task updated successfully." });
+
+        res.status(200).json({ message: "Task deleted successfully." });
     } catch (error) {
-        return res.status(500).json({ error: "Failed to process task." });
+        res.status(500).json({ error: "Failed to delete task." });
+    }
+});
+
+
+// DELETE ALL TODOS
+app.delete('/api/todos/all', ensureAuthenticated, async (req, res) => {
+    const userId = req.session.userId;
+
+    try {
+        const result = await UserModel.findByIdAndUpdate(
+            userId,
+            { $set: { todos: [] } },  // clear array
+            { new: true }
+        );
+
+        if (!result) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        return res.status(200).json({ message: "All tasks cleared." });
+    } catch (error) {
+        return res.status(500).json({ error: "Failed to clear tasks." });
     }
 });
 
 
 // --- SERVER STARTUP ---
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log(`Server started. Available endpoints are:
-        1: http://localhost:${port}/
-        2. http://localhost:${port}/register
-        3. http://localhost:${port}/login`);
+        1: http://localhost:${PORT}/
+        2. http://localhost:${PORT}/register
+        3. http://localhost:${PORT}/login`);
 });

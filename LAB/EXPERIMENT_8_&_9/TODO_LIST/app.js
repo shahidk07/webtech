@@ -59,9 +59,7 @@ app.controller('ListController', function ($scope, $http, $filter) {
             });
     };
 
-    // =======================================================
     // 3. UPDATE/DELETE: Change Status/Text (PUT)
-    // =======================================================
 
     $scope.updateTask = function (task) {
         // URL format: API_URL + 'task/' + task._id
@@ -73,7 +71,7 @@ app.controller('ListController', function ($scope, $http, $filter) {
     };
 
     $scope.removeTask = function (taskId) {
-        $http.put(API_URL + 'task/' + taskId, { action: 'delete' })
+        $http.delete(API_URL + 'task/' + taskId)
             .then(function (response) {
                 $scope.allTasks = $scope.allTasks.filter(item => item._id !== taskId);
             })
@@ -81,6 +79,7 @@ app.controller('ListController', function ($scope, $http, $filter) {
                 console.error("Error deleting task:", error);
             });
     };
+    
 
     // --- NEW: Angular Sorting Function ---
     // The HTML selects the value for $scope.sortBy. 
@@ -99,7 +98,13 @@ app.controller('ListController', function ($scope, $http, $filter) {
     // --- Placeholder for Clear All (Needs API route) ---
     $scope.clearAll = function () {
         if (confirm("Are you sure you want to clear ALL your tasks?")) {
-            alert("Clear All requires a server-side API route.");
+            $http.delete(API_URL + 'all')
+            .then(function (response) {
+                $scope.allTasks = [];  // clear UI instantly
+            })
+            .catch(function (error) {
+                console.error("Error clearing all tasks:", error);
+            });
         }
     };
 
