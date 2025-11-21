@@ -252,6 +252,15 @@ app.delete('/api/todos/all', ensureAuthenticated, async (req, res) => {
     }
 });
 
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ error: "Logout failed" });
+        }
+        res.clearCookie('connect.sid');  // removes session cookie in browser
+        return res.status(200).json({ message: "Logged out successfully" });
+    });
+});
 
 // --- SERVER STARTUP ---
 app.listen(PORT, () => {
@@ -262,3 +271,5 @@ app.listen(PORT, () => {
         4. http://localhost:${PORT}/todolist`)
         
 });
+
+

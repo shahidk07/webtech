@@ -9,6 +9,15 @@ app.config(function($httpProvider) {
 // Ensure $http and $filter are injected
 app.controller('ListController', function ($scope, $http, $filter) {
 
+    $scope.logout = function () {
+        $http.post('/logout')
+            .then(function (response) {
+                window.location.href = '/';
+            })
+            .catch(function (error) {
+                console.error("Logout error:", error);
+            });
+    };
     // --- Data Setup ---
     $scope.allTasks = [];
     $scope.sortBy = '-createdAt'; // Default sort by newest (used by ng-orderBy)
