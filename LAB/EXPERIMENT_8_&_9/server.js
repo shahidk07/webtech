@@ -29,7 +29,9 @@ app.use(session({
     //this emsures session secret in on our hosting platform
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hours
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 24 hours
+    sameSite: "lax", //sameSite: "lax" allows cookies during navigation href="/todolist"
+    secure: false 
 }));
 
 
@@ -56,11 +58,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/', async (req, res) => {
-    // Check if the user is already logged in and redirect to the To-Do list
-    if (req.session.userId) {
-        return res.redirect('/todolist');
-    }
-    // Otherwise, show the homepage
+  // show the homepage
     res.sendFile(homepagefile); 
 });
 
@@ -130,7 +128,7 @@ catch(error){
 // and it also checks if there is a session linked with this userId in the session data after that
 //now next ensureAuthenticated middleware runs and checks if express-session middleware found a userId linked with a session
 
-app.get('/todolist', async (req, res) => {
+app.get('/todolist', ensureAuthenticated, async (req, res) => {
     // This will now serve the HTML file from the nested directory
     res.sendFile(todolistfile);
 });
@@ -143,7 +141,10 @@ app.get('/api/todos',ensureAuthenticated,async(req,res)=>{
         if(!user){
             return res.status(404).json({error:"user data not found"})
         }
-        return res.status(200).json(user.todos||[]);
+        return res.status(200).json({
+            username: user.username,
+            tasks: user.todos || []
+        });
     }catch(error){
         return res.status(500).json({error:"Failed to load tasks"})
     }

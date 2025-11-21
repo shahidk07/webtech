@@ -10,7 +10,14 @@
 </head>
 
 <body>
+  
+    
     <div id="list" ng-controller="ListController">
+        <div id="header-bar">
+            <span>Logged in as: <strong>{{ user.username }}</strong></span>
+            <button id="logout-btn" ng-click="logout()">Logout</button>
+        </div>
+        <br>
         <input type="text" id="title" placeholder="Title" ng-model="listTitle">
         <label for="select" class="sort-label">Arrange By:</label>
         <select name="select" id="select" ng-model="sortBy" ng-change="sortList()">

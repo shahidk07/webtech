@@ -24,38 +24,31 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            /* Added a max-width for better reading experience */
             max-width: 500px;
         }
 
         h1 {
             color: #333;
             margin-bottom: 10px;
-            /* Reduced margin */
         }
 
         .project-info {
             margin-bottom: 20px;
-            /* Reduced margin to make space for the note */
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
             color: #555;
             line-height: 1.6;
         }
 
-        /* New style for the data access note */
         .access-note {
             margin-top: 15px;
             margin-bottom: 25px;
             padding: 10px;
             background-color: #fff3cd;
-            /* Light yellow background for caution */
             border: 1px solid #ffeeba;
             border-radius: 5px;
             color: #856404;
-            /* Darker text for readability */
             font-size: 0.9em;
-            /* Slightly smaller font */
         }
 
         .author-name {
@@ -68,7 +61,6 @@
             margin: 10px;
             padding: 10px 20px;
             background-color: #28a745;
-            /* Changed button color to green for a fresh look */
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -78,44 +70,55 @@
         .nav-links a:hover {
             background-color: #1e7e34;
         }
-        /* --- START: MEDIA QUERIES FOR MOBILE --- */
-        @media (max-width: 450px) { /* <--- Changed from 500px to 450px */
+
+        /* Optional: give the To-Do List button a slightly different color so it stands out */
+        .nav-links a.todolist-btn {
+            background-color: #007bff;
+        }
+
+        .nav-links a.todolist-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- MEDIA QUERIES FOR MOBILE --- */
+        @media (max-width: 450px) {
             .container {
-                width: 95%; 
+                width: 95%;
                 margin: 10px;
                 padding: 20px 15px;
-                box-shadow: none; 
+                box-shadow: none;
             }
 
             h1 {
                 font-size: 1.5em;
             }
-            
-            .project-info p, .access-note {
+
+            .project-info p,
+            .access-note {
                 font-size: 0.85em;
             }
 
             .nav-links {
                 display: flex;
                 flex-direction: column;
-                gap: 5px;
+                gap: 10px;
             }
 
             .nav-links a {
-                display: block; 
-                width: 100%; 
+                display: block;
+                width: 100%;
                 margin: 5px 0;
                 box-sizing: border-box;
             }
         }
-        /* --- END: MEDIA QUERIES FOR MOBILE --- */
 
+        /* --- END: MEDIA QUERIES --- */
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Welcome to the Simple To-Do Application </h1>
+        <h1>Welcome to the Simple To-Do Application</h1>
 
         <div class="project-info">
             <p>This is a full-stack project built using **Node.js, Express, and MongoDB** for the backend,
@@ -128,11 +131,14 @@
             ⚠️ **Developer Note:** As this is a personal portfolio project, please be aware that **Shahid Khan**, the
             developer, has database access and can view the data you enter.
         </div>
+
         <p>Please log in or register to begin managing your tasks securely.</p>
 
         <div class="nav-links">
             <a href="/login">Login</a>
             <a href="/register">Register</a>
+            <a href="/todolist" class="todolist-btn">Go to To-Do List</a>
+            <!-- Optional: if you want it available even when not logged in -->
         </div>
     </div>
 </body>

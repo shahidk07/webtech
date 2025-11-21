@@ -29,7 +29,11 @@ app.controller('ListController', function ($scope, $http, $filter) {
     $scope.loadTasks = function () {
         $http.get(API_URL) // Server reads userId from session
             .then(function (response) {
-                $scope.allTasks = response.data || [];
+                $scope.allTasks = response.data.tasks || [];
+                // Save username returned from the server
+                $scope.user = {
+                    username: response.data.username
+                };
             })
             .catch(function (error) {
                 console.error("Error loading tasks:", error);
