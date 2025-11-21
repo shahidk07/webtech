@@ -1,59 +1,54 @@
 body {
     margin: 0;
     padding: 0;
-    /* Removed justify/align-items from body because they are set correctly inside the flexbox properties */
-    color: white;
+    color: #E5E5E5;
     display: flex;
-    justify-content: center; /* Set centering on the flex container */
-    align-items: center; /* Set centering on the flex container */
-    background-color: rgb(67, 73, 87);
-    /* Added min-height to center vertically */
+    justify-content: center;
+    align-items: center;
+    background-color: #0E0E10;
     min-height: 100vh;
 }
 
-/* 1. Main Container ID Change */
 #list {
-    background-color: #202124;
+    background-color: #1A1A1D;
     height: 700px;
     width: 500px;
-    border: 2px solid black;
+    border: 1px solid #2A2A2E;
     padding: 40px;
     margin: 30px;
     border-radius: 2%;
 }
 
-/* 2. List Title Input */
 #title {
     border: none;
     width: 95%;
     height: 50px;
     padding-left: 15px;
-    border-bottom: 2px solid aqua;
+    border-bottom: 1px solid #2A2A2E;
     margin: 2px;
     outline: none;
-    color: white;
+    color: #E5E5E5;
     font-weight: 700;
     font-size: x-large;
     font-family: 'roboto', sans-serif;
     background: transparent;
 }
 
-/* 3. Reusable Task Item Container Class (Used for ng-repeat container) */
-.task-item-container { /* Replaces the old .checkbox class */
-    background-color: rgb(67, 73, 87);
+.task-item-container {
+    background-color: #1A1A1D;
     width: 95%;
     height: 40px;
-    margin: 20px 0; /* Adjusted margin to prevent pushing outside */
+    margin: 20px 0;
     padding: 1%;
     display: flex;
     align-items: center;
     gap: 10px;
     border-radius: 5px;
+    border: 1px solid #2A2A2E;
 }
 
-/* Styling for the text input inside the task item */
 .task-item-container input[type="text"]::placeholder {
-    color: #aaa;
+    color: #9A9A9A;
 }
 
 .task-item-container input[type="text"] {
@@ -63,10 +58,9 @@ body {
     background: transparent;
     border: none;
     outline: none;
-    color: white; /* Ensure text is visible */
+    color: #E5E5E5;
 }
 
-/* Styling for the checkbox inside the task item */
 .task-item-container input[type="checkbox"] {
     border-radius: 5px;
     width: 10%;
@@ -74,15 +68,14 @@ body {
     margin: 1%;
 }
 
-/* Styling for the remove button */
 .task-item-container button {
     width: 28px;
     height: 28px;
     margin: 1%;
     border-radius: 50%;
     border: none;
-    background-color: #ff4d4d;
-    color: white;
+    background-color: #B43B3B;
+    color: #E5E5E5;
     font-size: x-large;
     font-weight: bold;
     display: flex;
@@ -91,47 +84,64 @@ body {
     cursor: pointer;
 }
 
-/* 4. 'Add Task' Button Wrapper/Container ID */
-#append-wrapper { /* Replaces the old #append div */
+.task-item-container button:hover {
+    background-color: #9F3333;
+}
+
+#append-wrapper {
     font-size: medium;
     margin: 15px;
     display: flex;
     justify-content: center;
-    /* Since we are styling the button, these styles move to the button itself */
 }
 
-/* 5. 'Add Task' Button */
-#add-task-button { /* Replaces the button inside the old #append */
-    color: aqua;
-    box-shadow: none;
-    background: none;
+#add-task-button {
+    color: #E5E5E5;
+    background: #303036;
     border: none;
     cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-/* 6. Clear All Button */
-#clearall {
-    height:3%;
-    border-radius:4px;
-    border: none;
+#add-task-button:hover {
+    background: #3E3E45;
 }
+
+#clearall {
+    height: 4%;
+    border-radius: 4px;
+    border: none;
+    background: #303036;
+    color: #E5E5E5;
+    padding: 5px 10px;
+}
+
+#clearall:hover {
+    background: #3E3E45;
+}
+
 #header-bar {
     display: flex;
+    border-radius: 4px;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background: #f4f4f4;
+    padding: 5px;
+    background: #1A1A1D;
     font-size: 18px;
+    border-bottom: 1px solid #2A2A2E;
+    color: #9A9A9A;
 }
 
 #logout-btn {
-    background: #d9534f;
+    background: #303036;
     border: none;
     padding: 8px 12px;
-    color: white;
+    color: #E5E5E5;
     border-radius: 5px;
     cursor: pointer;
 }
+
 #logout-btn:hover {
-    background: #c9302c;
+    background: #3E3E45;
 }

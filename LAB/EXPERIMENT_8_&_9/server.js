@@ -53,7 +53,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.session.userId) {
         next(); // User is authenticated
     } else {
-        res.status(401).json({ error: "Unauthorized: Please log in." });
+        res.status(401).json({ error: "Unauthorized: Please log in or register." });
     }
 }
 
