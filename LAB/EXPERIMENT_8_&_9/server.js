@@ -1,4 +1,6 @@
-require('dotenv').config()
+require('dotenv').config();
+const UserModel=require('./models/User.js')
+const connectDB=require('./config/db.js')
 const express =require('express');
 const app=express();
 const mongoose=require('mongoose');
@@ -7,7 +9,6 @@ const PORT =process.env.PORT||3000;
 const bcrypt = require('bcrypt');
 const fs=require('fs');
 const path=require('path');
-const { message, retry } = require('statuses');
 
 // Middleware to parse incoming JSON payloads
 app.use(express.json());
@@ -16,7 +17,7 @@ app.use(express.json());
 // It maps the URL path /static to the directory containing your static files.
 // The browser will request files like http://localhost:3000/static/style.css
 // and Express will look for them in ./TODO_LIST/style.css
-app.use('/static', express.static(path.join(__dirname, 'TODO_LIST')));
+app.use('/static', express.static(path.join(__dirname,'frontend', 'TODO_LIST')));
 
 // Middleware to parse incoming URL-encoded payloads (used by standard HTML forms)
 app.use(express.urlencoded({ extended: true }));
@@ -33,65 +34,14 @@ app.use(session({
 
 
 
-const loginfile=path.join(__dirname,'./login.html')
-const registerfile=path.join(__dirname,'./register.html');
-const todolistfile = path.join(__dirname, 'TODO_LIST', 'index.html');
-const homepagefile=path.join(__dirname,'./homepage.html');
+const loginfile=path.join(__dirname,'frontend','login.html')
+const registerfile=path.join(__dirname,'frontend','register.html');
+const todolistfile = path.join(__dirname,'frontend' ,'TODO_LIST', 'index.html');
+const homepagefile=path.join(__dirname,'frontend','homepage.html');
 
 
-
-mongoose.connect(process.env.atlasuri).then(()=>{
-    console.log('atlas db connected')
-}).catch(err=> console.error(`ERROR REATED TO MONGO DB FOUND`));
-
-
-const taskItemSchema=new mongoose.Schema({
-    tasks:{type:String,required:true},
-    ischecked:{type:Boolean},
-    createdAt:{type:Date,default:Date.now},
-    // mongodb automatically creates an id for each task is needed to delete a specific task
-})
-
-
-
-
-//creating a schema with Embedded todos
-const userSchema=new mongoose.Schema({
-    username:{type:String,required:true},
-    password:{type:String,required:true}, 
-    todos:[taskItemSchema]
-});
-
-//pre is a hook that allows us to modify the document before saving it to d.b.
-// 'save' refers to Mongoose save event
-//next is a callback function called when middleware work is done as flow goes to next middleware or route
-//whenever you use next mongoose automatically creates a callback function you just have to name it, here i named it as next
-userSchema.pre('save',async function (next) {
-
-    // block is mainly used when updating
-    if (!this.isModified('password')){
-        return next()
-    }
-     
-
-    //this is the main part for hashing password
-    try {
-        const salt =await bcrypt.genSalt(10);
-        this.password= await bcrypt.hash(this.password,salt);
-        next()
-    }
-    //catch block executes if any line in try block fails
-    // next(err) this aborts the database operation
-    catch(err){
-        next(err);
-    }
-    
-})
-//make sure to create model only after using pre-hook
-
-
-const UserModel=mongoose.model('User',userSchema);
-
+//connect the sever to database
+connectDB();
 
 
 
@@ -307,5 +257,7 @@ app.listen(PORT, () => {
     console.log(`Server started. Available endpoints are:
         1: http://localhost:${PORT}/
         2. http://localhost:${PORT}/register
-        3. http://localhost:${PORT}/login`);
+        3. http://localhost:${PORT}/login
+        4. http://localhost:${PORT}/todolist`)
+        
 });

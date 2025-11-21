@@ -12,8 +12,8 @@
 <body>
     <div id="list" ng-controller="ListController">
         <input type="text" id="title" placeholder="Title" ng-model="listTitle">
-    
-        <select name="select" id="select" ng-model="sortBy" ng-change="sortList()"> Sort By
+        <label for="select" class="sort-label">Arrange By:</label>
+        <select name="select" id="select" ng-model="sortBy" ng-change="sortList()">
             <option value="-createdAt">Time-Newest</option>
             <option value="createdAt">Time-Oldest</option>
         </select>

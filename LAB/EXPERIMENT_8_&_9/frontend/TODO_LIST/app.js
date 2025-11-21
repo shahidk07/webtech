@@ -13,7 +13,7 @@ app.controller('ListController', function ($scope, $http, $filter) {
     $scope.allTasks = [];
     $scope.sortBy = '-createdAt'; // Default sort by newest (used by ng-orderBy)
     // Corrected API URL variable name to match usage
-    const API_URL = 'http://localhost:3000/api/todos/';
+    const API_URL = '/api/todos/';
 
     // --- Data Watcher ---
     // Keeps activeTasks and completedTasks synchronized with allTasks
