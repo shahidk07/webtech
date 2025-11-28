@@ -8,7 +8,6 @@ const path=require('path');
 const bcrypt=require('bcrypt');
 const PORT=process.env.PORT||5000;
 require('dotenv').config();
-const { stringify } = require('postcss');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
  connectDB();
