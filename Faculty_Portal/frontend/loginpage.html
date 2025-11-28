@@ -9,22 +9,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
 </head>
-
 <body ng-controller="ctrl" class="flex justify-center items-start bg-black">
-    <form name="reg" ng-submit="submitForm()"
+    <form name="log" ng-submit="submitForm()"
         class="flex flex-col items-center bg-blue-300 opacity-100 h-[600px] w-[450px] my-[50px] rounded-[7px] p-8 space-y-4">
 
-        <h1 class="text-2xl mb-6 font-bold">Register</h1>
-        <label for="name" class="w-full text-left font-medium">Name:</label>
-        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="username" ng-model="name" minlength="3" type="text"
-            class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
-
+        <h1 class="text-2xl mb-6 font-bold">Login</h1>
         <label for="username" class="w-full text-left font-medium">Username:</label>
         <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="username" ng-model="username" minlength="3"
             type="text" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
 
         <span class="text-red-500 text-sm w-full text-center"
-            ng-show="reg.username.$invalid && log.username.$touched && log.username.$dirty">Please enter a valid
+            ng-show="log.username.$invalid && log.username.$touched && log.username.$dirty">Please enter a valid
             username</span>
 
         <label for="password" class="w-full text-left font-medium">Password:</label>
@@ -35,33 +30,34 @@
             ng-show="log.password.$invalid && log.password.$touched && log.password.$dirty">Sorry! Your password is too
             short</span>
 
-        <button type="submit" ng-click="submitForm()"
-            class="h-[40px] w-[120px] bg-white rounded-[8px] mt-12 font-semibold hover:bg-gray-100 transition duration-150">SUBMIT</button>
+        <button type="submit"  class="h-[40px] w-[120px] bg-white rounded-[8px] mt-12 font-semibold hover:bg-gray-100 transition duration-150">SUBMIT</button>
     </form>
     <script>
         const app = angular.module('app', []);
         app.controller('ctrl',($scope,$http)=>{
             $scope.username='';
-            $scope.name='';
             $scope.password='';
-                     const newuser=[
-            {name:$scope.name,username:$scope.username,password:$scope.password}
-         ];
          $scope.submitForm=()=>{
            if($scope.log.$valid){
-            $http.post('/register',newuser).then(
+            const newuser = { username: $scope.username, password: $scope.password };
+            $http.post('/login',newuser).then(
                 function(response){
-                    console.log(`Login successful for ${newuser.name}`);
-                    window.location.href('/dashboard')
+                    console.log(`Login successful for ${newuser.username}`);
+                    window.location.href='/dashboard';
                     $scope.username = '';
-                    $scope.name = '';
                     $scope.password = '';
-                    $scope.reg.$setPristine();
+                    $scope.log.$setPristine();
                 }
             ).catch(function(err){
                 console.log(`Error while Login ${err.data}`)
                 alert(`${err.data} Please fill the form properly`);
             });
+           }
+            else {
+                   // If form is invalid, force validation messages to show
+                   $scope.log.username.$setTouched();
+                   $scope.log.password.$setTouched();
+               
            }
          }
         })

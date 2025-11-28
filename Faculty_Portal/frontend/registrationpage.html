@@ -16,7 +16,7 @@
 
         <h1 class="text-2xl mb-6 font-bold">Register</h1>
         <label for="name" class="w-full text-left font-medium">Name:</label>
-        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="username" ng-model="name" minlength="3" type="text"
+        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="name" ng-model="name" minlength="3" type="text"
             class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
 
         <label for="username" class="w-full text-left font-medium">Username:</label>
@@ -44,11 +44,10 @@
             $scope.username = '';
             $scope.name = '';
             $scope.password = '';
-            const newuser = [
-                { name: $scope.name, username: $scope.username, password: $scope.password }
-            ];
             $scope.submitForm = () => {
                 if ($scope.reg.$valid) {
+                    const newuser = { name: $scope.name, username: $scope.username, password: $scope.password }
+                    
                     $http.post('/register', newuser).then(
                         function (response) {
                             console.log(`Login successful for ${newuser.name}`);

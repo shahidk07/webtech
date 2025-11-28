@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Portal - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            /* Allows wrapping on smaller screens */
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #007bff;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s;
+            min-width: 150px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Style for the dashboard link, maybe a different color if applicable */
+        .dashboard-link {
+            background-color: #28a745;
+            /* Green color */
+        }
+
+        .dashboard-link:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>👨‍🏫 Welcome to the Faculty Student Performance Portal 👩‍🏫</h1>
+
+        <p>
+            This portal allows faculty members to manage student records, view marks, and track overall academic
+            performance. Please **Login** to access your dashboard or **Register** if you are a new user.
+        </p>
+
+        <div class="links-container">
+            <a href="/register" class="action-button">📝 Register</a>
+
+            <a href="/login" class="action-button">🔑 Login</a>
+
+            <a href="/dashboard" class="action-button dashboard-link">📊 Go to Dashboard</a>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 0.9em; color: #666;">
+            *Access to the Dashboard is restricted to authenticated users only.
+        </p>
+    </div>
+</body>
+
+</html>
