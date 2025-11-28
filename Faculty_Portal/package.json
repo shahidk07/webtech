@@ -1,8 +1,5 @@
 {
   "name": "faculty_portal",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
@@ -17,8 +14,14 @@
     "@tailwindcss/cli": "^4.1.17",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
+    "express": "^4.19.2",      
     "express-session": "^1.18.2",
     "mongoose": "^8.19.3",
     "tailwindcss": "^4.1.17"
+  },
+  "devDependencies": {         
+    "concurrently": "^8.2.2",   
+    "nodemon": "^3.1.4",        
+    "browser-sync": "^3.0.0"    
   }
 }
