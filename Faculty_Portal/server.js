@@ -1,3 +1,4 @@
+//server.js
 const express=require('express');
 const session=require('express-session');
 const mongoose=require('mongoose');
@@ -11,6 +12,15 @@ require('dotenv').config();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
  connectDB();
+
+ // Add cookie-parser import at the top
+const cookieParser = require('cookie-parser');
+// ... other imports ...
+
+// ... inside the app setup (after connectDB()) ...
+
+// Use cookie-parser
+app.use(cookieParser());
 
 const SESSION_SECRET = process.env.SESSION_SECRET ||'a_very_long_cryptographically_secure_string_fallback';
 app.use(session({
@@ -172,12 +182,123 @@ app.post('/register',async(req,res)=>{
 
 
 
+// server.js (Get All Students Route)
+
+app.get('/students', ensureAuthenticated, async (req, res) => {
+    try {
+        const students = await studentModel.find().select('sapid name marks -_id').sort({ sapid: 1 });
+        return res.status(200).json(students);
+    } catch (error) {
+        console.error("Error fetching students:", error);
+        return res.status(500).json({ status: 500, error: "Internal server error fetching student list." });
+    }
+});
 
 
 
+// server.js (Add/Update Student Marks Route)
+
+// Route to add or update student marks. Protected by ensureAuthenticated.
+app.post('/students', ensureAuthenticated, async (req, res) => {
+    const { sapid, name, marks } = req.body;
+
+    // 400 Bad Request check for missing data
+    if (!sapid || !name || marks === undefined || marks < 0 || marks > 100) {
+        return res.status(400).json({ status: 400, error: "Invalid student details: SAPID, Name, and Marks (0-100) are required." });
+    }
+
+    try {
+        // Use findOneAndUpdate with upsert:true to handle both creation and update.
+        // If a document with the sapid exists, update it. If not, create a new one.
+        const updatedStudent = await studentModel.findOneAndUpdate(
+            { sapid: sapid }, // Search criteria
+            { name: name, marks: marks }, // Data to set
+            { new: true, upsert: true, runValidators: true } // Options: return new doc, create if not found, run schema validators
+        );
+
+        console.log(`Student data saved/updated: ${updatedStudent.sapid}`);
+        return res.status(200).json({ status: 200, message: "Student marks saved successfully.", student: updatedStudent });
+
+    } catch (error) {
+        console.error("Error saving student data:", error);
+        // Handle potential validation errors
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({ status: 400, error: error.message });
+        }
+        return res.status(500).json({ status: 500, error: "Internal server error saving student data." });
+    }
+});
 
 
 
+// server.js (Statistics API Route)
+
+app.get('/api/stats', ensureAuthenticated, async (req, res) => {
+    try {
+        // Use MongoDB aggregation to count students in each range
+        const stats = await studentModel.aggregate([
+            {
+                $group: {
+                    _id: null, // Group all documents together
+                    // 0-45%
+                    range_0_45: { $sum: { $cond: [{ $lte: ["$marks", 45] }, 1, 0] } },
+                    // 46-65%
+                    range_46_65: { $sum: { $cond: [{ $and: [{ $gt: ["$marks", 45] }, { $lte: ["$marks", 65] }] }, 1, 0] } },
+                    // 66-75%
+                    range_66_75: { $sum: { $cond: [{ $and: [{ $gt: ["$marks", 65] }, { $lte: ["$marks", 75] }] }, 1, 0] } },
+                    // 76-85%
+                    range_76_85: { $sum: { $cond: [{ $and: [{ $gt: ["$marks", 75] }, { $lte: ["$marks", 85] }] }, 1, 0] } },
+                    // 86-100%
+                    range_86_100: { $sum: { $cond: [{ $gt: ["$marks", 85] }, 1, 0] } }
+                }
+            },
+            {
+                $project: {
+                    _id: 0, // Exclude the _id field
+                    range_0_45: 1,
+                    range_46_65: 1,
+                    range_66_75: 1,
+                    range_76_85: 1,
+                    range_86_100: 1,
+                }
+            }
+        ]);
+
+        // stats[0] will contain the single object with all the counts
+        if (stats.length > 0) {
+            return res.status(200).json(stats[0]);
+        } else {
+            // Return zeros if no students are found
+            return res.status(200).json({
+                range_0_45: 0,
+                range_46_65: 0,
+                range_66_75: 0,
+                range_76_85: 0,
+                range_86_100: 0
+            });
+        }
+    } catch (error) {
+        console.error("Error generating stats:", error);
+        return res.status(500).json({ status: 500, error: "Internal server error calculating statistics." });
+    }
+});
+
+
+
+// server.js (Logout Route)
+
+app.get('/logout', (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Logout error:', err);
+            return res.status(500).json({ error: 'Could not log out.' });
+        }
+        // Redirect to login page after successful logout
+        res.clearCookie('connect.sid'); // Clear the session cookie (if using default name)
+        res.redirect('/');
+    });
+});
 
 
 
