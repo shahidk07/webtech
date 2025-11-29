@@ -3,428 +3,102 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Teacher Dashboard: Merged File</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - My Application</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            /* Dark background */
+            color: #e0e0e0;
+            /* Light text */
             margin: 0;
-            padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
-        }
-
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        .logout-btn {
-            color: white;
-            text-decoration: none;
-            background-color: #dc3545;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .logout-btn:hover {
-            background-color: #c82333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-            display: grid;
-            gap: 20px;
-            grid-template-columns: 1fr;
-        }
-
-        @media (min-width: 900px) {
-            .container {
-                grid-template-columns: 1fr 2fr;
-                grid-template-areas:
-                    "form charts"
-                    "list list";
-            }
-
-            .marks-entry {
-                grid-area: form;
-            }
-
-            .charts-container {
-                grid-area: charts;
-            }
-
-            .student-list {
-                grid-area: list;
-            }
-        }
-
-        .card {
-            background-color: white;
+            min-height: 100vh;
+            flex-direction: column;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Forms */
-        .marks-entry form label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .marks-entry form input[type="text"],
-        .marks-entry form input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
             box-sizing: border-box;
         }
 
-        .marks-entry form button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .message {
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        /* Charts */
-        .charts-container {
-            display: flex;
-            gap: 20px;
-        }
-
-        .chart-card {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .container {
+            background-color: #2a2a2a;
+            /* Slightly lighter dark for container */
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             text-align: center;
-        }
-
-        /* Tables */
-        .student-list table {
+            max-width: 500px;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
         }
 
-        .student-list th,
-        .student-list td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
+        h1 {
+            color: #ffffff;
+            /* Pure white for main heading */
+            margin-bottom: 25px;
+            font-size: 2.5em;
         }
 
-        .student-list th {
-            background-color: #007bff;
-            color: white;
+        p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        .nav-links a {
+            display: block;
+            /* Each link on its own line */
+            background-color: #4a4a4a;
+            /* Darker button background */
+            color: #ffffff;
+            padding: 15px 25px;
+            margin: 15px 0;
+            /* Spacing between links */
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-links a:hover {
+            background-color: #5a5a5a;
+            /* Lighter on hover */
+            transform: translateY(-2px);
+            /* Slight lift effect */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .nav-links a {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
         }
     </style>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <h1>Teacher Dashboard: Student Performance</h1>
-        <a href="/logout" class="logout-btn">Logout</a>
-    </header>
-
-    <main class="container">
-
-        <section class="card marks-entry">
-            <h2>Enter/Update Student Marks</h2>
-            <form id="marksForm">
-                <label for="sapid">SAP ID:</label>
-                <input type="text" id="sapid" name="sapid" required>
-
-                <label for="name">Student Name:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="marks">Marks (0-100):</label>
-                <input type="number" id="marks" name="marks" min="0" max="100" required>
-
-                <button type="submit">Save Marks</button>
-                <p id="message" class="message"></p>
-            </form>
-        </section>
-
-        <section class="charts-container">
-            <div class="card chart-card">
-                <h3>Performance Distribution (Pie Chart)</h3>
-                <svg id="pieChart"></svg>
-            </div>
-            <div class="card chart-card">
-                <h3>Numerical Count (Bar Chart)</h3>
-                <svg id="barChart"></svg>
-            </div>
-        </section>
-
-        <section class="card student-list">
-            <h2>Current Student Records</h2>
-            <table id="studentsTable">
-                <thead>
-                    <tr>
-                        <th>SAP ID</th>
-                        <th>Name</th>
-                        <th>Marks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </section>
-
-    </main>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const marksForm = document.getElementById('marksForm');
-            const studentsTableBody = document.querySelector('#studentsTable tbody');
-            const messageElement = document.getElementById('message');
-
-            // --- Chart Dimensions ---
-            const width = 450, height = 450;
-            const margin = { top: 30, right: 30, bottom: 60, left: 60 };
-
-            // --- Utility: Format API Data for D3 ---
-            function formatStats(apiStats) {
-                return [
-                    { label: '0-45%', range: 'range_0_45', value: apiStats.range_0_45 || 0 },
-                    { label: '46-65%', range: 'range_46_65', value: apiStats.range_46_65 || 0 },
-                    { label: '66-75%', range: 'range_66_75', value: apiStats.range_66_75 || 0 },
-                    { label: '76-85%', range: 'range_76_85', value: apiStats.range_76_85 || 0 },
-                    { label: '86-100%', range: 'range_86_100', value: apiStats.range_86_100 || 0 }
-                ];
-            }
-
-            // --- D3.js Functions ---
-
-            // 1. Bar Chart Function
-            function drawBarChart(data) {
-                d3.select('#barChart').selectAll('*').remove(); // Clear previous chart
-
-                const svg = d3.select('#barChart')
-                    .attr('width', width + margin.left + margin.right)
-                    .attr('height', height + margin.top + margin.bottom)
-                    .append('g')
-                    .attr('transform', `translate(${margin.left},${margin.top})`);
-
-                // Scales
-                const x = d3.scaleBand()
-                    .range([0, width])
-                    .domain(data.map(d => d.label))
-                    .padding(0.2);
-
-                const y = d3.scaleLinear()
-                    .domain([0, d3.max(data, d => d.value) * 1.1]) // Max value + 10%
-                    .range([height, 0]);
-
-                // Bars
-                svg.selectAll('.bar')
-                    .data(data)
-                    .enter().append('rect')
-                    .attr('class', 'bar')
-                    .attr('x', d => x(d.label))
-                    .attr('y', d => y(d.value))
-                    .attr('width', x.bandwidth())
-                    .attr('height', d => height - y(d.value))
-                    .attr('fill', '#4682B4'); // Steel Blue
-
-                // Labels on bars
-                svg.selectAll('.bar-label')
-                    .data(data)
-                    .enter().append('text')
-                    .attr('class', 'bar-label')
-                    .attr('x', d => x(d.label) + x.bandwidth() / 2)
-                    .attr('y', d => y(d.value) - 5)
-                    .attr('text-anchor', 'middle')
-                    .text(d => d.value);
-
-                // Axes
-                svg.append('g')
-                    .attr('transform', `translate(0,${height})`)
-                    .call(d3.axisBottom(x));
-
-                svg.append('g')
-                    .call(d3.axisLeft(y).tickFormat(d3.format('d')));
-
-                // Y-axis label
-                svg.append('text')
-                    .attr('transform', 'rotate(-90)')
-                    .attr('y', 0 - margin.left)
-                    .attr('x', 0 - (height / 2))
-                    .attr('dy', '1em')
-                    .style('text-anchor', 'middle')
-                    .text('Number of Students');
-
-                // X-axis label
-                svg.append('text')
-                    .attr('transform', `translate(${width / 2}, ${height + margin.bottom - 10})`)
-                    .style('text-anchor', 'middle')
-                    .text('Marks Range');
-            }
-
-            // 2. Pie Chart Function
-            function drawPieChart(data) {
-                d3.select('#pieChart').selectAll('*').remove(); // Clear previous chart
-
-                const radius = Math.min(width, height) / 2;
-                const color = d3.scaleOrdinal()
-                    .domain(data.map(d => d.label))
-                    .range(d3.schemeCategory10);
-
-                const svg = d3.select('#pieChart')
-                    .attr('width', width)
-                    .attr('height', height)
-                    .append('g')
-                    .attr('transform', `translate(${width / 2}, ${height / 2})`);
-
-                const pie = d3.pie()
-                    .value(d => d.value)
-                    .sort(null);
-
-                const arc = d3.arc()
-                    .innerRadius(0)
-                    .outerRadius(radius * 0.8);
-
-                // Draw the arcs
-                const arcs = svg.selectAll('.arc')
-                    .data(pie(data.filter(d => d.value > 0)))
-                    .enter().append('g')
-                    .attr('class', 'arc');
-
-                arcs.append('path')
-                    .attr('d', arc)
-                    .attr('fill', d => color(d.data.label));
-
-                // Add text labels
-                arcs.append('text')
-                    .attr('transform', d => `translate(${arc.centroid(d)})`)
-                    .attr('text-anchor', 'middle')
-                    .style('font-size', '12px')
-                    .text(d => {
-                        const total = d3.sum(data, item => item.value);
-                        if (total === 0) return '';
-                        const percent = ((d.data.value / total) * 100).toFixed(1);
-                        return `${percent}%`;
-                    });
-
-                // Add legend/labels outside
-                const legend = svg.selectAll('.legend')
-                    .data(data)
-                    .enter().append('g')
-                    .attr('class', 'legend')
-                    .attr('transform', (d, i) => `translate(${radius + 20}, ${i * 20 - radius + 20})`);
-
-                legend.append('rect')
-                    .attr('width', 18)
-                    .attr('height', 18)
-                    .attr('fill', d => color(d.label));
-
-                legend.append('text')
-                    .attr('x', 24)
-                    .attr('y', 9)
-                    .attr('dy', '.35em')
-                    .text(d => d.label);
-            }
-
-            // --- Data Fetching & Rendering ---
-
-            async function fetchDataAndRender() {
-                try {
-                    // 1. Fetch Students List
-                    const studentsResponse = await fetch('/students');
-                    if (studentsResponse.status === 401) return; // Authentication handled by middleware
-
-                    const students = await studentsResponse.json();
-
-                    // Populate table
-                    studentsTableBody.innerHTML = students.map(s => `
-                        <tr>
-                            <td>${s.sapid}</td>
-                            <td>${s.name}</td>
-                            <td>${s.marks}</td>
-                        </tr>
-                    `).join('');
-
-                    // 2. Fetch Stats
-                    const statsResponse = await fetch('/api/stats');
-                    const apiStats = await statsResponse.json();
-
-                    const chartData = formatStats(apiStats);
-
-                    // 3. Render Charts
-                    drawBarChart(chartData);
-                    drawPieChart(chartData);
-
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-            }
-
-            // Initial load of data
-            fetchDataAndRender();
-
-
-            // --- Form Submission Handler ---
-
-            marksForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const formData = new FormData(marksForm);
-                const data = Object.fromEntries(formData.entries());
-                data.marks = parseInt(data.marks);
-
-                try {
-                    const response = await fetch('/students', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok) {
-                        messageElement.textContent = result.message;
-                        messageElement.style.color = 'green';
-                        marksForm.reset();
-                        fetchDataAndRender(); // Re-render charts and table with new data
-                    } else {
-                        messageElement.textContent = 'Error: ' + result.message;
-                        messageElement.style.color = 'red';
-                    }
-                } catch (error) {
-                    messageElement.textContent = 'A network error occurred.';
-                    messageElement.style.color = 'red';
-                }
-            });
-
-        });
-    </script>
+    <div class="container">
+        <h1>Welcome</h1>
+        <p>
+            Manage student records efficiently and securely. Please select an option below to proceed.
+        </p>
+        <div class="nav-links">
+            <a href="/dashboard">Go to Dashboard</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        </div>
+    </div>
 </body>
 
 </html>
