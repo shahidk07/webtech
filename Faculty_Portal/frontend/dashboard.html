@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        /* Basic styles for the dashboard to make it readable */
+     
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -48,7 +48,7 @@
         .main-content {
             display: flex;
             max-width: 1200px;
-            /* Reverted to a slightly smaller max-width */
+       
             margin: 20px auto;
             flex-wrap: wrap;
         }
@@ -64,12 +64,12 @@
 
         .form-section {
             flex: 1 1 300px;
-            /* Smaller flex basis for the form */
+
         }
 
         .chart-section {
             flex: 2 1 700px;
-            /* Reduced size for the chart section */
+           
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
@@ -77,13 +77,13 @@
 
         .chart-container {
             margin: 20px 5px;
-            /* MODIFIED: Reduced horizontal margin to 5px */
+           
             text-align: center;
         }
 
         .chart-container svg {
             overflow: visible;
-            /* Allows chart elements to extend beyond the box */
+          
         }
 
         form input,
@@ -120,7 +120,6 @@
             background-color: #f2f2f2;
         }
 
-        /* Message area styling */
         #messageArea {
             padding: 10px;
             border-radius: 4px;
@@ -163,12 +162,11 @@
         </div>
 
         <div class="chart-section">
-            <!-- Pie Chart Container -->
+     
             <div class="chart-container">
                 <h3>Pie Chart (Distribution)</h3>
                 <svg id="pieChart"></svg>
-            </div>
-            <!-- Bar Chart Container -->
+            </
             <div class="chart-container">
                 <h3>Bar Chart (Student Count)</h3>
                 <svg id="barChart"></svg>
@@ -178,7 +176,6 @@
     </div>
 
     <script>
-        // Data structure for charts
         const ranges = [
             { label: "0–45%", key: "range_0_45", color: "#e41a1c" },
             { label: "46–65%", key: "range_46_65", color: "#377eb8" },
@@ -192,9 +189,9 @@
         const messageArea = document.getElementById('messageArea');
 
 
-        // --- CLIENT-SIDE LOGIC ---
+        // CLIENT-SIDE LOGIC
 
-        // 1. Fetch Students and Populate Table (GET /students)
+        // Fetch Students and Populate Table (GET /students)
         async function fetchStudents() {
             try {
                 const response = await fetch('/students');
@@ -226,7 +223,7 @@
                 marks: parseInt(document.getElementById('marks').value)
             };
 
-            // Basic client-side mark validation
+            //  mark validation
             if (data.marks < 0 || data.marks > 100) {
                 messageArea.textContent = 'Error: Marks must be between 0 and 100.';
                 messageArea.style.backgroundColor = '#f8d7da';
@@ -377,7 +374,7 @@
         }
 
 
-        // 5. D3 Bar Chart Implementation (Retained from previous working code)
+        // 5. D3 Bar Chart Implementation 
         function drawBarChart(data) {
             const margin = { top: 20, right: 30, bottom: 80, left: 40 };
             const width = 450 - margin.left - margin.right;
