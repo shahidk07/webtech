@@ -300,7 +300,70 @@ app.get('/logout', (req, res) => {
     });
 });
 
+// Student API (GET /students - List all)
+app.get('/students', ensureAuthenticated, async (req, res) => {
+    try {
+        // Use StudentModel instead of studentModel (based on refactoring)
+        const students = await StudentModel.find().select('sapid name marks -_id').sort({ sapid: 1 });
+        return res.status(200).json(students);
+    } catch (error) {
+        console.error("Error fetching students:", error);
+        return res.status(500).json({ status: 500, error: "Internal server error fetching student list." });
+    }
+});
 
+// Student API (POST /students - Add/Update - logic is good)
+app.post('/students', ensureAuthenticated, async (req, res) => {
+    const { sapid, name, marks } = req.body;
+
+    if (!sapid || !name || marks === undefined || marks < 0 || marks > 100) {
+        return res.status(400).json({ status: 400, error: "Invalid student details: SAPID, Name, and Marks (0-100) are required." });
+    }
+
+    try {
+        const updatedStudent = await StudentModel.findOneAndUpdate(
+            { sapid: sapid },
+            { name: name, marks: marks },
+            { new: true, upsert: true, runValidators: true }
+        );
+        return res.status(200).json({ status: 200, message: "Student marks saved successfully.", student: updatedStudent });
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({ status: 400, error: error.message });
+        }
+        return res.status(500).json({ status: 500, error: "Internal server error saving student data." });
+    }
+});
+
+// Statistics API (GET /api/stats - logic using aggregation is excellent)
+app.get('/api/stats', ensureAuthenticated, async (req, res) => {
+    try {
+        const stats = await StudentModel.aggregate([ // Use StudentModel
+            {
+                $group: {
+                    _id: null,
+                    range_0_45: { $sum: { $cond: [{ $lte: ["$marks", 45] }, 1, 0] } },
+                    range_46_65: { $sum: { $cond: [{ $and: [{ $gt: ["$marks", 45] }, { $lte: ["$marks", 65] }] }, 1, 0] } },
+                    range_66_75: { $sum: { $cond: [{ $and: [{ $gt: ["$marks", 65] }, { $lte: ["$marks", 75] }] }, 1, 0] } },
+                    range_76_85: { $sum: { $cond: [{ $and: [{ $gt: ["$marks", 75] }, { $lte: ["$marks", 85] }] }, 1, 0] } },
+                    range_86_100: { $sum: { $cond: [{ $gt: ["$marks", 85] }, 1, 0] } }
+                }
+            },
+            { $project: { _id: 0, range_0_45: 1, range_46_65: 1, range_66_75: 1, range_76_85: 1, range_86_100: 1 } }
+        ]);
+
+        if (stats.length > 0) {
+            return res.status(200).json(stats[0]);
+        } else {
+            return res.status(200).json({
+                range_0_45: 0, range_46_65: 0, range_66_75: 0, range_76_85: 0, range_86_100: 0
+            });
+        }
+    } catch (error) {
+        console.error("Error generating stats:", error);
+        return res.status(500).json({ status: 500, error: "Internal server error calculating statistics." });
+    }
+});
 
 
 
@@ -313,4 +376,3 @@ app.listen(PORT,()=>{
 
 })
 
-// write a program using D3 that updates list items in an unordered list using D3JS 

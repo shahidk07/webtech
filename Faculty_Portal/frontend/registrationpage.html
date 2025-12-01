@@ -1,69 +1,69 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Faculty Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-
 </head>
 
-<body ng-controller="ctrl" class="flex justify-center items-start bg-black">
-    <form name="reg" ng-submit="submitForm()"
+<body class="flex justify-center items-start bg-black">
+    <form id="registrationForm"
         class="flex flex-col items-center bg-blue-300 opacity-100 h-[600px] w-[450px] my-[50px] rounded-[7px] p-8 space-y-4">
 
         <h1 class="text-2xl mb-6 font-bold">Register</h1>
+
         <label for="name" class="w-full text-left font-medium">Name:</label>
-        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="name" ng-model="name" minlength="3" type="text"
+        <input id="name" name="name" type="text" minlength="3" required
             class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
 
         <label for="username" class="w-full text-left font-medium">Username:</label>
-        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="username" ng-model="username" minlength="3"
-            type="text" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
-
-        <span class="text-red-500 text-sm w-full text-center"
-            ng-show="reg.username.$invalid && log.username.$touched && log.username.$dirty">Please enter a valid
-            username</span>
-
-        <label for="password" class="w-full text-left font-medium">Password:</label>
-        <input required ng-model="password" type="password" minlength="7" name="password"
+        <input id="username" name="username" type="text" minlength="3" required
             class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
 
-        <span class="text-red-500 text-sm w-full text-center"
-            ng-show="log.password.$invalid && log.password.$touched && log.password.$dirty">Sorry! Your password is too
-            short</span>
+        <label for="password" class="w-full text-left font-medium">Password:</label>
+        <input id="password" name="password" type="password" minlength="7" required
+            class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
 
-        <button type="submit" 
+        <p id="registerMessage" class="text-red-600 text-sm w-full text-center"></p>
+
+        <button type="submit"
             class="h-[40px] w-[120px] bg-white rounded-[8px] mt-12 font-semibold hover:bg-gray-100 transition duration-150">SUBMIT</button>
+
+        <p class="text-sm pt-4">Already have an account? <a href="/login" class="text-blue-700 underline">Login here</a>
+        </p>
     </form>
+
     <script>
-        const app = angular.module('app', []);
-        app.controller('ctrl', ($scope, $http) => {
-            $scope.username = '';
-            $scope.name = '';
-            $scope.password = '';
-            $scope.submitForm = () => {
-                if ($scope.reg.$valid) {
-                    const newuser = { name: $scope.name, username: $scope.username, password: $scope.password }
-                    
-                    $http.post('/register', newuser).then(
-                        function (response) {
-                            console.log(`Login successful for ${newuser.name}`);
-                            window.location.href='/dashboard'
-                            $scope.username = '';
-                            $scope.name = '';
-                            $scope.password = '';
-                            $scope.reg.$setPristine();
-                        }
-                    ).catch(function (err) {
-                        console.log(`Error while Login ${err.data}`)
-                        alert(`${err.data} Please fill the form properly`);
-                    });
-                }
+        document.getElementById('registrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageArea = document.getElementById('registerMessage');
+            messageArea.textContent = ''; // Clear previous messages
+
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, username, password })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // Registration successful
+                messageArea.textContent = 'Registration successful! Redirecting...';
+                messageArea.style.color = 'green';
+                // Redirect immediately after successful registration
+                window.location.href = '/dashboard';
+            } else {
+                // Registration failed
+                messageArea.textContent = result.error || 'Registration failed.';
+                messageArea.style.color = 'red';
             }
-        })
+        });
     </script>
 </body>
 

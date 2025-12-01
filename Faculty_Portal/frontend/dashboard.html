@@ -6,20 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="input.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         /* Basic styles for the dashboard to make it readable */
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             background-color: #f4f4f9;
         }
 
-        .container {
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: #2a2a2a;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .header a button {
+            background-color: #e41a1c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header a button:hover {
+            background-color: #c90e10;
+        }
+
+
+        .main-content {
             display: flex;
             max-width: 1200px;
-            margin: auto;
+            /* Reverted to a slightly smaller max-width */
+            margin: 20px auto;
             flex-wrap: wrap;
         }
 
@@ -29,23 +59,31 @@
             margin: 10px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .form-section {
-            flex: 1 1 350px;
+            flex: 1 1 300px;
+            /* Smaller flex basis for the form */
         }
 
         .chart-section {
-            flex: 2 1 600px;
+            flex: 2 1 700px;
+            /* Reduced size for the chart section */
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
         }
 
         .chart-container {
-            margin: 20px;
+            margin: 20px 5px;
+            /* MODIFIED: Reduced horizontal margin to 5px */
             text-align: center;
+        }
+
+        .chart-container svg {
+            overflow: visible;
+            /* Allows chart elements to extend beyond the box */
         }
 
         form input,
@@ -65,15 +103,28 @@
             cursor: pointer;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+        #studentTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
-        .header h1 {
-            margin: 0;
+        #studentTable th,
+        #studentTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #studentTable th {
+            background-color: #f2f2f2;
+        }
+
+        /* Message area styling */
+        #messageArea {
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -85,7 +136,7 @@
         <a href="/logout"><button>Logout</button></a>
     </div>
 
-    <div class="container">
+    <div class="main-content">
 
         <div class="form-section">
             <h2>📝 Student Marks Entry</h2>
@@ -95,7 +146,7 @@
                 <input type="number" id="marks" placeholder="Marks (0-100)" min="0" max="100" required>
                 <button type="submit">Add / Update Marks</button>
             </form>
-            <p id="messageArea" style="margin-top: 10px;"></p>
+            <div id="messageArea" style="margin-top: 10px;"></div>
 
             <h2>📋 All Students</h2>
             <table id="studentTable">
@@ -112,10 +163,12 @@
         </div>
 
         <div class="chart-section">
+            <!-- Pie Chart Container -->
             <div class="chart-container">
                 <h3>Pie Chart (Distribution)</h3>
                 <svg id="pieChart"></svg>
             </div>
+            <!-- Bar Chart Container -->
             <div class="chart-container">
                 <h3>Bar Chart (Student Count)</h3>
                 <svg id="barChart"></svg>
@@ -125,272 +178,280 @@
     </div>
 
     <script>
-        // JAVASCRIPT LOGIC GOES HERE (Step 2 and 3)
+        // Data structure for charts
+        const ranges = [
+            { label: "0–45%", key: "range_0_45", color: "#e41a1c" },
+            { label: "46–65%", key: "range_46_65", color: "#377eb8" },
+            { label: "66–75%", key: "range_66_75", color: "#4daf4a" },
+            { label: "76–85%", key: "range_76_85", color: "#984ea3" },
+            { label: "86–100%", key: "range_86_100", color: "#ff7f00" }
+        ];
 
-            // Step 2: Marks Entry & Table
-            const messageArea = document.getElementById('messageArea');
-            const studentTableBody = document.querySelector('#studentTable tbody');
-            const marksForm = document.getElementById('marksForm');
+        const studentTableBody = document.querySelector('#studentTable tbody');
+        const marksForm = document.getElementById('marksForm');
+        const messageArea = document.getElementById('messageArea');
 
-            // Helper function to fetch and display student data
-            async function fetchStudents() {
-                try {
-                    const response = await fetch('/students');
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch student data.');
-                    }
-                    const students = await response.json();
 
-                    // Clear existing rows
-                    studentTableBody.innerHTML = '';
+        // --- CLIENT-SIDE LOGIC ---
 
-                    // Populate table
-                    students.forEach(student => {
-                        const row = studentTableBody.insertRow();
-                        row.insertCell().textContent = student.sapid;
-                        row.insertCell().textContent = student.name;
-                        row.insertCell().textContent = student.marks;
-                    });
-
-                } catch (error) {
-                    console.error("Error fetching student list:", error);
+        // 1. Fetch Students and Populate Table (GET /students)
+        async function fetchStudents() {
+            try {
+                const response = await fetch('/students');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch student data.');
                 }
-            }
+                const students = await response.json();
 
-            // Form Submission Handler (POST /students)
-            marksForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const data = {
-                    sapid: parseInt(document.getElementById('sapid').value),
-                    name: document.getElementById('name').value,
-                    marks: parseInt(document.getElementById('marks').value)
-                };
-
-                try {
-                    const response = await fetch('/students', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok) {
-                        messageArea.textContent = result.message;
-                        messageArea.style.color = 'green';
-                        marksForm.reset(); // Clear form on success
-                        await fetchStudents(); // Refresh table
-                        await updateCharts(); // **Crucial: Refresh Charts**
-                    } else {
-                      // Use result.error, or fall back to result.message, or a generic string
-                        const errorMessage = result.error || result.message || `Server responded with status: ${response.status}`;
-                        messageArea.textContent = `Error: ${errorMessage}`;
-                        messageArea.style.color = 'red';
-                    }
-                } catch (error) {
-                    messageArea.textContent = 'A network error occurred.';
-                    messageArea.style.color = 'red';
-                }
-            });
-
-            // Initial load of students
-            document.addEventListener('DOMContentLoaded', () => {
-                fetchStudents();
-                updateCharts();
-            });
-
-
-
-
-            // ... (Your Marks Entry, fetchStudents, and form submission code from Step 2) ...
-
-                // Initial load of students
-                document.addEventListener('DOMContentLoaded', () => {
-                    fetchStudents();
-                    updateCharts();
+                studentTableBody.innerHTML = '';
+                students.forEach(student => {
+                    const row = studentTableBody.insertRow();
+                    row.insertCell().textContent = student.sapid;
+                    row.insertCell().textContent = student.name;
+                    row.insertCell().textContent = student.marks;
                 });
 
-                // ====================================================================
-                // START OF D3.js CHART CODE BLOCK (Place your provided code here)
-                // ====================================================================
+            } catch (error) {
+                console.error("Error fetching student list:", error);
+            }
+        }
 
-                const ranges = [
-                    { label: "0-45%", key: "range_0_45", color: "#e41a1c" },
-                    { label: "46-65%", key: "range_46_65", color: "#377eb8" },
-                    { label: "66-75%", key: "range_66_75", color: "#4daf4a" },
-                    { label: "76-85%", key: "range_76_85", color: "#984ea3" },
-                    { label: "86-100%", key: "range_86_100", color: "#ff7f00" }
-                ];
+        // 2. Marks Entry Form Submission (POST /students)
+        marksForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-                // 3.1: Data Fetching and Chart Update Orchestrator
-                async function updateCharts() {
-                    try {
-                        const response = await fetch('/api/stats');
-                        if (!response.ok) throw new Error('Failed to fetch statistics.');
+            const data = {
+                sapid: parseInt(document.getElementById('sapid').value),
+                name: document.getElementById('name').value,
+                marks: parseInt(document.getElementById('marks').value)
+            };
 
-                        const stats = await response.json();
+            // Basic client-side mark validation
+            if (data.marks < 0 || data.marks > 100) {
+                messageArea.textContent = 'Error: Marks must be between 0 and 100.';
+                messageArea.style.backgroundColor = '#f8d7da';
+                messageArea.style.color = '#721c24';
+                return;
+            }
 
-                        // Convert the stats object into an array D3 can use
-                        const chartData = ranges.map(range => ({
-                            label: range.label,
-                            value: stats[range.key] || 0, // Ensure value is 0 if key is missing
-                            color: range.color
-                        }));
+            try {
+                const response = await fetch('/students', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
 
-                        drawPieChart(chartData);
-                        drawBarChart(chartData);
+                const result = await response.json();
 
-                    } catch (error) {
-                        console.error("Error updating charts:", error);
+                if (response.ok) {
+                    messageArea.textContent = result.message;
+                    messageArea.style.backgroundColor = '#d4edda';
+                    messageArea.style.color = '#155724';
+                    marksForm.reset();
+                    await fetchStudents();
+                    await updateCharts();
+                } else {
+                    const errorMessage = result.error || result.message || `Server responded with status: ${response.status}`;
+                    messageArea.textContent = `Error: ${errorMessage}`;
+                    messageArea.style.backgroundColor = '#f8d7da';
+                    messageArea.style.color = '#721c24';
+                }
+            } catch (error) {
+                messageArea.textContent = 'A network error occurred.';
+                messageArea.style.backgroundColor = '#f8d7da';
+                messageArea.style.color = '#721c24';
+            }
+        });
+
+        // 3. Data Fetching and Chart Update Orchestrator (GET /api/stats)
+        async function updateCharts() {
+            try {
+                const response = await fetch('/api/stats');
+                if (!response.ok) throw new Error('Failed to fetch statistics.');
+
+                const stats = await response.json();
+
+                // Convert the stats object into an array D3 can use
+                const chartData = ranges.map(range => ({
+                    label: range.label,
+                    value: stats[range.key] || 0,
+                    color: range.color
+                }));
+
+                drawPieChart(chartData);
+                drawBarChart(chartData);
+
+            } catch (error) {
+                console.error("Error updating charts:", error);
+            }
+        }
+
+        // 4. D3 Pie Chart Implementation (FIXED FOR CLARITY)
+        function drawPieChart(data) {
+            // New dimensions for better fit
+            const width = 450, height = 450, margin = 40;
+            const radius = Math.min(width, height) / 2 - margin;
+            const total = data.reduce((sum, d) => sum + d.value, 0);
+
+            d3.select("#pieChart").selectAll("*").remove();
+
+            // Create the main SVG group, positioned centrally
+            const svg = d3.select("#pieChart")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width / 2 - 50}, ${height / 2})`); // Shift left slightly for legend
+
+            const pie = d3.pie()
+                .value(d => d.value)
+                .sort(null);
+
+            const arc = d3.arc()
+                .innerRadius(0)
+                .outerRadius(radius * 0.8); // Slightly smaller radius to keep labels in check
+
+            // Arc for positioning outer labels
+            const outerArc = d3.arc()
+                .innerRadius(radius * 0.9)
+                .outerRadius(radius * 0.9);
+
+            // Create the arcs (groups for each slice)
+            const arcs = svg.selectAll("arc")
+                .data(pie(data))
+                .enter()
+                .append("g")
+                .attr("class", "arc");
+
+            // Append the colored path for the slice
+            arcs.append("path")
+                .attr("d", arc)
+                .attr("fill", d => d.data.color)
+                .attr("stroke", "white")
+                .style("stroke-width", "2px")
+                .style("opacity", 0.8);
+
+
+            // Add percentage labels near the center for larger slices
+            arcs.append("text")
+                .attr("transform", d => {
+                    // Only show text if slice is big enough (e.g., > 8%)
+                    const percentage = (d.data.value / total) * 100;
+                    if (percentage > 8) {
+                        return `translate(${arc.centroid(d)})`;
                     }
-                }
-
-                // 3.2: D3 Pie Chart Implementation
-                function drawPieChart(data) {
-                    // ... (The rest of the drawPieChart function content) ...
-                    const total = data.reduce((sum, d) => sum + d.value, 0);
-                    const width = 300, height = 300, margin = 40;
-                    const radius = Math.min(width, height) / 2 - margin;
-
-                    d3.select("#pieChart").selectAll("*").remove(); // Clear previous chart
-
-                    const svg = d3.select("#pieChart")
-                        .attr("width", width)
-                        .attr("height", height)
-                        .append("g")
-                        .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-                    const pie = d3.pie()
-                        .value(d => d.value)
-                        .sort(null);
-
-                    const arc = d3.arc()
-                        .innerRadius(0)
-                        .outerRadius(radius);
-
-                    // Create the arcs (groups for each slice)
-                    const arcs = svg.selectAll("arc")
-                        .data(pie(data))
-                        .enter()
-                        .append("g")
-                        .attr("class", "arc");
-
-                    // Append the colored path for the slice
-                    arcs.append("path")
-                        .attr("d", arc)
-                        .attr("fill", d => d.data.color)
-                        .attr("stroke", "white")
-                        .style("stroke-width", "2px");
-
-                    // Add text labels inside the slices
-                    arcs.append("text")
-                        .attr("transform", d => `translate(${arc.centroid(d)})`)
-                        .attr("text-anchor", "middle")
-                        .text(d => {
-                            const percentage = (d.data.value / total) * 100;
-                            return d.data.value > 0 ? `${percentage.toFixed(1)}%` : ''; // Show percentage if count > 0
-                        })
-                        .style("fill", "white")
-                        .style("font-size", "10px");
-
-                    // Add legend (optional, but good practice)
-                    const legend = d3.select("#pieChart").append("g")
-                        .attr("transform", `translate(${width - 150}, ${20})`);
-
-                    legend.selectAll("legend-item")
-                        .data(data)
-                        .enter()
-                        .append("g")
-                        .attr("transform", (d, i) => `translate(0, ${i * 20})`)
-                        .each(function (d) {
-                            d3.select(this).append("rect")
-                                .attr("width", 10)
-                                .attr("height", 10)
-                                .attr("fill", d.color);
-                            d3.select(this).append("text")
-                                .attr("x", 15)
-                                .attr("y", 9)
-                                .text(`${d.label} (${d.value})`)
-                                .style("font-size", "12px")
-                                .attr("text-anchor", "start");
-                        });
-                }
-
-                // 3.3: D3 Bar Chart Implementation
-                function drawBarChart(data) {
-                    // ... (The rest of the drawBarChart function content) ...
-                    const margin = { top: 20, right: 30, bottom: 80, left: 40 };
-                    const width = 450 - margin.left - margin.right;
-                    const height = 300 - margin.top - margin.bottom;
-
-                    d3.select("#barChart").selectAll("*").remove(); // Clear previous chart
-
-                    const svg = d3.select("#barChart")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .append("g")
-                        .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-                    // X axis (Ranges)
-                    const x = d3.scaleBand()
-                        .domain(data.map(d => d.label))
-                        .range([0, width])
-                        .padding(0.2);
-
-                    svg.append("g")
-                        .attr("transform", `translate(0, ${height})`)
-                        .call(d3.axisBottom(x))
-                        .selectAll("text")
-                        .attr("transform", "translate(-10,0)rotate(-45)") // Rotate labels for fit
-                        .style("text-anchor", "end");
-
-                    // Y axis (Count)
-                    const yMax = d3.max(data, d => d.value) || 1; // Ensure yMax is at least 1
-                    const y = d3.scaleLinear()
-                        .domain([0, yMax])
-                        .range([height, 0]);
-
-                    svg.append("g")
-                        .call(d3.axisLeft(y).tickFormat(d3.format("d"))); // Force integer ticks
-
-                    // Bars
-                    svg.selectAll("bar")
-                        .data(data)
-                        .enter()
-                        .append("rect")
-                        .attr("x", d => x(d.label))
-                        .attr("y", d => y(d.value))
-                        .attr("width", x.bandwidth())
-                        .attr("height", d => height - y(d.value))
-                        .attr("fill", d => d.color);
-
-                    // Labels on top of bars
-                    svg.selectAll(".bar-label")
-                        .data(data)
-                        .enter()
-                        .append("text")
-                        .attr("class", "bar-label")
-                        .attr("x", d => x(d.label) + x.bandwidth() / 2)
-                        .attr("y", d => y(d.value) - 5)
-                        .attr("text-anchor", "middle")
-                        .text(d => d.value)
-                        .style("font-size", "12px");
-
-                    // Y-axis label
-                    svg.append("text")
-                        .attr("transform", "rotate(-90)")
-                        .attr("y", 0 - margin.left)
-                        .attr("x", 0 - (height / 2))
-                        .attr("dy", "1em")
-                        .style("text-anchor", "middle")
-                        .text("Number of Students");
-                }
+                    return "translate(0,0)"; // Keep off-screen if too small
+                })
+                .attr("text-anchor", "middle")
+                .text(d => {
+                    const percentage = (d.data.value / total) * 100;
+                    return d.data.value > 0 && percentage > 8 ? `${percentage.toFixed(1)}%` : '';
+                })
+                .style("fill", "white")
+                .style("font-size", "12px")
+                .style("font-weight", "bold");
 
 
-                // ====================================================================
-                // END OF D3.js CHART CODE BLOCK
-                // ====================================================================
+            // Add Legend to the side
+            const legendX = radius + 60; // Position legend to the right of the chart
+            const legend = d3.select("#pieChart").select("g")
+                .append("g")
+                .attr("transform", `translate(${legendX}, ${-height / 2 + 20})`);
+
+            legend.selectAll("legend-item")
+                .data(data)
+                .enter()
+                .append("g")
+                .attr("transform", (d, i) => `translate(0, ${i * 25})`)
+                .each(function (d) {
+                    d3.select(this).append("rect")
+                        .attr("width", 15)
+                        .attr("height", 15)
+                        .attr("fill", d.color);
+                    d3.select(this).append("text")
+                        .attr("x", 20)
+                        .attr("y", 12)
+                        .text(`${d.label} (${d.value})`)
+                        .style("font-size", "14px")
+                        .attr("text-anchor", "start");
+                });
+        }
+
+
+        // 5. D3 Bar Chart Implementation (Retained from previous working code)
+        function drawBarChart(data) {
+            const margin = { top: 20, right: 30, bottom: 80, left: 40 };
+            const width = 450 - margin.left - margin.right;
+            const height = 300 - margin.top - margin.bottom;
+
+            d3.select("#barChart").selectAll("*").remove(); // Clear previous chart
+
+            const svg = d3.select("#barChart")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+            // X axis (Ranges)
+            const x = d3.scaleBand()
+                .domain(data.map(d => d.label))
+                .range([0, width])
+                .padding(0.2);
+
+            svg.append("g")
+                .attr("transform", `translate(0, ${height})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Y axis (Count)
+            const yMax = d3.max(data, d => d.value) || 1;
+            const y = d3.scaleLinear()
+                .domain([0, yMax])
+                .range([height, 0]);
+
+            svg.append("g")
+                .call(d3.axisLeft(y).tickFormat(d3.format("d")));
+
+            // Bars
+            svg.selectAll("bar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("x", d => x(d.label))
+                .attr("y", d => y(d.value))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d.value))
+                .attr("fill", d => d.color);
+
+            // Labels on top of bars
+            svg.selectAll(".bar-label")
+                .data(data)
+                .enter()
+                .append("text")
+                .attr("class", "bar-label")
+                .attr("x", d => x(d.label) + x.bandwidth() / 2)
+                .attr("y", d => y(d.value) - 5)
+                .attr("text-anchor", "middle")
+                .text(d => d.value)
+                .style("font-size", "12px");
+
+            // Y-axis label
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .text("Number of Students");
+        }
+
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchStudents();
+            updateCharts();
+        });
 
 
     </script>
