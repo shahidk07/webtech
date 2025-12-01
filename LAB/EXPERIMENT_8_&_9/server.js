@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config(); //used to load environment variables from a .env file
 const UserModel=require('./models/User.js')
 const connectDB=require('./config/db.js')
 const express =require('express');
@@ -7,7 +7,6 @@ const mongoose=require('mongoose');
 const session = require('express-session');
 const PORT =process.env.PORT||3000;
 const bcrypt = require('bcrypt');
-const fs=require('fs');
 const path=require('path');
 
 // Middleware to parse incoming JSON payloads
