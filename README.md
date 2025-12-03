@@ -8,18 +8,23 @@
 ---
 
 ## Contents
-This repo contains all my **Advanced Web Tech** coursework:
+This repo contains all my **Advanced Web Tech** coursework, covering the **MERN stack foundation** and **Data Visualization**:
 * **HTML, CSS, JAVASCRIPT**
 * **JQuery Library**
 * **AngularJS Framework**
+* **Node.js** (Backend Runtime Environment)
+* **MongoDB** (NoSQL Database)
+* **D3.js Library** (Data-Driven Documents)
 
-*(See  `/LAB/README.md` file for detailed explanations.)*
+*(See `/LAB/README.md` in the Lab folder  for detailed explanations of LAB experiments.)*
 
 ---
 
-## Projects
+## Projects 🚀
 1.  To-Do List with JQuery
 2.  To-Do List with AngularJS
+3.  **Full-Stack To-Do List Application** (Using **Node.js**, Express, and **MongoDB**)
+4.  **Faculty Portal App** (Data Visualization using **D3.js**)
 
 ---
 

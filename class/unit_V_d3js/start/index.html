@@ -8,6 +8,21 @@
 
 </head>
 <body>
-    
+   <h1>GETTING STARTED WITH D3JS</h1>
+   <ul>
+   </ul>
+<svg id="chart"></svg>
+   <script>
+    const dataset = [30, 86, 150, 80, 200, 60, 120];
+        const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+            const svg = d3.select("#chart")
+                .attr("viewBox", `0 0 600 400`); //takes four values x,y,height,width x->minimu x value generally 0
+                // y-> minimum y value ,generally 0 , height->internal viewable height area
+
+
+    </script>
+
 </body>
 </html>
