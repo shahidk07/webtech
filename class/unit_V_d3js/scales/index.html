@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+</head>
+
+<body>
+    <h1>GETTING STARTED WITH D3JS</h1>
+    <ul>
+    </ul>
+    <script>
+        const dataset = [30, 46, 15, 80, 20, 100, 30];
+        var height = 500;
+            var width = 500;
+           var barwidth=50
+        var canvas = d3.select("body")
+                .append("svg")
+                .attr("height", height)
+                .attr("width", width)
+                .style("background-color", "blue")
+
+        var heightscale = d3.scaleLinear().domain([1, 400]).range([0,height-100]);
+
+            const bars=canvas.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("height",function(d){return heightscale(d)})
+.attr("fill","red")
+             .attr("width",barwidth)
+
+            .attr("x",function(d,i){
+                return i*barwidth*1.4
+            })
+             .attr("y",function(d,i){
+                return height-heightscale(d)
+             })
+
+    </script>
+
+</body>
+
+</html>
