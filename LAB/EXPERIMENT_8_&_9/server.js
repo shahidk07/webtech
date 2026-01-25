@@ -77,13 +77,16 @@ app.post('/register',async(req,res)=>{
     else {
         const result=await UserModel.create({
             username:formdata.username,
-            password:formdata.password});
+            password:formdata.password,
+            name:formdata.name
+        
+        });
 
             //log user in immediately after registration
             const user = await UserModel.findOne({username:formdata.username});
             req.session.userId=user._id;
             console.log('user registered successfully' +result)
-            return res.status(200).json({message:"Registration successful"});
+            return res.status(200).json({message:"Registration successful "});
         
     }
   
@@ -104,8 +107,8 @@ try{
     const isMatch=await bcrypt.compare(formdata.password,user.password);
     if(isMatch){
         req.session.userId=user._id;
-        console.log(`Login successful for ${formdata.username}`)
-        return res.status(200).json({message:"Login successful"})
+        console.log(`Login successful for ${user.name}`)
+        return res.status(200).json({message:"Login successful ",name:user.name})
 
         // When your server sends the 200 OK response, the express-session middleware automatically 
         // sends a cookie and attaches the Session ID (SID) to the response headers via the Set-Cookie command.
@@ -142,6 +145,7 @@ app.get('/api/todos',ensureAuthenticated,async(req,res)=>{
         }
         return res.status(200).json({
             username: user.username,
+            name:user.name,
             tasks: user.todos || []
         });
     }catch(error){

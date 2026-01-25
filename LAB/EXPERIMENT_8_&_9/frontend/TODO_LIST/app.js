@@ -41,7 +41,8 @@ app.controller('ListController', function ($scope, $http, $filter) {
                 $scope.allTasks = response.data.tasks || [];
                 // Save username returned from the server
                 $scope.user = {
-                    username: response.data.username
+                    username: response.data.username,
+                    name:response.data.name
                 };
             })
             .catch(function (error) {

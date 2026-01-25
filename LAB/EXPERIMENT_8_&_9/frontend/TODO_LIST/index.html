@@ -14,8 +14,9 @@
     
     <div id="list" ng-controller="ListController">
         <div id="header-bar">
-            <span>Logged in as: <strong>{{ user.username }}</strong></span>
-            <button id="logout-btn" ng-click="logout()">Logout</button>
+            <button class="header-btns" ng-click="goBack()">← Back</button>
+            <span>Logged in as: <strong>{{ user.name }}</strong></span>
+            <button class="header-btns" ng-click="logout()">Logout</button>
         </div>
         <br>
         <input type="text" id="title" placeholder="Title" ng-model="listTitle">
@@ -29,7 +30,7 @@
             <button ng-click="addItem()" id="add-task-button">+ List Item</button>
         </div>
         <h2>To Do ({{ activeTasks.length }})</h2>
-        <div>
+        <div id="alllist_container">
             <div ng-repeat="item in activeTasks | orderBy:sortBy track by item._id" class="task-item-container">
         
                 <input type="checkbox" ng-model="item.ischecked" ng-change="updateTask(item)">
