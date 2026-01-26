@@ -67,6 +67,17 @@ app.get('/register',async(req,res)=>{
  app.get('/login',async(req,res)=>{
      res.sendFile(loginfile);})
 
+//middleware to check login status and display html message
+
+app.get("/api/check-auth",(req,res)=>{
+   if(req.session.userId){
+    res.json({loggedIn:true})
+   } 
+   else{
+    res.json({loggedIn:false})
+   }
+})
+
 
 
 app.post('/register',async(req,res)=>{
@@ -210,7 +221,7 @@ app.put('/api/todos/task/:taskId', ensureAuthenticated, async (req, res) => {
         res.status(500).json({ error: "Failed to update task." });
     }
 });
-
+   
 
 app.delete('/api/todos/task/:taskId', ensureAuthenticated, async (req, res) => {
     const { taskId } = req.params;

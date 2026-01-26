@@ -18,6 +18,10 @@ app.controller('ListController', function ($scope, $http, $filter) {
                 console.error("Logout error:", error);
             });
     };
+
+     $scope.goBack=function(){
+        window.location.href = '/';
+     }
     // --- Data Setup ---
     $scope.allTasks = [];
     $scope.sortBy = '-createdAt'; // Default sort by newest (used by ng-orderBy)

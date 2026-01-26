@@ -13,6 +13,14 @@
 
         <h1 class="text-2xl mb-6 font-bold">Registration</h1>
 
+        <label for="name" class="w-full text-left font-medium">Name:</label>
+        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="name" ng-model="name" minlength="3" type="text"
+            placeholder="Ex: Anakin Skywalker" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
+        
+        <span class="text-red-500 text-sm w-full text-center"
+            ng-show="reg.username.$invalid && reg.username.$touched && reg.username.$dirty">Please enter a valid
+            username</span>
+
         <label for="username" class="w-full text-left font-medium">Username:</label>
         <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="username" ng-model="username" minlength="3" type="text"
             placeholder="Ex: Vader124" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
@@ -39,6 +47,7 @@ const app=angular.module('app',[]);
 app.controller('ctrl',($scope,$http)=>{
     $scope.username = '';
     $scope.password = '';
+    $scope.name='';
 
     $scope.submitForm =function(){
 
@@ -48,7 +57,8 @@ app.controller('ctrl',($scope,$http)=>{
     // using this object to send data w.r.t mongoose schema
     const userData={
         username:$scope.username,
-        password:$scope.password
+        password:$scope.password,
+        name:$scope.name
     };
 
     $http.post('/register',userData)
@@ -59,6 +69,7 @@ app.controller('ctrl',($scope,$http)=>{
         window.location.href = '/todolist';
     $scope.username = '';
     $scope.password = '';
+    $scope.name='';
     $scope.reg.$setPristine(); // to remove all the previous validations state
 
 }
