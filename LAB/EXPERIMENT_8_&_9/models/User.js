@@ -2,18 +2,24 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const taskItemSchema=new mongoose.Schema({
-    tasks:{type:String,required:true},
-    ischecked:{type:Boolean},
+    task:{type:String,required:true},
+    isChecked:{type:Boolean},
     createdAt:{type:Date,default:Date.now},
     // mongodb automatically creates an id for each task is needed to delete a specific task
+});
+
+const theListSchema= new mongoose.Schema({
+    title:{type:String,required:true},
+    tasks:[taskItemSchema]
 })
+
 
 //creating a schema with Embedded todos
 const userSchema=new mongoose.Schema({
     name:{type:String,required:true},
-    username:{type:String,required:true},
+    username:{type:String,required:true,unique:true},
     password:{type:String,required:true}, 
-    todos:[taskItemSchema]
+    theList:theListSchema
 });
 
 //pre is a hook that allows us to modify the document before saving it to d.b.
