@@ -85,23 +85,35 @@ app.post('/register',async(req,res)=>{
     if (!formdata || typeof formdata !== 'object' || Object.keys(formdata).length === 0) {
         return res.status(400).json({ error: "EMPTY DATA ENTERED" });
     }
-    else {
-        const result=await UserModel.create({
-            username:formdata.username,
-            password:formdata.password,
-            name:formdata.name
-        
-        });
-
+    try {
+        const existingUser = await UserModel.findOne({username:formdata.username});
+        if(!existingUser){
+            const newUser=await UserModel.create({
+                username:formdata.username,
+                password:formdata.password,
+                name:formdata.name
+            
+            });
             //log user in immediately after registration
-            const user = await UserModel.findOne({username:formdata.username});
-            req.session.userId=user._id;
-            console.log('user registered successfully' +result)
+         req.session.userId=newUser._id;
+            console.log('user registered successfully' +newUser)
             return res.status(200).json({message:"Registration successful "});
+        }
+        else{
+            return res.status(409).json({ error: "User already exists" });
+
+        }
+      
+
+         
         
     }
+    catch (err) {
+        console.error("Registration error:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+
   
-})
+}})
 
 //login handling
 app.post('/login',async(req,res)=>{
@@ -276,6 +288,43 @@ app.delete('/api/todos/all', ensureAuthenticated, async (req, res) => {
         return res.status(500).json({ error: "Failed to clear tasks." });
     }
 });
+
+app.put('/api/todos/title',ensureAuthenticated,async(req,res)=>{
+
+const userId=req.session.userId;
+const {title}=req.body;
+if(title==undefined){
+    return res.status(400).json({error:"Title field missing"})
+}
+try{
+    await   UserModel.findByIdAndUpdate(userId,
+       { $set:{"theList.title":title}}
+    );
+    return res.status(200).json({title});
+}
+catch(err){
+    return res.status(500).json({error:"Failed to update title"})
+}
+
+}
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post('/logout', (req, res) => {
     req.session.destroy(err => {

@@ -8,20 +8,6 @@ app.config(function($httpProvider) {
 
 // Ensure $http and $filter are injected
 app.controller('ListController', function ($scope, $http, $filter) {
-
-    $scope.logout = function () {
-        $http.post('/logout')
-            .then(function (response) {
-                window.location.href = '/';
-            })
-            .catch(function (error) {
-                console.error("Logout error:", error);
-            });
-    };
-
-     $scope.goBack=function(){
-        window.location.href = '/';
-     }
     // --- Data Setup ---
     $scope.allTasks = [];
     $scope.sortBy = '-createdAt'; // Default sort by newest (used by ng-orderBy)
@@ -37,12 +23,38 @@ app.controller('ListController', function ($scope, $http, $filter) {
     }, true);
 
 
+$scope.saveTitle=function(){
+    $http.put('api/todos/title',{
+        title:$scope.listTitle||""
+    }).
+    catch(err=>console.log("Title save failed"))
+};
+
+
+
+    $scope.logout = function () {
+        $http.post('/logout')
+            .then(function (response) {
+                window.location.href = '/';
+            })
+            .catch(function (error) {
+                console.error("Logout error:", error);
+            });
+    };
+
+     $scope.goBack=function(){
+        window.location.href = '/';
+     }
+ 
+ 
+
     // 1. LOAD: Fetch Tasks on Startup
 
     $scope.loadTasks = function () {
         $http.get(API_URL) // Server reads userId from session
             .then(function (response) {
                 $scope.allTasks = response.data.tasks || [];
+                $scope.listTitle=response.data.title||"";
                 // Save username returned from the server
                 $scope.user = {
                     username: response.data.username,

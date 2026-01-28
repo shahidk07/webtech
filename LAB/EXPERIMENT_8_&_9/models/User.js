@@ -9,7 +9,7 @@ const taskItemSchema=new mongoose.Schema({
 });
 
 const theListSchema= new mongoose.Schema({
-    title:{type:String,required:true},
+    title:{type:String,default:""},//empty string allowed
     tasks:[taskItemSchema]
 })
 

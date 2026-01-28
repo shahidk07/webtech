@@ -14,29 +14,50 @@
         <h1 class="text-2xl mb-6 font-bold">Registration</h1>
 
         <label for="name" class="w-full text-left font-medium">Name:</label>
-        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="name" ng-model="name" minlength="3" type="text"
+        <input ng-pattern="/^[a-zA-Z\s.,'()\-]*$/" required name="name" ng-model="name" minlength="3" type="text"
             placeholder="Ex: Anakin Skywalker" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
-        
-        <span class="text-red-500 text-sm w-full text-center"
-            ng-show="reg.username.$invalid && reg.username.$touched && reg.username.$dirty">Please enter a valid
-            username</span>
+            <span class="text-red-500 text-sm" ng-show="reg.name.$error.minlength && reg.name.$touched">
+                Name must be at least 3 characters long.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.name.$error.pattern && reg.name.$touched">
+                Name can contain only letters
+                </span>
+
 
         <label for="username" class="w-full text-left font-medium">Username:</label>
-        <input ng-pattern="/^[a-zA-Z0-9\s.,'()\-]*$/" required name="username" ng-model="username" minlength="3" type="text"
-            placeholder="Ex: Vader124" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
+        <input ng-pattern="/^[a-zA-Z0-9_.]+$/" required name="username" ng-model="username" minlength="3" type="text"
+            placeholder="Ex: vader87" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
+            <span class="text-red-500 text-sm" ng-show="reg.username.$error.required && reg.username.$touched">
+                Username is required.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.username.$error.minlength && reg.username.$touched">
+                Username must be at least 3 characters long.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.username.$error.pattern && reg.username.$touched">
+                Use only letters, numbers, dots, or underscores (no spaces).
+            </span>
 
-        <span class="text-red-500 text-sm w-full text-center"
-            ng-show="reg.username.$invalid && reg.username.$touched && reg.username.$dirty">Please enter a valid
-            username</span>
 
         <label for="password" class="w-full text-left font-medium">Password:</label>
-        <input required ng-model="password" placeholder="Min Length - 7" type="password" minlength="7" name="password"
+        <input required ng-model="password" ng-pattern="/^\S+$/"
+         placeholder="Min Length - 7" type="password" minlength="7" name="password"
             class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
-
-        <span class="text-red-500 text-sm w-full text-center"
-            ng-show="reg.password.$invalid && reg.password.$touched && reg.password.$dirty">Sorry! Your password is too
-            short</span>
-
+            <span class="text-red-500 text-sm" ng-show="reg.password.$error.required && reg.password.$touched">
+                Password is required.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.password.$error.minlength && reg.password.$touched">
+                Password must be at least 7 characters long.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.password.$error.pattern && reg.password.$touched">
+                Password cannot contain spaces.
+            </span>
+        
+            <p class="mt-4 text-sm text-gray-700">
+                Already a user?
+                <a href="/login"
+                    class="ml-1 text-blue-600 font-semibold hover:text-blue-800 hover:underline transition duration-150">
+                    Login
+                </a>          </p>
         <button type="submit"
             class="h-[40px] w-[120px] bg-white rounded-[8px] mt-12 font-semibold hover:bg-gray-100 transition duration-150">SUBMIT</button>
     </form>
@@ -61,6 +82,7 @@ app.controller('ctrl',($scope,$http)=>{
         name:$scope.name
     };
 
+
     $http.post('/register',userData)
     .then(function(response){
     console.log('Registration successful:', response.data);
@@ -76,7 +98,7 @@ app.controller('ctrl',($scope,$http)=>{
 )
 .catch(function(error){
     console.error('Registration Failed',error.data);
-    alert('Registration Failed' +(error.data.error ))
+    alert(`Registration Failed!  ${error.data.error}`)
 
 });
 

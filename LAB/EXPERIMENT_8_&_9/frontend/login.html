@@ -29,7 +29,12 @@
     <span class="text-red-500 text-sm w-full text-center"
       ng-show="log.password.$invalid && log.password.$touched && log.password.$dirty">Sorry! Your password is too
       short</span>
-
+      <p class="mt-4 text-sm text-gray-700">
+        New User?
+        <a href="/register" class="ml-1 text-blue-600 font-semibold hover:text-blue-800 hover:underline transition duration-150">
+         Register now
+        </a>
+      </p>
     <button type="submit"
       class="h-[40px] w-[120px] bg-white rounded-[8px] mt-12 font-semibold hover:bg-gray-100 transition duration-150">SUBMIT</button>
   </form>
