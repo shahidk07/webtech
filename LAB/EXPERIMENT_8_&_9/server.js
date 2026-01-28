@@ -147,6 +147,8 @@ app.get('/todolist', ensureAuthenticated, async (req, res) => {
 });
 
 
+
+//works only when i first open the page
 app.get('/api/todos',ensureAuthenticated,async(req,res)=>{
     try {
         const userId =req.session.userId;
@@ -156,30 +158,35 @@ app.get('/api/todos',ensureAuthenticated,async(req,res)=>{
         }
         return res.status(200).json({
             username: user.username,
-            name:user.name,
-            tasks: user.todos || []
+            name: user.name,
+            title: user.theList?.title || "My Tasks",
+            tasks: user.theList?.tasks || []
         });
+        //question mark ensures the app doesn't crash when fields are empty..
+
+
     }catch(error){
         return res.status(500).json({error:"Failed to load tasks"})
     }
 });
 
 
+
 app.post('/api/todos', ensureAuthenticated, async (req, res) => {
-    const { tasks, ischecked } = req.body;
+    const { task, isChecked } = req.body;
     const userId = req.session.userId;
     
-    if (!tasks) {
+    if (!task) {
         return res.status(400).json({ error: "Task content is required." });
     }
 
     try {
-        const newTask = { tasks, ischecked, createdAt: new Date() };
+        const newTask = { task, isChecked, createdAt: new Date() };
 
         // Use $push to add the new task object to the 'todos' array
         const result = await UserModel.findByIdAndUpdate(
             userId,
-            { $push: { todos: newTask } },
+            { $push: { "theList.tasks": newTask } },
             { new: true } // Return the updated document
         ); 
    //this step is not necessary
@@ -187,8 +194,12 @@ app.post('/api/todos', ensureAuthenticated, async (req, res) => {
             return res.status(404).json({ error: "User not found to add task." });
         }
         
-        // Return the newly added task object from the array
-        return res.status(201).json(result.todos[result.todos.length - 1]);
+        return res.status(201).json(result.theList.tasks[result.theList.tasks.length - 1]);
+        
+        /* This is returned json is not used by client,
+        it just makes sure the api follows REST API create where api returns whatever it has created
+        Return the newly added task object from the array
+         *  */
     } catch (error) {
         return res.status(500).json({ error: "Failed to save task." });
     }
@@ -197,16 +208,16 @@ app.post('/api/todos', ensureAuthenticated, async (req, res) => {
 
 app.put('/api/todos/task/:taskId', ensureAuthenticated, async (req, res) => {
     const { taskId } = req.params;
-    const { tasks, ischecked } = req.body;
+    const { task, isChecked } = req.body;
     const userId = req.session.userId;
 
     try {
         const updatedUser = await UserModel.findOneAndUpdate(
-            { _id: userId, "todos._id": taskId },
+            { _id: userId, "theList.tasks._id": taskId },
             {
                 $set: {
-                    "todos.$.tasks": tasks,
-                    "todos.$.ischecked": ischecked
+                    "theList.tasks.$.task": task,
+                    "theList.tasks.$.isChecked": isChecked
                 }
             },
             { new: true }
@@ -230,7 +241,7 @@ app.delete('/api/todos/task/:taskId', ensureAuthenticated, async (req, res) => {
     try {
         const result = await UserModel.findByIdAndUpdate(
             userId,
-            { $pull: { todos: { _id: taskId } } },
+            { $pull: { "theList.tasks": { _id: taskId } } },
             { new: true }
         );
 
@@ -252,7 +263,7 @@ app.delete('/api/todos/all', ensureAuthenticated, async (req, res) => {
     try {
         const result = await UserModel.findByIdAndUpdate(
             userId,
-            { $set: { todos: [] } },  // clear array
+            { $set: { "theList.tasks": [] } },  // clear array
             { new: true }
         );
 

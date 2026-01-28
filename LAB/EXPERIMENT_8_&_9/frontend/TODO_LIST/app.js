@@ -32,8 +32,8 @@ app.controller('ListController', function ($scope, $http, $filter) {
     // Keeps activeTasks and completedTasks synchronized with allTasks
     $scope.$watch('allTasks', function (newTasks) {
         // NOTE: The $filter service must be injected into the controller function
-        $scope.activeTasks = $filter('filter')(newTasks, { ischecked: false });
-        $scope.completedTasks = $filter('filter')(newTasks, { ischecked: true });
+        $scope.activeTasks = $filter('filter')(newTasks, { isChecked: false });
+        $scope.completedTasks = $filter('filter')(newTasks, { isChecked: true });
     }, true);
 
 
@@ -63,16 +63,20 @@ app.controller('ListController', function ($scope, $http, $filter) {
     $scope.addItem = function () {
         const tempId = new Date().getTime().toString();
         // Use the correct field names from the schema
-        const newItem = { _id: tempId, tasks: "New item...", ischecked: false, createdAt: new Date() };
+        const newItem = { _id: tempId, task: "New item...", isChecked: false, createdAt: new Date() };
 
         $scope.allTasks.push(newItem);
 
-        $http.post(API_URL, { tasks: newItem.tasks, ischecked: newItem.ischecked })
+        $http.post(API_URL, { task: newItem.task, isChecked: newItem.isChecked })
             .then(function (response) {
-                $scope.loadTasks(); // Reload to get the official MongoDB _id
+                $scope.loadTasks(); /* 
+                Reload to get the official MongoDB _id this refetches entire list from the server after sending the newItem to server.
+                and this is not a page reload ,it is data reload
+                */
             })
             .catch(function (error) {
                 console.error("Error adding task:", error);
+                //if error occurs it uses filter() to remove the temporary task
                 $scope.allTasks = $scope.allTasks.filter(item => item._id !== tempId);
             });
     };
@@ -82,6 +86,9 @@ app.controller('ListController', function ($scope, $http, $filter) {
     $scope.updateTask = function (task) {
         // URL format: API_URL + 'task/' + task._id
         $http.put(API_URL + 'task/' + task._id, task)
+        .then(function(response){
+            $scope.loadTasks();
+        })
             .catch(function (error) {
                 console.error("Error updating task:", error);
                 $scope.loadTasks(); // Revert changes on failure
