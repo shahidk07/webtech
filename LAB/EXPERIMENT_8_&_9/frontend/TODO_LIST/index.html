@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <title>Document</title>
    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
@@ -14,14 +16,18 @@
     
     <div id="list" ng-controller="ListController">
         <div id="header-bar">
-            <button class="header-btns" ng-click="goBack()">← Back</button>
+            <button class="header-btns" ng-click="goBack()"><i class="fa-solid fa-house"></i> Home</button>
             <span>Logged in as: <strong>{{ user.name }}</strong></span>
-            <button class="header-btns" ng-click="logout()">Log out</button>
+            <button class="header-btns" ng-click="logout()">
+                Log out 
+                <i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
         <br>
         <input type="text" id="title" placeholder="Title" ng-model="listTitle">
         <label for="select" class="sort-label">Arrange By:</label>
         <select name="select" id="select" ng-model="sortBy" ng-change="sortList()">
+          
+
             <option value="-createdAt">Time-Newest</option>
             <option value="createdAt">Time-Oldest</option>
         </select>
@@ -33,11 +39,10 @@
         <div id="alllist_container">
             <div ng-repeat="item in activeTasks | orderBy:sortBy track by item._id" class="task-item-container">
         
-                <input type="checkbox" ng-model="item.ischecked" ng-change="updateTask(item)">
+                <input type="checkbox" ng-model="item.isChecked" ng-change="updateTask(item)">
         
                 <input class="task-input" type="text" placeholder="Enter item" ng-model="item.tasks" ng-blur="updateTask(item)">
-        
-                <button ng-click="removeTask(item._id)" class="remove">&times;</button>
+                <i class="fa-solid fa-circle-xmark remove" ng-click="removeTask(item._id)" title="Delete item"></i>
             </div>
         </div>
         
@@ -51,7 +56,7 @@
                 </li>
             </ul>
         </div>
-        <button id="clearall" ng-click="clearAll()">
+        <button id="clearall" ng-click="clearAll()" title="Delete entire todo-list">
             Clear All
         </button>
     </div>

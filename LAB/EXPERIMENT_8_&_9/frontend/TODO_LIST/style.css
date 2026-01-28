@@ -33,6 +33,39 @@ body {
     font-family: 'roboto', sans-serif;
     background: transparent;
 }
+select {
+    background-color: #1A1A1D;
+    color: #E5E5E5;
+    border: 1px solid #2A2A2E;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+select option {
+    background-color: #1A1A1D;
+    color: #E5E5E5;
+}
+
+select option:checked {
+    background-color: #2A2A2E;
+    color: #E5E5E5;
+}
+
+select option:hover {
+    background-color: #232326;
+}
+
+select:focus {
+    border-color: #3A3A40;
+}
+
+.sort-label {
+    color: #9A9A9A;
+    font-size: 14px;
+}
 
 #alllist_container{
     height: 300px;
@@ -63,34 +96,42 @@ body {
     border: none;
     outline: none;
     color: #E5E5E5;
+    line-height: 1.2;
 }
+.task-item-container:hover {
+    background-color: #232326;
+}
+
 
 .task-item-container input[type="checkbox"] {
-    border-radius: 5px;
-    width: 10%;
-    height: 70%;
-    margin: 1%;
-}
-
-.task-item-container button {
-    width: 28px;
-    height: 28px;
-    margin: 1%;
-    border-radius: 50%;
-    border: none;
-    background-color: #B43B3B;
-    color: #E5E5E5;
-    font-size: x-large;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 18px;
+    height: 18px;
+    margin: 0 8px;
     cursor: pointer;
 }
 
-.task-item-container button:hover {
-    background-color: #9F3333;
+.task-item-container {
+    padding: 6px 10px;
 }
+
+
+.remove {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    display: flex;
+    color: #9A9A9A;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.remove:hover {
+    color: #E5E5E5;
+
+}
+
+
 
 #append-wrapper {
     font-size: medium;
@@ -119,6 +160,7 @@ body {
     background: #303036;
     color: #E5E5E5;
     padding: 5px 10px;
+    cursor: pointer;
 }
 
 #clearall:hover {

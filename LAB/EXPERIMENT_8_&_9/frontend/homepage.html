@@ -80,21 +80,19 @@ h1 {
 .nav-links a.todolist-btn:hover {
     background-color: #0056b3;
 }
-
-#message{
-    position: fixed;
-            background:#222;
-            color:#fff;
-            padding:  12px 18px;   
-            border-radius:6px;
-            font-size:15px;
-            z-index:9999;
-            transform: translateX(-50%);
-    
-}
 #message {
-    animation: fadeUp 0.25s ease-out;
+    position: fixed;
+    background: #1A1A1D;
+    color: #E5E5E5;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid #2A2A2E;
+    z-index: 9999;
+    transform: translateX(-50%);
+    animation: fadeUp 0.2s ease-out;
 }
+
 #message::before {
     content: "";
     position: absolute;
@@ -103,18 +101,20 @@ h1 {
     transform: translateX(-50%);
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 6px solid #1f2933;
+    border-bottom: 6px solid #1A1A1D; /* SAME as message bg */
 }
+
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(4px);
+        margin-top: 4px;
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        margin-top: 0;
     }
 }
+
 
 
 @media (max-width: 450px) {
@@ -153,10 +153,11 @@ h1 {
 
 <body ng-controller="ctrl">
     <div class="container">
+
         <h1>Welcome to the Simple To-Do Application</h1>
 
         <div class="project-info">
-            <p>This is a full-stack project built using **Node.js, Express, and MongoDB** for the backend,
+            <p>This is a full-stack project built using **Angularjs,Node.js, Express js, and MongoDB** for the backend,
                 providing **user authentication** (Login/Register) and persistent task management. The frontend is built
                 with Angular.js, and I used AI for color suggestions and other easy time-consuming tasks</p>
             <p>Developed by: <span class="author-name">Shahid Khan</span></p>
@@ -171,12 +172,13 @@ h1 {
             <a href="/login">Login</a>
             <a href="/register">Register</a>
             <a href="" class="todolist-btn" ng-click="handleTodoClick($event)">Go to To-Do List</a>
+        </div>
 
-           <div id="message" ng-show="showMsg" ng-style="msgStyle">
-            ✋ Hold up — you need to login/register first
-           </div>
+        <div id="message" ng-show="showMsg" ng-style="msgStyle">
+            Login or register to access your To-Do list
 
         </div>
+
     </div>
 
     <script>
