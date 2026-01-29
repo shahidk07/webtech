@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+   body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #0E0E10;
+    color: #E5E5E5;
+}
+
+.container {
+    background: #1A1A1D;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-width: 500px;
+}
+
+h1 {
+    color: #E5E5E5;
+    margin-bottom: 10px;
+}
+
+.project-info {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #2A2A2E;
+    color: #B5B5B5;
+    line-height: 1.6;
+}
+
+.access-note {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    padding: 10px;
+    background-color: #332f19;
+    border: 1px solid #5a4e1d;
+    border-radius: 5px;
+    color: #d1b566;
+    font-size: 0.9em;
+}
+
+.author-name {
+    font-weight: bold;
+    color: #4DA3FF;
+}
+
+.nav-links a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #303036;
+    color: #E5E5E5;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #3E3E45;
+}
+
+.nav-links a.todolist-btn {
+    background-color: #007bff;
+}
+
+.nav-links a.todolist-btn:hover {
+    background-color: #0056b3;
+}
+#message {
+    position: fixed;
+    background: #1A1A1D;
+    color: #E5E5E5;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid #2A2A2E;
+    z-index: 9999;
+    transform: translateX(-50%);
+    animation: fadeUp 0.2s ease-out;
+}
+
+#message::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #1A1A1D; /* SAME as message bg */
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        margin-top: 4px;
+    }
+    to {
+        opacity: 1;
+        margin-top: 0;
+    }
+}
+
+
+
+@media (max-width: 450px) {
+    .container {
+        width: 95%;
+        margin: 10px;
+        padding: 20px 15px;
+        box-shadow: none;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .project-info p,
+    .access-note {
+        font-size: 0.85em;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-links a {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+        box-sizing: border-box;
+    }
+}
+
+    </style>
+</head>
+
+<body ng-controller="ctrl">
+    <div class="container">
+
+        <h1>Welcome to the Simple To-Do Application</h1>
+
+        <div class="project-info">
+            <p>This is a full-stack project built using **Angularjs,Node.js, Express js, and MongoDB** for the backend,
+                providing **user authentication** (Login/Register) and persistent task management. The frontend is built
+                with Angular.js, and I used AI for color suggestions and other easy time-consuming tasks</p>
+            <p>Developed by: <span class="author-name">Shahid Khan</span></p>
+        </div>
+
+        <div class="access-note">
+            ⚠️ **Developer Note:** As this is a personal portfolio project, please be aware that **Shahid Khan**, the
+            developer, has database access and can view the data you enter.
+        </div>
+
+        <div class="nav-links">
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <a href="" class="todolist-btn" ng-click="handleTodoClick($event)">Go to To-Do List</a>
+        </div>
+
+        <div id="message" ng-show="showMsg" ng-style="msgStyle">
+            Login or register to access your To-Do list
+
+        </div>
+
+    </div>
+
+    <script>
+        angular.module("myApp",[])
+        .controller("ctrl",function($scope,$timeout,$http){
+
+     $scope.showMsg=false;
+     $scope.msgStyle={};
+
+     $scope.handleTodoClick=function($event)
+     {
+        $event.preventDefault();
+        $http.get("/api/check-auth",{withCredentials:true})
+        .then(function(res){
+
+            if(res.data.loggedIn){
+                window.location.href="/todolist";
+            }
+            else{
+
+
+                const rect = $event.target.getBoundingClientRect();
+                //this gets you the dimensions of the clicked html element
+                $scope.msgStyle = {
+                    left: (rect.left + rect.width / 2) + "px",
+                    top: (rect.bottom + 6) + "px",
+
+                };
+
+                $scope.showMsg = true;
+                //auto hide
+                $timeout(function () {
+                    $scope.showMsg = false;
+                }, 2500);
+            }
+        })
+        .catch(function(){
+            console.log("Auth check failed");
+        })
+   
+
+     }
+
+
+
+
+        })
+    </script>
+</body>
+
+</html>

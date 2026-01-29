@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+</head>
+<body ng-controller="ctrl" class="flex justify-center items-start bg-black">
+    <form name="reg" ng-submit="submitForm()"
+        class="flex flex-col items-center bg-blue-300 opacity-100 h-[600px] w-[450px] my-[50px] rounded-[7px] p-8 space-y-4">
+
+        <h1 class="text-2xl mb-6 font-bold">Registration</h1>
+
+        <label for="name" class="w-full text-left font-medium">Name:</label>
+        <input ng-pattern="/^[a-zA-Z\s.,'()\-]*$/" required name="name" ng-model="name" minlength="3" type="text"
+            placeholder="Ex: Anakin Skywalker" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
+            <span class="text-red-500 text-sm" ng-show="reg.name.$error.minlength && reg.name.$touched">
+                Name must be at least 3 characters long.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.name.$error.pattern && reg.name.$touched">
+                Name can contain only letters
+                </span>
+
+
+        <label for="username" class="w-full text-left font-medium">Username:</label>
+        <input ng-pattern="/^[a-zA-Z0-9_.]+$/" required name="username" ng-model="username" minlength="3" type="text"
+            placeholder="Ex: vader87" class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
+            <span class="text-red-500 text-sm" ng-show="reg.username.$error.required && reg.username.$touched">
+                Username is required.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.username.$error.minlength && reg.username.$touched">
+                Username must be at least 3 characters long.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.username.$error.pattern && reg.username.$touched">
+                Use only letters, numbers, dots, or underscores (no spaces).
+            </span>
+
+
+        <label for="password" class="w-full text-left font-medium">Password:</label>
+        <input required ng-model="password" ng-pattern="/^\S+$/"
+         placeholder="Min Length - 7" type="password" minlength="7" name="password"
+            class="rounded-[8px] focus:outline-none h-[35px] w-full px-3 border border-gray-300">
+            <span class="text-red-500 text-sm" ng-show="reg.password.$error.required && reg.password.$touched">
+                Password is required.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.password.$error.minlength && reg.password.$touched">
+                Password must be at least 7 characters long.
+            </span>
+            <span class="text-red-500 text-sm" ng-show="reg.password.$error.pattern && reg.password.$touched">
+                Password cannot contain spaces.
+            </span>
+        
+            <p class="mt-4 text-sm text-gray-700">
+                Already a user?
+                <a href="/login"
+                    class="ml-1 text-blue-600 font-semibold hover:text-blue-800 hover:underline transition duration-150">
+                    Login
+                </a>          </p>
+        <button type="submit"
+            class="h-[40px] w-[120px] bg-white rounded-[8px] mt-12 font-semibold hover:bg-gray-100 transition duration-150">SUBMIT</button>
+    </form>
+</body>
+<script>
+const app=angular.module('app',[]);
+//using http to send data as json
+app.controller('ctrl',($scope,$http)=>{
+    $scope.username = '';
+    $scope.password = '';
+    $scope.name='';
+
+    $scope.submitForm =function(){
+
+        // AngularJS validation check (reg.$valid comes from the form name="reg")
+   if ($scope.reg.$valid){
+   
+    // using this object to send data w.r.t mongoose schema
+    const userData={
+        username:$scope.username,
+        password:$scope.password,
+        name:$scope.name
+    };
+
+
+    $http.post('/register',userData)
+    .then(function(response){
+    console.log('Registration successful:', response.data);
+    alert('Registration Successful!');
+    // *** FIX: Manually redirect the browser after successful registration ***
+        window.location.href = '/todolist';
+    $scope.username = '';
+    $scope.password = '';
+    $scope.name='';
+    $scope.reg.$setPristine(); // to remove all the previous validations state
+
+}
+)
+.catch(function(error){
+    console.error('Registration Failed',error.data);
+    alert(`Registration Failed!  ${error.data.error}`)
+
+});
+
+
+   }
+
+   else{
+    alert('Please submit form as per rules ')
+   }
+
+    };
+
+
+})
+</script>
+</html>
