@@ -5,7 +5,7 @@ const express =require('express');
 const app=express();
 const mongoose=require('mongoose');
 const session = require('express-session');
-const PORT =process.env.PORT||3000;
+const PORT =process.env.PORT||8080;
 const bcrypt = require('bcrypt');
 const path=require('path');
 
