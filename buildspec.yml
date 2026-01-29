@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - cd LAB/todoApp
+      - npm install
+
+  build:
+    commands:
+      - echo "Build complete"
+
+artifacts:
+  base-directory: LAB/todoApp
+  files:
+    - '**/*'
