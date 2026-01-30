@@ -9,12 +9,11 @@ const PORT =process.env.PORT||8080;
 const bcrypt = require('bcrypt');
 const path=require('path');
 
+app.set('trust proxy', 1); // VERY IMPORTANT for EB
+
 app.use((req, res, next) => {
-  if (
-    req.headers['x-forwarded-proto'] &&
-    req.headers['x-forwarded-proto'] !== 'https'
-  ) {
-    return res.redirect(`https://${req.headers.host}${req.originalUrl}`);
+  if (req.headers['x-forwarded-proto'] === 'http') {
+    return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
   }
   next();
 });
@@ -39,9 +38,12 @@ app.use(session({
     //this emsures session secret in on our hosting platform
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 24 hours
-    sameSite: "lax", //sameSite: "lax" allows cookies during navigation href="/todolist"
-    secure: false 
+  cookie: {
+  maxAge: 1000 * 60 * 60 * 24,
+  sameSite: "lax",
+  secure: process.env.NODE_ENV === "production"
+}
+
 }));
 
 
