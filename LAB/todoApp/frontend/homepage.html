@@ -56,7 +56,14 @@ h1 {
 .author-name {
     font-weight: bold;
     color: #4DA3FF;
+    cursor: pointer;
+    text-decoration: none;
+
 }
+#githubLink{
+    text-decoration: none;
+}
+
 
 .nav-links a {
     display: inline-block;
@@ -157,14 +164,17 @@ h1 {
         <h1>Welcome to the Simple To-Do Application</h1>
 
         <div class="project-info">
-            <p>This is a full-stack project built using **Angularjs,Node.js, Express js, and MongoDB** for the backend,
-                providing **user authentication** (Login/Register) and persistent task management. The frontend is built
-                with Angular.js, and I used AI for color suggestions and other easy time-consuming tasks</p>
-            <p>Developed by: <span class="author-name">Shahid Khan</span></p>
+            This is a full-stack web application built using
+            <strong>AngularJS, Node.js, Express.js, and MongoDB</strong>.
+            It features secure <strong>user authentication</strong> (login and registration)
+            and persistent task management.
+            The frontend is developed with AngularJS, while AI tools were used to assist
+            with color selection and minor productivity tasks.
         </div>
-
+        <p>
+            Developed by: <a id="githubLink" href="https://github.com/shahidk07"><span class="author-name" title="View GitHub link" >Shahid Khan</span></a></p>
         <div class="access-note">
-            ⚠️ **Developer Note:** As this is a personal portfolio project, please be aware that **Shahid Khan**, the
+             **Developer Note:** As this is a personal portfolio project, please be aware that the
             developer, has database access and can view the data you enter.
         </div>
 
