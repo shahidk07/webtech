@@ -191,10 +191,7 @@ select:focus {
 .header-btns:hover {
     background: #3E3E45;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 14df042 (added github link in homepage)
 @media (max-width: 600px) {
 
     body {
@@ -265,8 +262,4 @@ select:focus {
         padding: 10px;
         font-size: 14px;
     }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 14df042 (added github link in homepage)
+
