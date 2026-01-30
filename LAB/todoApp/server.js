@@ -9,6 +9,17 @@ const PORT =process.env.PORT||8080;
 const bcrypt = require('bcrypt');
 const path=require('path');
 
+app.use((req, res, next) => {
+  if (
+    req.headers['x-forwarded-proto'] &&
+    req.headers['x-forwarded-proto'] !== 'https'
+  ) {
+    return res.redirect(`https://${req.headers.host}${req.originalUrl}`);
+  }
+  next();
+});
+
+
 // Middleware to parse incoming JSON payloads
 app.use(express.json());
 
