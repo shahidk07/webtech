@@ -191,3 +191,75 @@ select:focus {
 .header-btns:hover {
     background: #3E3E45;
 }
+
+@media (max-width: 600px) {
+
+    body {
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    #list {
+        width: 100%;
+        height: auto;
+        margin: 10px 0;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    #title {
+        font-size: large;
+        height: 45px;
+    }
+
+    #alllist_container {
+        height: 250px;
+    }
+
+    .task-item-container {
+        height: auto;
+        padding: 8px;
+        margin: 12px 0;
+    }
+
+    .task-item-container input[type="text"] {
+        font-size: 14px;
+    }
+
+    .task-item-container input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+
+    .remove {
+        font-size: 16px;
+    }
+
+    #header-bar {
+        flex-direction: column;
+        gap: 10px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .header-btns {
+        width: 100%;
+        padding: 10px;
+    }
+
+    select {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    #append-wrapper {
+        margin: 10px 0;
+    }
+
+    #add-task-button,
+    #clearall {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+}
