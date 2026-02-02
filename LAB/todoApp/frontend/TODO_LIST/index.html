@@ -38,7 +38,7 @@
         </div>
         <h2>To Do ({{ activeTasks.length }})</h2>
         <div id="alllist_container">
-            <div ng-repeat="item in activeTasks | orderBy:sortBy track by item._id" class="task-item-container">
+            <div ng-repeat="item in activeTasks | orderBy:sortBy track by item._id"  class="task-item-container">
         
                 <input type="checkbox" ng-model="item.isChecked" ng-change="updateTask(item)">
         
