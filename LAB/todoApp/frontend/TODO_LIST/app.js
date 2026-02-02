@@ -75,7 +75,7 @@ $scope.saveTitle=function(){
     $scope.addItem = function () {
         const tempId = new Date().getTime().toString();
         // Use the correct field names from the schema
-        const newItem = { _id: tempId, task: "New item...", isChecked: false, createdAt: new Date() };
+        const newItem = { _id: tempId, task: "", isChecked: false, createdAt: new Date() };
 
         $scope.allTasks.push(newItem);
 
