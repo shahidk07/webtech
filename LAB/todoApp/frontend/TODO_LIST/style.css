@@ -145,7 +145,7 @@ select:focus {
     background: #303036;
     border: none;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 6px 10px;
     border-radius: 5px;
 }
 

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0E0E10;
+            color: #E5E5E5;
+            font-family: Arial, sans-serif;
+        }
+
+        #list {
+            background-color: #1A1A1D;
+            height: 750px;
+            width: 500px;
+            border: 1px solid #2A2A2E;
+            padding: 40px;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        #title {
+            width: 100%;
+            height: 50px;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #2A2A2E;
+            color: #E5E5E5;
+            font-size: 22px;
+            font-weight: bold;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        /* Add Button */
+        #append-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        #add-task-button {
+            background: #2A2A2E;
+            color: #EDEDED;
+            border: 1px solid #3A3A40;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        #add-task-button:hover {
+            background: #3A3A40;
+            border-color: #4A4A52;
+        }
+
+        h2,
+        h3 {
+            margin: 10px 0;
+        }
+
+        /* Todo list */
+        #alllist_container {
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .task-item-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            margin: 10px 0;
+            border: 1px solid #2A2A2E;
+            border-radius: 6px;
+            background: #1A1A1D;
+        }
+
+        .task-item-container:hover {
+            background: #232326;
+        }
+
+        .task-item-container input[type="text"] {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #E5E5E5;
+            outline: none;
+        }
+
+        .remove {
+            cursor: pointer;
+            color: #9A9A9A;
+            font-size: 18px;
+        }
+
+        .remove:hover {
+            color: #E5E5E5;
+        }
+
+        /* Completed list */
+        #clist {
+            max-height: 120px;
+            overflow-y: auto;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #clist li {
+            padding: 6px 0;
+            color: #9A9A9A;
+            text-decoration: line-through;
+        }
+
+        #clearall {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: #303036;
+            border: none;
+            color: #E5E5E5;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #clearall:hover {
+            background: #3E3E45;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="list">
+        <input type="text" id="title" placeholder="My To-Do List">
+
+        <div id="append-wrapper">
+            <button id="add-task-button">
+                <i class="fa-solid fa-plus"></i>
+                List Item
+            </button>
+        </div>
+
+        <h2>To Do</h2>
+        <div id="alllist_container"></div>
+
+        <hr>
+
+        <h3>Completed</h3>
+        <ul id="clist"></ul>
+
+        <button id="clearall">Clear All</button>
+    </div>
+
+    <script>
+        const todoContainer = document.getElementById("alllist_container");
+        const completedList = document.getElementById("clist");
+        const addBtn = document.getElementById("add-task-button");
+        const clearBtn = document.getElementById("clearall");
+
+        function createTask() {
+            const taskDiv = document.createElement("div");
+            taskDiv.className = "task-item-container";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+
+            const input = document.createElement("input");
+            input.type = "text";
+
+            const remove = document.createElement("i");
+            remove.className = "fa-solid fa-circle-xmark remove";
+
+            checkbox.addEventListener("change", () => {
+                if (checkbox.checked) {
+                    const li = document.createElement("li");
+                    li.textContent = input.value || "Untitled task";
+                    completedList.appendChild(li);
+                    taskDiv.remove();
+                }
+            });
+
+            remove.addEventListener("click", () => taskDiv.remove());
+
+            taskDiv.appendChild(checkbox);
+            taskDiv.appendChild(input);
+            taskDiv.appendChild(remove);
+
+            todoContainer.appendChild(taskDiv);
+            input.focus();
+        }
+
+        addBtn.addEventListener("click", createTask);
+
+        clearBtn.addEventListener("click", () => {
+            todoContainer.innerHTML = "";
+            completedList.innerHTML = "";
+        });
+    </script>
+
+</body>
+
+</html>

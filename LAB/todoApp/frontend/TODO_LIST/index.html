@@ -25,16 +25,16 @@
         <br>
         <!-- `ng-blur="saveTitle()" this saves the title once you finish typing` -->
         <input type="text" id="title" placeholder="Title" ng-model="listTitle" ng-blur="saveTitle()">
-        <label for="select" class="sort-label">Arrange By:</label>
+        <label for="select" class="sort-label">Arrange by:</label>
         <select name="select" id="select" ng-model="sortBy" ng-change="sortList()">
           
 
-            <option value="-createdAt">Time-Newest</option>
-            <option value="createdAt">Time-Oldest</option>
+            <option value="-createdAt">newest first</option>
+            <option value="createdAt">oldest first</option>
         </select>
     
         <div id="append-wrapper">
-            <button ng-click="addItem()" id="add-task-button">+ List Item</button>
+            <button ng-click="addItem()" id="add-task-button">+ List item</button>
         </div>
         <h2>To Do ({{ activeTasks.length }})</h2>
         <div id="alllist_container">
@@ -58,7 +58,7 @@
             </ul>
         </div>
         <button id="clearall" ng-click="clearAll()" title="Delete entire todo-list">
-            Clear All
+            Clear all
         </button>
     </div>
     <script src="/static/app.js">
