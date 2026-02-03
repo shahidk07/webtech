@@ -201,7 +201,7 @@ app.post('/api/todos', ensureAuthenticated, async (req, res) => {
     const { task, isChecked } = req.body;
     const userId = req.session.userId;
     
-    if (!task) {
+    if (task==undefined) {
         return res.status(400).json({ error: "Task content is required." });
     }
 
@@ -321,7 +321,6 @@ catch(err){
 
 }
 );
-
 
 app.post('/logout', (req, res) => {
     req.session.destroy(err => {
