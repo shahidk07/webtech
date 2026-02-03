@@ -80,6 +80,15 @@ $scope.saveTitle=function(){
         $scope.allTasks.push(newItem);
 
         $http.post(API_URL, { task: newItem.task, isChecked: newItem.isChecked })
+        .then(function (response) {
+            const savedTask = response.data;
+    
+            const index = $scope.allTasks.findIndex(t => t._id === tempId);
+            if (index !== -1) {
+                $scope.allTasks[index] = savedTask;
+            }
+        })
+    
         
             .catch(function (error) {
                 console.error("Error adding task:", error);
@@ -95,7 +104,6 @@ $scope.saveTitle=function(){
         $http.put(API_URL + 'task/' + task._id, task)
             .catch(function (error) {
                 console.error("Error updating task:", error);
-                $scope.loadTasks(); // Revert changes on failure
             });
     };
 
