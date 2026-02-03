@@ -80,12 +80,7 @@ $scope.saveTitle=function(){
         $scope.allTasks.push(newItem);
 
         $http.post(API_URL, { task: newItem.task, isChecked: newItem.isChecked })
-            .then(function (response) {
-                $scope.loadTasks(); /* 
-                Reload to get the official MongoDB _id this refetches entire list from the server after sending the newItem to server.
-                and this is not a page reload ,it is data reload
-                */
-            })
+        
             .catch(function (error) {
                 console.error("Error adding task:", error);
                 //if error occurs it uses filter() to remove the temporary task
@@ -98,9 +93,6 @@ $scope.saveTitle=function(){
     $scope.updateTask = function (task) {
         // URL format: API_URL + 'task/' + task._id
         $http.put(API_URL + 'task/' + task._id, task)
-        .then(function(response){
-            $scope.loadTasks();
-        })
             .catch(function (error) {
                 console.error("Error updating task:", error);
                 $scope.loadTasks(); // Revert changes on failure

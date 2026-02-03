@@ -40,7 +40,7 @@
         <div id="alllist_container">
             <div ng-repeat="item in activeTasks | orderBy:sortBy track by item._id"  class="task-item-container">
         
-                <input type="checkbox" ng-model="item.isChecked" ng-change="updateTask(item)">
+                <input type="checkbox" ng-model="item.isChecked" ng-change="updateTask(item)" ng-blur="loadTasks()">
         
                 <input class="task-input" type="text" placeholder="Type your task" ng-model="item.task" ng-blur="updateTask(item)">
                 <i class="fa-solid fa-circle-xmark remove" ng-click="removeTask(item._id)" title="Delete item"></i>
