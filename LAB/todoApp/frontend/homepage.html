@@ -203,7 +203,6 @@ h1 {
         $event.preventDefault();
         $http.get("/api/check-auth",{withCredentials:true})
         .then(function(res){
-
             if(res.data.loggedIn){
                 window.location.href="/todolist";
             }

@@ -24,7 +24,7 @@ app.use(express.json());
 
 // 1. ADD THIS MIDDLEWARE TO SERVE STATIC FILES
 // It maps the URL path /static to the directory containing your static files.
-// The browser will request files like http://localhost:3000/static/style.css
+// The browser will request files like http://localhost:5000/static/style.css
 // and Express will look for them in ./TODO_LIST/style.css
 app.use('/static', express.static(path.join(__dirname,'frontend', 'TODO_LIST')));
 
@@ -39,7 +39,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
   cookie: {
-  maxAge: 1000 * 60 * 60 * 24,
+  maxAge: 1000 * 60 * 60 * 24*30,
   sameSite: "lax",
   secure: process.env.NODE_ENV === "production"
 }
